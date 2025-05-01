@@ -16,6 +16,7 @@ $first_name = $_SESSION['first_name'];
 <body>
     <h1>Welcome</h1>
     <a href="logout.php">Logout</a>
+    <a href="appointments.php">Appointments</a>
     <?php echo $first_name?>
 </body>
 </html>
