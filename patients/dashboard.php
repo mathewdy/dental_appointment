@@ -11,12 +11,28 @@ $first_name = $_SESSION['first_name'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include '../includes/styles.php' ?>
     <title>Document</title>
 </head>
 <body>
-    <h1>Welcome</h1>
-    <a href="logout.php">Logout</a>
-    <a href="appointments.php">Appointments</a>
-    <?php echo $first_name?>
+
+    <div class="wrapper">
+        <?php include '../includes/sidebar.php'; ?>
+
+      <div class="main-panel">
+        <?php include '../includes/topbar.php'; ?>
+        <div class="container">
+          <div class="page-inner">
+            <div class="page-header">
+              <h4 class="page-title">Home</h4>
+            </div>
+            <div class="page-category">
+                <h1>Welcome <?= $first_name; ?></h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <?php include "../includes/scripts.php"; ?>
 </body>
 </html>
