@@ -71,6 +71,7 @@ if(isset($_POST['send_email']))
         if($update_token_run){
             send_password_reset($email,$token);
             echo "<script> alert('Please Check Your Email Address') </script>";
+            echo "<script>window.location.href='login.php'</script>";
         }
 
     }else{

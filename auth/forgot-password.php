@@ -18,7 +18,7 @@ include('../connection/connection.php');
 
 <h1>Forgot Password</h1>
 
-<form action="../includes/mailer.php" method="POST">
+<form action="mailer.php" method="POST">
     <div class="row">
         <div class="col-12 mb-2">
             <p class="h2">Forgot Your Password?</p>
