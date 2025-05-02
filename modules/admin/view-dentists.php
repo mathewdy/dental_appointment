@@ -44,8 +44,11 @@ ob_start();
             ?>
 
             <tr>
-                <td><?php echo $row_dentist['first_name'] . $row_dentist['middle_name'] . $row_dentist['last_name']?></td>
-                <td><?php echo $row_dentist['day'] . $row_dentist['time']?></td>
+                <td><?php echo $row_dentist['user_id']?></td>
+                <td><?php echo $row_dentist['first_name']. " " . $row_dentist['middle_name'] . " " . $row_dentist['last_name']?></td>
+                <td><?php echo $row_dentist['day'] . date("g:i A",strtotime($row_dentist['time']))?></td>
+                <td><?php echo $row_dentist['email']?></td>
+                <td><?php echo $row_dentist['mobile_number']?></td>
             </tr>
 
 
