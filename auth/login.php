@@ -10,7 +10,6 @@ include('../connection/connection.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../includes/styles.php' ?>
     <title>Document</title>
 </head>
 <body>
@@ -25,7 +24,7 @@ include('../connection/connection.php');
                     <input type="password" class="form-control" style="margin-bottom: 6em;" name="password" placeholder="Password">
                     <input type="submit" class="btn btn-black op-8 w-100 mb-2" name="login" value="Login">
                     </form>
-                    <a href="#">Forgot Password</a>
+                    <a href="forgot-password.php">Forgot Password</a>
                 </div>
                 <div class="col-lg-6">
                     <div class="card bg-dark op-9 text-light p-5 d-flex align-items-center justify-content-center" style="height:100%;">

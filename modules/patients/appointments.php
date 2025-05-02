@@ -6,6 +6,7 @@ session_start();
 
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +16,7 @@ session_start();
 </head>
 <body>
     <h1>Select Dentist</h1>
+
 
     <form action="" method="POST">
         <select name="dentist">
@@ -38,7 +40,9 @@ session_start();
 
             ?>
         </select>
-        <input type="submit" name="set_appointment" value="">
+        <input type="submit" name="set_appointment" value="Set">
     </form>
+
+    
 </body>
 </html>

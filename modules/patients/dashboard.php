@@ -17,6 +17,7 @@ include('../../connection/connection.php');
 </head>
 <body>
 
+<a href="/dental_appointment/auth/logout.php">Logout</a>
     <div class="wrapper">
         <?php include '../includes/sidebar.php'; ?>
 
