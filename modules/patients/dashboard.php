@@ -14,7 +14,7 @@ $first_name = $_SESSION['first_name'];
     <title>Document</title>
 </head>
 <body>
-    <h1>Welcome</h1>
+    <h1>Welcome patient</h1>
     <a href="logout.php">Logout</a>
     <a href="appointments.php">Appointments</a>
     <?php echo $first_name?>

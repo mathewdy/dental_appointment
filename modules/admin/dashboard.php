@@ -12,10 +12,10 @@ ob_start();
     <title>Document</title>
 </head>
 <body>
-    <h2>Dashboard</h2>
+    <h2>Dashboard admin</h2>
 
     <a href="add-dentist.php">Add Dentist</a>
-    <a href=""></a>
+    <a href="view-dentist.php">View Dentists</a>
     <a href="logout.php">Logout</a>
 </body>
 </html>
