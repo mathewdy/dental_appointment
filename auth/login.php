@@ -68,7 +68,7 @@ if (isset($_POST['login'])) {
 
                 switch ($row['role_id']){
                     case '1':
-                        header("Location: ../modules/patient/dashboard.php");
+                        header("Location: ../modules/patients/dashboard.php");
                         break;
                 }
                 exit;

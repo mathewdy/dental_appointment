@@ -34,6 +34,7 @@ include('../../connection/connection.php');
         </div>
       </div>
     </div>
+    <a href="appointments.php">Appointment</a>
     <?php include "../includes/scripts.php"; ?>
 </body>
 </html>

@@ -38,6 +38,6 @@ $first_name = $_SESSION['first_name'];
     <?php include "../includes/scripts.php"; ?>
     <a href="add-dentist.php">Add Dentist</a>
     <a href="view-dentists.php">View Dentists</a>
-    <a href="/dental_appointment/auth/logout.php">Logout</a>
+    <a href="/dental_appointment/auth_main/logout.php">Logout</a>
 </body>
 </html>
