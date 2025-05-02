@@ -43,7 +43,7 @@ ob_start();
 if(isset($_POST['register_admin'])){
 
     $user_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3) ;
-    $role_id = 2;
+    $role_id = 1;
     $first_name = $_POST['first_name'];
     $middle_name = $_POST['middle_name'];
     $last_name = $_POST['last_name'];

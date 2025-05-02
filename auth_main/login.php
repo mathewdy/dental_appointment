@@ -1,0 +1,67 @@
+<?php
+ob_start();
+session_start();
+date_default_timezone_set('Asia/Manila');
+include('../connection/connection.php');
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <form action="" method="POST">
+    <label for="">Email</label>
+    <input type="email" name="email">
+    <label for="">Password</label>
+    <input type="password" name="password">
+    <input type="submit" name="login" value="Login">
+    </form>
+
+    <a href="registration.php">Create Account</a>
+</body>
+</html>
+
+<?php
+
+if (isset($_POST['login'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    $query_login = "SELECT * FROM users WHERE email = '$email'";
+    $run_login = mysqli_query($conn, $query_login);
+
+    if (mysqli_num_rows($run_login) > 0) {
+        foreach ($run_login as $row) {
+            if (password_verify($password, $row['password'])) {
+                $_SESSION['email'] = $email;
+                $_SESSION['user_id'] = $row['user_id'];
+                $_SESSION['first_name'] = $row['first_name'];
+                $_SESSION['last_name'] = $row['last_name'];
+                $_SESSION['image'] = $row['image'];
+                $_SESSION['role_id'] = $row['role_id'];
+
+
+                switch ($row['role_id']){
+                    case '2':
+                        header("Location: ../modules/admin/dashboard.php");
+                        break;
+                    case '3':
+                        header("Location: ../modules/dentist/dashboard.php");
+                        break;
+                }
+                exit;
+            }
+        }
+    } else {
+        echo "<script>window.alert('Invalid Credentials')</script>";
+        echo "<script>window.location.origin</script>";
+    }
+}
+ob_end_flush();
+?>

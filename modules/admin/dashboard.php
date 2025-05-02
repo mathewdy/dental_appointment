@@ -1,7 +1,10 @@
 <?php
 session_start();
 ob_start();
+<<<<<<< Updated upstream
 $first_name = $_SESSION['first_name'];
+=======
+>>>>>>> Stashed changes
 
 ?>
 
@@ -16,6 +19,7 @@ $first_name = $_SESSION['first_name'];
 </head>
 <body>
 
+<<<<<<< Updated upstream
     <div class="wrapper">
         <?php include '../includes/sidebar.php'; ?>
 
@@ -34,5 +38,10 @@ $first_name = $_SESSION['first_name'];
       </div>
     </div>
     <?php include "../includes/scripts.php"; ?>
+=======
+    <a href="add-dentist.php">Add Dentist</a>
+    <a href="view-dentists.php">View Dentists</a>
+    <a href="/dental_appointment/auth/logout.php">Logout</a>
+>>>>>>> Stashed changes
 </body>
 </html>

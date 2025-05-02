@@ -66,18 +66,10 @@ if (isset($_POST['login'])) {
                 $_SESSION['image'] = $row['image'];
                 $_SESSION['role_id'] = $row['role_id'];
 
-
                 switch ($row['role_id']){
                     case '1':
                         header("Location: ../modules/patient/dashboard.php");
                         break;
-                    case '2':
-                        header("Location: ../modules/admin/dashboard.php");
-                        break;
-                    case '3':
-                        header("Location: ../modules/dentist/dashboard.php");
-                        break;
-
                 }
                 exit;
             }
