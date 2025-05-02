@@ -1,5 +1,5 @@
 <?php
-include('../connection/connection.php');
+include('../../connection/connection.php');
 session_start();
 ob_start();
 ?>
@@ -26,6 +26,10 @@ ob_start();
   </tr>
 
     <?php
+        //errors
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
 
     $query_dentists = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.time AS time
     FROM

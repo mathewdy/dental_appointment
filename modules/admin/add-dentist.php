@@ -1,5 +1,6 @@
 <?php
-include('../connection/connection.php');
+include('../../connection/connection.php');
+
 session_start();
 ob_start();
 ?>

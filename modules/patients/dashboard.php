@@ -2,6 +2,7 @@
 session_start();
 ob_start();
 $first_name = $_SESSION['first_name'];
+include('../../connection/connection.php');
 
 ?>
 
