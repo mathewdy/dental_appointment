@@ -1,11 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+<?php
+ob_start();
+session_start();
+date_default_timezone_set('Asia/Manila');
+include('../../connection/connection.php');
+if(isset($_GET['user_id'])){
+    $product_id = mysqli_real_escape_string($conn,$_GET['user_id']);
+
+    $query_delete = "DELETE FROM users WHERE user_id = '$user_id'";
+    $run = mysqli_query($conn,$query_delete);
+
+    if($run){
+        header('location: view-dentists.php');
+    }else{
+        echo "error" . $conn->error;
+    }
+
+}
+
+
+?>

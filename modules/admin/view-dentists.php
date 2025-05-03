@@ -51,7 +51,7 @@ ob_start();
                 <td><?php echo $row_dentist['mobile_number']?></td>
                 <td>
                     <a href="edit-dentist.php?user_id=<?php echo$row_dentist['user_id']?>">Edit</a>
-                    <a href="">Delete</a>
+                    <a href="delete-dentist.php?user_id<?php echo $row_dentist['user_id']?>">Delete</a>
                 </td>
             </tr>
 
