@@ -13,16 +13,16 @@ $first_name = $_SESSION['first_name'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../includes/styles.php' ?>
+    <?php include '../../includes/styles.php' ?>
     <title>Document</title>
 </head>
 <body>
 
     <div class="wrapper">
-        <?php include '../includes/sidebar.php'; ?>
+        <?php include '../../includes/sidebar.php'; ?>
 
       <div class="main-panel">
-        <?php include '../includes/topbar.php'; ?>
+        <?php include '../../includes/topbar.php'; ?>
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
@@ -35,7 +35,7 @@ $first_name = $_SESSION['first_name'];
         </div>
       </div>
     </div>
-    <?php include "../includes/scripts.php"; ?>
+    <?php include "../../includes/scripts.php"; ?>
     <a href="add-dentist.php">Add Dentist</a>
     <a href="view-dentists.php">View Dentists</a>
     <a href="my-profile.php">My Profile</a>
