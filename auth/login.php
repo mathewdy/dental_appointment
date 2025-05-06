@@ -116,7 +116,7 @@ if (isset($_POST['login'])) {
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['first_name'] = $row['first_name'];
                 $_SESSION['last_name'] = $row['last_name'];
-                $_SESSION['image'] = $row['image'];
+                // $_SESSION['image'] = $row['image'];
                 $_SESSION['role_id'] = $row['role_id'];
 
                 switch ($row['role_id']){

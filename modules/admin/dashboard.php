@@ -30,15 +30,12 @@ $first_name = $_SESSION['first_name'];
             </div>
             <div class="page-category">
                 <h1>Welcome <?= $first_name; ?></h1>
+                <h1>Welcome <?= $_SESSION['role_id']; ?></h1>
             </div>
           </div>
         </div>
       </div>
     </div>
     <?php include "../../includes/scripts.php"; ?>
-    <a href="add-dentist.php">Add Dentist</a>
-    <a href="view-dentists.php">View Dentists</a>
-    <a href="my-profile.php">My Profile</a>
-    <a href="/dental_appointment/auth_main/logout.php">Logout</a>
 </body>
 </html>

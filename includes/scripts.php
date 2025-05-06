@@ -14,5 +14,18 @@ echo '
 <script src="' . BASE_PATH . '/assets/js/plugin/jsvectormap/world.js"></script>
 <script src="' . BASE_PATH . '/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 <script src="' . BASE_PATH . '/assets/js/kaiadmin.min.js"></script>
+<script src="' . BASE_PATH . '/assets/js/datatable-init.js"></script>
+<script src="' . BASE_PATH . '/libs/fullcalendar/index.global.min.js"></script>
+<script>
+
+      document.addEventListener("DOMContentLoaded", function() {
+        var calendarEl = document.getElementById("calendar");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth"
+        });
+        calendar.render();
+      });
+
+    </script>
 ';
 ?>

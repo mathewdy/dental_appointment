@@ -1,5 +1,6 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/config.php');
+$role = $_SESSION['role_id'];
 echo '
 <div class="main-header">
   <div class="main-header-logo">
@@ -131,8 +132,26 @@ echo '
           </a>
           <ul class="dropdown-menu dropdown-user animated fadeIn">
             <div class="dropdown-user-scroll scrollbar-outer">
-                <a class="dropdown-item" href="'. BASE_PATH . '/auth/logout.php ">Logout</a>
-              </li>
+              <li>';
+              if($role == 1){
+                echo '
+                  <a class="dropdown-item" href="'. BASE_PATH . '/modules/patients/my-profile.php">My Profile</a>
+                  <a class="dropdown-item" href="'. BASE_PATH . '/auth/logout.php ">Logout</a>
+                ';
+              }
+              if($role == 2){
+                echo '
+                  <a class="dropdown-item" href="'. BASE_PATH . '/modules/admin/my-profile.php">My Profile</a>
+                  <a class="dropdown-item" href="'. BASE_PATH . '/auth_main/logout.php ">Logout</a>
+                ';
+              }
+              if($role == 3){
+                echo '
+                  <a class="dropdown-item" href="'. BASE_PATH . '/modules/dentist/my-profile.php">My Profile</a>
+                  <a class="dropdown-item" href="'. BASE_PATH . '/auth_main/logout.php ">Logout</a>
+                ';
+              }
+              echo '</li>
             </div>
           </ul>
         </li>
