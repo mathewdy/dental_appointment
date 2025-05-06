@@ -116,7 +116,7 @@ echo '
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="appointments.php">
+                        <a href="schedule.php">
                             <i class="fas fa-book-open"></i>
                             <p>Schedule</p>
                         </a>

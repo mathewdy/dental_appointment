@@ -117,18 +117,18 @@ echo '
             href="#"
             aria-expanded="false"
           >
-            
+            <div class="avatar-sm">
+              <img
+                src="'. BASE_PATH . '/assets/img/default.jpg"
+                alt="Userimg"
+                class="avatar-img rounded-circle"
+              />
+            </div>
             <span class="profile-username">
               <span class="op-7">Hi,</span>
               <span class="fw-bold">' . $first_name .'</span>
             </span>
-            <div class="avatar-sm">
-              <img
-                src="assets/img/profile.jpg"
-                alt="..."
-                class="avatar-img rounded-circle"
-              />
-            </div>
+            
           </a>
           <ul class="dropdown-menu dropdown-user animated fadeIn">
             <div class="dropdown-user-scroll scrollbar-outer">
