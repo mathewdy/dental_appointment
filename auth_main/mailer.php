@@ -57,7 +57,7 @@ if(isset($_POST['send_email']))
     $email = $_POST['email'];
     $token = md5(rand());
 
-    $check_email = "SELECT * FROM users WHERE email =  '$email' LIMIT 1";
+    $check_email = "SELECT * FROM users WHERE email =  '$email'";
     $check_email_run = mysqli_query($conn,$check_email);
 
     if(mysqli_num_rows($check_email_run) > 0){
@@ -65,7 +65,7 @@ if(isset($_POST['send_email']))
         $row = mysqli_fetch_array($check_email_run);
         $email = $row['email'];
 
-        $update_token = "UPDATE users SET token = '$token' WHERE email = '$email' LIMIT 1";
+        $update_token = "UPDATE users SET token = '$token' WHERE email = '$email'";
         $update_token_run = mysqli_query($conn,$update_token);
 
         if($update_token_run){

@@ -30,7 +30,6 @@ $first_name = $_SESSION['first_name'];
             </div>
             <div class="page-category">
                 <h1>Welcome <?= $first_name; ?></h1>
-                <h1>Welcome <?= $_SESSION['role_id']; ?></h1>
             </div>
           </div>
         </div>

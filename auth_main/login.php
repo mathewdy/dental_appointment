@@ -59,6 +59,8 @@ if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    $otp = substr(str_shuffle("0123456789"), 0, 5);
+
     $query_login = "SELECT * FROM users WHERE email = '$email'";
     $run_login = mysqli_query($conn, $query_login);
 
@@ -70,18 +72,29 @@ if (isset($_POST['login'])) {
                 $_SESSION['first_name'] = $row['first_name'];
                 $_SESSION['last_name'] = $row['last_name'];
                 $_SESSION['image'] = $row['image'];
+
                 $_SESSION['role_id'] = $row['role_id'];
-
-
-                switch ($row['role_id']){
-                    case '2':
-                        header("Location: ../modules/admin/dashboard.php");
-                        break;
-                    case '3':
-                        header("Location: ../modules/dentist/dashboard.php");
-                        break;
+                $update_otp = "UPDATE users SET otp = '$otp' WHERE email = '$email'";
+                $update_otp_run = mysqli_query($conn,$update_otp);
+        
+                if($update_otp_run){
+                    send_otp($email,$otp);
+                    //echo "otp sent";
+                    $_SESSION['email'] = $email ;
+                    $_SESSION['role_id'] = $row['role_id'];
+                    echo "<script> alert('Please Check Your Email Address for OTP') </script>";
+                    echo "<script>window.location.href='otp.php'</script>";
                 }
-                exit;
+
+                // switch ($row['role_id']){
+                //     case '2':
+                //         header("Location: ../modules/admin/dashboard.php");
+                //         break;
+                //     case '3':
+                //         header("Location: ../modules/dentist/dashboard.php");
+                //         break;
+                // }
+                // exit;
             }
         }
     } else {
@@ -90,4 +103,46 @@ if (isset($_POST['login'])) {
     }
 }
 ob_end_flush();
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+function send_otp($email,$otp){
+    require("../PHPMailer/src/PHPMailer.php");
+    require("../PHPMailer/src/SMTP.php");
+    require("../PHPMailer/src/Exception.php");
+
+    $mail = new PHPMailer(true);
+
+    try {
+        //Server settings
+
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';        // e.g., smtp.gmail.com
+        $mail->SMTPAuth = true;
+        $mail->Username = 'matthewdalisay2001@gmail.com';
+        $mail->Password = 'mhqsbraxqhjzlelg';
+        $mail->SMTPSecure = 'tls';               // or 'ssl'
+        $mail->Port = 587;                       // use 465 for SSL
+        //Recipients
+        $mail->setFrom('matthewdalisay2001@gmail.com', 'Dental Clinic');
+        $mail->addAddress($email);     //Add a recipient
+        //Content
+        $mail->isHTML(true);                                  //Set email format to HTML
+        $mail->Subject = 'One Time Password';
+        $mail->Body    = "<h2>Here's your OTP</h2> <h3> $otp </h3>";
+        $mail->send();
+        echo ""; //please check your email address;
+        return true;
+    } catch (Exception $e) {
+        echo "not sent";
+        return false;
+    }
+}
+
+
 ?>

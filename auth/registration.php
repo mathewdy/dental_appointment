@@ -66,7 +66,7 @@ ob_start();
                                         <input type="password" class="form-control" name="password">
                                     </div>
                                     <div class="col-lg-12 mb-4 text-center">
-                                        <input type="submit" class="btn btn-black op-8 w-100" name="register_admin" value="Register">
+                                        <input type="submit" class="btn btn-black op-8 w-100" name="register_patient" value="Register">
                                         <a href="login.php" class="text-dark">Already have an account?</a>
                                     </div>
                                     <div class="col-lg-12 p-0 m-0 text-center">
@@ -85,7 +85,7 @@ ob_start();
 </html>
 
 <?php
-if(isset($_POST['register_admin'])){
+if(isset($_POST['register_patient'])){
 
     $user_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3) ;
     $role_id = 1;
