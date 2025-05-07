@@ -11,7 +11,7 @@ if(isset($_POST['accept'])){
 
     if($run_update_appointment){
         echo "updated accpeted";
-        echo "<script>window.alert('Accepted')</script>";
+        echo "<script>window.alert('Confirmed')</script>";
         echo "<script>window.location.href='appointments.php'</script>";
     }else{
         echo "error" ; 

@@ -73,21 +73,21 @@ error_reporting(E_ALL);
                                             ?>
 
                                             <form action="accepted.php" method="POST">
-                                                <input type="submit" name="accept" value="Accept">
+                                                <input type="submit" name="accept" value="Confirmed">
                                                 <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
                                                 
                                             </form>
                                             <form action="declined.php" method="POST">
-                                                <input type="submit" name="decline" value="Decline">
+                                                <input type="submit" name="decline" value="Canceled">
                                                 <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
                                             </form>
 
                                             <?php
                                              
                                         } elseif ($status === 1) {
-                                            echo "Accepted";
+                                            echo "Confirmed";
                                         } elseif ($status === 2) {
-                                            echo "Declined";
+                                            echo "Canceled";
                                         }
                                     ?>
                                         
