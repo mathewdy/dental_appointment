@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 03, 2025 at 04:37 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: May 07, 2025 at 08:27 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,8 +30,24 @@ SET time_zone = "+00:00";
 CREATE TABLE `appointments` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `user_id_patient` int(11) NOT NULL
+  `user_id_patient` int(11) NOT NULL,
+  `concern` varchar(255) NOT NULL,
+  `confirmed` int(11) NOT NULL,
+  `appointment_date` varchar(100) NOT NULL,
+  `date_created` date NOT NULL,
+  `date_updated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `appointments`
+--
+
+INSERT INTO `appointments` (`id`, `user_id`, `user_id_patient`, `concern`, `confirmed`, `appointment_date`, `date_created`, `date_updated`) VALUES
+(5, 20258557, 20257603, 'haha sample 1 ', 1, '05/17/2025', '2025-05-07', '2025-05-07'),
+(6, 20258557, 20257603, 'haha sample 2 ', 2, '05/24/2025', '2025-05-07', '2025-05-07'),
+(7, 20258557, 20257603, 'tite', 1, '05/27/2025', '2025-05-07', '2025-05-07'),
+(8, 20257825, 20257603, 'hahahahgaha', 2, '05/28/2025', '2025-05-07', '2025-05-07'),
+(9, 20257825, 20257603, 'silakbo', 1, '07/30/2025', '2025-05-07', '2025-05-07');
 
 -- --------------------------------------------------------
 
@@ -74,9 +90,10 @@ CREATE TABLE `schedule` (
 --
 
 INSERT INTO `schedule` (`id`, `user_id`, `day`, `start_time`, `end_time`, `date_created`, `date_updated`) VALUES
-(6, '20258557', 'Monday Tuesday Wednesday Thursday Friday Saturday', '15:27', '07:10', '2025-05-02', '2025-05-02'),
+(6, '20258557', 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday', '15:27', '16:10', '2025-05-02', '2025-05-02'),
 (7, '20257019', 'Thursday Saturday', '02:52', '', '2025-05-02', '2025-05-02'),
-(8, '20257825', 'Thursday Saturday', '21:37', '', '2025-05-02', '2025-05-02');
+(8, '20257825', 'Monday, Tuesday, Wednesday', '11:37', '16:11', '2025-05-02', '2025-05-02'),
+(9, '20251647', 'Monday', '14:08', '14:59', '2025-05-07', '2025-05-07');
 
 -- --------------------------------------------------------
 
@@ -109,11 +126,13 @@ INSERT INTO `users` (`id`, `user_id`, `role_id`, `first_name`, `middle_name`, `l
 (5, '202510175', 2, 'mathew edited', 'dalisay edited', 'Dakota edited', '09171379796', 'mathewdalisay1edited@gmail.com', '$2y$10$2keq.iS/tKxKIGpD51Kef.m7TgCHIxlljH88LWqsyEXa5Fcvh6ALi', '2025-05-03', '2025-05-02', '2025-05-03', '9eb35bf094469a6c10087defe5651560', ''),
 (6, '20256264', 2, 'Hilary', 'Branden', 'Gretchen', 'Knox', 'xemymyqaju@mailinator.com', '$2y$10$hcLbSs6VZtpJtGoUtfkLnecTWIwYJ9bwJ6IDxy61FePTzCQHgr1tG', '2015-01-28', '2025-05-02', '2025-05-02', '', ''),
 (7, '20257257', 2, 'Mechelle', 'Cody', 'Sybill', 'Imelda', 'hogefah@mailinator.com', '$2y$10$LErVETC750eOZ9CrDX9FYeucbWMFh13.SWkgfaX/2P43v1n56AzA6', '2010-07-23', '2025-05-02', '2025-05-02', '', ''),
-(8, '20258557', 3, 'Shellie edited', 'Blaze editrd', 'edited', 'Maisie', 'peqo@mailinator.com', '$2y$10$h3RfPh.hh50p1npPWPevKOlqtdZPuWzpHEel6CKJxulp929AJtN7S', '2016-07-08', '2025-05-02', '2025-05-02', '', ''),
+(8, '20258557', 3, 'Shellie edited', 'Blaze editrd', 'edited', 'Maisie', 'peqo@mailinator.com', '$2y$10$h3RfPh.hh50p1npPWPevKOlqtdZPuWzpHEel6CKJxulp929AJtN7S', '2016-07-08', '2025-05-02', '2025-05-07', '', ''),
 (9, '20257019', 3, 'Demetria', 'Amy', 'Vladimir', 'Garrett', 'kiqem@mailinator.com', '$2y$10$I087h3h/ks4tmZEvsb81ZOw.EjRQdKAGk4Xr/CqiwPR0sqXGMuAce', '2007-02-12', '2025-05-02', '2025-05-02', '', ''),
-(10, '20257825', 3, 'Nola', 'Elton', 'Hillary', 'Arsenio', 'risizog@mailinator.com', '$2y$10$wXbZoNsaTYtCrbc7boBW6uF23.akb1RmtqtNCWXF4XnipcFrpNQDm', '1991-03-06', '2025-05-02', '2025-05-02', '', ''),
+(10, '20257825', 3, 'Nola edted', 'Elton', 'Hillary', 'Arsenio', 'risizog@mailinator.com', '$2y$10$wXbZoNsaTYtCrbc7boBW6uF23.akb1RmtqtNCWXF4XnipcFrpNQDm', '1991-03-06', '2025-05-02', '2025-05-07', '', ''),
 (11, '20254583', 1, 'Iliana', 'Dennis', 'Beatrice', 'Aquila', 'mathewdalisay@gmail.com', '$2y$10$VWuRd7XuRYPqrShlWjpFFexQCN4oBwgJdhvBgOtBL3jfGXdMoFfji', '2010-11-28', '2025-05-02', '2025-05-02', 'c50a73f321b39def40db7355e14a1f27', ''),
-(12, '20253995', 2, 'Amos', 'Carla', 'Shea', 'Kendall', 'voneqynuzo@mailinator.com', '$2y$10$oIjyIKlWhL9U07bFufI9YeOaCYAlXMa1oTVxHmV1LNt346db8ShAS', '1998-11-09', '2025-05-03', '2025-05-03', NULL, '');
+(12, '20253995', 2, 'Amos', 'Carla', 'Shea', 'Kendall', 'voneqynuzo@mailinator.com', '$2y$10$oIjyIKlWhL9U07bFufI9YeOaCYAlXMa1oTVxHmV1LNt346db8ShAS', '1998-11-09', '2025-05-03', '2025-05-03', NULL, ''),
+(13, '20257603', 1, 'Arden', 'William', 'Isadora', 'Francis', 'mynewos@mailinator.com', '$2y$10$GJwPeLL763H11daXSfMpY.ctkCdSTxmdHDZVKG1rTwIDg8QdIDMVO', '2004-08-02', '2025-05-07', '2025-05-07', NULL, NULL),
+(14, '20251647', 3, 'Callum edited 2', 'Mercedes editd2 ', 'Juliet edited 2', 'Benjamin', 'ruzoge@mailinator.com', '$2y$10$0ITx5yGhP9UYUIX0cygVpOwru3/yI9H..iMMn66PSRh/8VwOSEiOq', '2000-01-17', '2025-05-07', '2025-05-07', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -151,7 +170,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -163,13 +182,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
