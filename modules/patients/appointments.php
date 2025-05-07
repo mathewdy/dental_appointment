@@ -4,7 +4,6 @@ ob_start();
 session_start();
 $first_name = $_SESSION['first_name'];
 
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -37,10 +36,72 @@ error_reporting(E_ALL);
                         </div>
                     </div>
 
-                 
+                    <label for="">Pending Appointments</label>
+                <table>
+                    <tr>
+                        <th>Appointment Date & Time</th>
+                        <th>Dentist</th>
+                        <th>Concern</th>
+                        <th>Action</th>
+                    </tr>
+                    
+                    <?php 
+
+                        $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed
+                        FROM appointments
+                        LEFT JOIN users
+                        ON
+                        appointments.user_id = users.user_id
+                        LEFT JOIN schedule 
+                        ON appointments.user_id = schedule.user_id";
+                        $run_appointments = mysqli_query($conn,$query_appointments);
+                        if(mysqli_num_rows($run_appointments) > 0){
+                            foreach($run_appointments as $row_appointment){
+                                ?>
+                                <tr>
+                                    <td><?php echo $row_appointment['appointment_date']. " " . date("g:i A",strtotime($row_appointment['start_time'])). "-". date("g:i A",strtotime($row_appointment['end_time']))?></td>
+                                    <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
+                                <td><?php echo $row_appointment['concern']?></td>
+                                <td>
+                                   
+                                
+                                    <?php
+
+                                        $status = (int)$row_appointment['confirmed'];
+
+                                        if ($status === 0) {
+                                            ?>
+
+                                            <form action="accepted.php" method="POST">
+                                                <input type="submit" name="accept" value="Accept">
+                                                <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
+                                                
+                                            </form>
+                                            <form action="declined.php" method="POST">
+                                                <input type="submit" name="decline" value="Decline">
+                                                <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
+                                            </form>
+
+                                            <?php
+                                             
+                                        } elseif ($status === 1) {
+                                            echo "Accepted";
+                                        } elseif ($status === 2) {
+                                            echo "Declined";
+                                        }
+                                    ?>
+                                        
+                                    </td>
+                                
+                                </tr>
+                                <?php
+                            }
+                        }
+                    ?>
+                </table>
                     <div class="col-lg-5">
                         <div class="card p-5">
-                            <h1>Select Dentist</h1>
+                            <h1>Dentist</h1>
                             <a href="dashboard.php">Back</a>
                             <form action="" method="POST">
                                 <table>
@@ -61,7 +122,6 @@ error_reporting(E_ALL);
                                         $run_dentist = mysqli_query($conn,$query_dentist);
                                         while($row_dentist = mysqli_fetch_assoc($run_dentist)){
                                             ?>
-
                                                 <tr>
                                                     <td><?php echo $row_dentist['first_name']. " " . $row_dentist['last_name']?>
                                                     </td>
@@ -73,10 +133,9 @@ error_reporting(E_ALL);
                                                         ?>
                                                     </td>
                                                     <td>
-                                                        <a href="">Select</a>
+                                                        <a href="select-dentist.php?user_id=<?php echo $row_dentist['user_id']?>">Select</a>
                                                     </td>
                                                 </tr>
-                                          
                                             <?php
                                         }
                                     ?>
@@ -92,18 +151,13 @@ error_reporting(E_ALL);
         </div>
       </div>
     </div>
+
+    
+
+    
     <a href="appointments.php">Appointment</a>
     <?php include "../../includes/scripts.php"; ?>
 </body>
 </html>
-<?php
-
-if(isset($_POST['select_dentist'])){
-    $row_dentist = $_POST['dentist'];
-    $user_id = $_SESSION['user_id'];
 
 
-
-}
-
-?>
