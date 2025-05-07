@@ -41,15 +41,51 @@ ob_start();
         <input type="checkbox" name="schedule[]" value="Friday"> Friday <br>
         <input type="checkbox" name="schedule[]" value="Saturday"> Saturday <br>
         <label for="">Start Time</label>
-        <input type="time" name="start_time">
+        <input type="time" name="start_time" id="start_time" min="10:00" max="17:00">
         <label for="">End Time</label>
-        <input type="time" name="end_time">
+        <input type="time" name="end_time" id="end_time" min="10:00" max="17:00">
 
         
         <input type="submit" name="add_dentist" value="Create">
     </form>
 
 </body>
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    const start = document.getElementById('start_time').value;
+    const end = document.getElementById('end_time').value;
+
+    if (!start || !end) {
+        alert("Please select both start and end time.");
+        e.preventDefault();
+        return;
+    }
+
+    const startTime = new Date("1970-01-01T" + start + ":00");
+    const endTime = new Date("1970-01-01T" + end + ":00");
+    const minTime = new Date("1970-01-01T10:00:00");
+    const maxTime = new Date("1970-01-01T17:00:00");
+
+    if (startTime < minTime || startTime > maxTime) {
+        alert("Start time must be between 10:00 AM and 5:00 PM.");
+        e.preventDefault();
+        return;
+    }
+
+    if (endTime <= startTime) {
+        alert("End time must be after start time.");
+        e.preventDefault();
+        return;
+    }
+
+    if (endTime > maxTime) {
+        alert("End time must not be later than 5:00 PM.");
+        e.preventDefault();
+        return;
+    }
+});
+
+</script>
 </html>
 
 <?php
@@ -72,7 +108,7 @@ if(isset($_POST['add_dentist'])){
     $start_time = $_POST['start_time'];
     $end_time = $_POST['end_time'];
 
-    $days_combined = implode(' ', $schedule);
+    $days_combined = implode(', ', $schedule);
    
     $query_check_user = "SELECT * FROM users WHERE email='$email' AND first_name = '$first_name' AND last_name = '$last_name' AND date_of_birth = '$date_of_birth' ";
     $run_check_user = mysqli_query($conn,$query_check_user);

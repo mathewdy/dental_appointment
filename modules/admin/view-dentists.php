@@ -71,7 +71,7 @@ $first_name = $_SESSION['first_name'];
                                     <tr>
                                         <td><?php echo $row_dentist['user_id']?></td>
                                         <td><?php echo $row_dentist['first_name']. " " . $row_dentist['middle_name'] . " " . $row_dentist['last_name']?></td>
-                                        <td><?php echo $row_dentist['day'] . date("g:i A",strtotime($row_dentist['start_time'])). "& " . date("g:i A", strtotime($row_dentist['end_time'])) ?></td>
+                                        <td><?php echo $row_dentist['day']. " " . date("g:i A",strtotime($row_dentist['start_time'])). "& " . date("g:i A", strtotime($row_dentist['end_time'])) ?></td>
                                         <td><?php echo $row_dentist['email']?></td>
                                         <td><?php echo $row_dentist['mobile_number']?></td>
                                         <td>

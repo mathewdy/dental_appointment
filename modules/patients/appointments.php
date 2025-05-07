@@ -36,35 +36,52 @@ error_reporting(E_ALL);
                             <div id="calendar"></div>
                         </div>
                     </div>
+
+                 
                     <div class="col-lg-5">
                         <div class="card p-5">
                             <h1>Select Dentist</h1>
                             <a href="dashboard.php">Back</a>
                             <form action="" method="POST">
-                                <select name="dentist">
-                                    <option value="">--Select--</option>
-                                <?php 
+                                <table>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Schedule</th>
+                                        <th>Action</th>
+                                    </tr>
 
-                                    $query_dentist = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time , schedule.end_time AS end_time
-                                    FROM
-                                    users 
-                                    LEFT JOIN schedule 
-                                    ON users.user_id = schedule.user_id 
-                                    WHERE users.role_id = '3'";
-                                    $run_dentist = mysqli_query($conn,$query_dentist);
-                                    while($row_dentist = mysqli_fetch_assoc($run_dentist)){
-                                        ?>
-                                        <option value="<?php echo $row_dentist['user_id']?>"><?php echo $row_dentist['first_name']. " " . $row_dentist['last_name']; ?></option>
+                                    <?php
 
-                                        <?php
-                                    }
-                                
-                                ?>
-                                </select>
+                                        $query_dentist = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time , schedule.end_time AS end_time
+                                        FROM
+                                        users 
+                                        LEFT JOIN schedule 
+                                        ON users.user_id = schedule.user_id 
+                                        WHERE users.role_id = '3'";
+                                        $run_dentist = mysqli_query($conn,$query_dentist);
+                                        while($row_dentist = mysqli_fetch_assoc($run_dentist)){
+                                            ?>
 
-
-                                <input type="submit" name="select_dentist" value="Select">
-
+                                                <tr>
+                                                    <td><?php echo $row_dentist['first_name']. " " . $row_dentist['last_name']?>
+                                                    </td>
+                                                    <td>
+                                                        <?php 
+                                                            $start = date("g:i A", strtotime($row_dentist['start_time']));
+                                                            $end = date("g:i A", strtotime($row_dentist['end_time']));
+                                                            echo $row_dentist['day'] . " " . $start . " - " . $end;
+                                                        ?>
+                                                    </td>
+                                                    <td>
+                                                        <a href="">Select</a>
+                                                    </td>
+                                                </tr>
+                                          
+                                            <?php
+                                        }
+                                    ?>
+                                   
+                                </table>
                             </form>
                         </div>
                     </div>
