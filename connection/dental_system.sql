@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2025 at 08:27 AM
+-- Generation Time: May 07, 2025 at 11:25 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,11 +43,9 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`id`, `user_id`, `user_id_patient`, `concern`, `confirmed`, `appointment_date`, `date_created`, `date_updated`) VALUES
-(5, 20258557, 20257603, 'haha sample 1 ', 1, '05/17/2025', '2025-05-07', '2025-05-07'),
-(6, 20258557, 20257603, 'haha sample 2 ', 2, '05/24/2025', '2025-05-07', '2025-05-07'),
-(7, 20258557, 20257603, 'tite', 1, '05/27/2025', '2025-05-07', '2025-05-07'),
-(8, 20257825, 20257603, 'hahahahgaha', 2, '05/28/2025', '2025-05-07', '2025-05-07'),
-(9, 20257825, 20257603, 'silakbo', 1, '07/30/2025', '2025-05-07', '2025-05-07');
+(10, 20258662, 20251843, 'sample concern 1 ', 0, '05/03/2025', '2025-05-07', '2025-05-07'),
+(11, 20258662, 20251843, 'sample concern 2 ', 0, '07/26/2025', '2025-05-07', '2025-05-07'),
+(12, 20258662, 20251843, 'hahaha', 0, '05/26/2025', '2025-05-07', '2025-05-07');
 
 -- --------------------------------------------------------
 
@@ -77,7 +75,7 @@ INSERT INTO `roles` (`id`, `name`) VALUES
 
 CREATE TABLE `schedule` (
   `id` int(11) NOT NULL,
-  `user_id` varchar(255) NOT NULL,
+  `user_id` int(255) NOT NULL,
   `day` varchar(150) NOT NULL,
   `start_time` varchar(100) NOT NULL,
   `end_time` varchar(100) NOT NULL,
@@ -90,10 +88,9 @@ CREATE TABLE `schedule` (
 --
 
 INSERT INTO `schedule` (`id`, `user_id`, `day`, `start_time`, `end_time`, `date_created`, `date_updated`) VALUES
-(6, '20258557', 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday', '15:27', '16:10', '2025-05-02', '2025-05-02'),
-(7, '20257019', 'Thursday Saturday', '02:52', '', '2025-05-02', '2025-05-02'),
-(8, '20257825', 'Monday, Tuesday, Wednesday', '11:37', '16:11', '2025-05-02', '2025-05-02'),
-(9, '20251647', 'Monday', '14:08', '14:59', '2025-05-07', '2025-05-07');
+(10, 20258662, 'Monday, Friday, Saturday', '13:42', '15:18', '2025-05-07', '2025-05-07'),
+(11, 20257230, 'Monday, Wednesday, Thursday, Friday, Saturday', '11:27', '17:00', '2025-05-07', '2025-05-07'),
+(12, 20256432, 'Monday, Thursday, Saturday', '10:55', '16:36', '2025-05-07', '2025-05-07');
 
 -- --------------------------------------------------------
 
@@ -103,7 +100,7 @@ INSERT INTO `schedule` (`id`, `user_id`, `day`, `start_time`, `end_time`, `date_
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `user_id` varchar(100) NOT NULL,
+  `user_id` int(100) NOT NULL,
   `role_id` int(11) NOT NULL,
   `first_name` varchar(250) NOT NULL,
   `middle_name` varchar(255) NOT NULL,
@@ -123,16 +120,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `role_id`, `first_name`, `middle_name`, `last_name`, `mobile_number`, `email`, `password`, `date_of_birth`, `date_created`, `date_updated`, `token`, `address`) VALUES
-(5, '202510175', 2, 'mathew edited', 'dalisay edited', 'Dakota edited', '09171379796', 'mathewdalisay1edited@gmail.com', '$2y$10$2keq.iS/tKxKIGpD51Kef.m7TgCHIxlljH88LWqsyEXa5Fcvh6ALi', '2025-05-03', '2025-05-02', '2025-05-03', '9eb35bf094469a6c10087defe5651560', ''),
-(6, '20256264', 2, 'Hilary', 'Branden', 'Gretchen', 'Knox', 'xemymyqaju@mailinator.com', '$2y$10$hcLbSs6VZtpJtGoUtfkLnecTWIwYJ9bwJ6IDxy61FePTzCQHgr1tG', '2015-01-28', '2025-05-02', '2025-05-02', '', ''),
-(7, '20257257', 2, 'Mechelle', 'Cody', 'Sybill', 'Imelda', 'hogefah@mailinator.com', '$2y$10$LErVETC750eOZ9CrDX9FYeucbWMFh13.SWkgfaX/2P43v1n56AzA6', '2010-07-23', '2025-05-02', '2025-05-02', '', ''),
-(8, '20258557', 3, 'Shellie edited', 'Blaze editrd', 'edited', 'Maisie', 'peqo@mailinator.com', '$2y$10$h3RfPh.hh50p1npPWPevKOlqtdZPuWzpHEel6CKJxulp929AJtN7S', '2016-07-08', '2025-05-02', '2025-05-07', '', ''),
-(9, '20257019', 3, 'Demetria', 'Amy', 'Vladimir', 'Garrett', 'kiqem@mailinator.com', '$2y$10$I087h3h/ks4tmZEvsb81ZOw.EjRQdKAGk4Xr/CqiwPR0sqXGMuAce', '2007-02-12', '2025-05-02', '2025-05-02', '', ''),
-(10, '20257825', 3, 'Nola edted', 'Elton', 'Hillary', 'Arsenio', 'risizog@mailinator.com', '$2y$10$wXbZoNsaTYtCrbc7boBW6uF23.akb1RmtqtNCWXF4XnipcFrpNQDm', '1991-03-06', '2025-05-02', '2025-05-07', '', ''),
-(11, '20254583', 1, 'Iliana', 'Dennis', 'Beatrice', 'Aquila', 'mathewdalisay@gmail.com', '$2y$10$VWuRd7XuRYPqrShlWjpFFexQCN4oBwgJdhvBgOtBL3jfGXdMoFfji', '2010-11-28', '2025-05-02', '2025-05-02', 'c50a73f321b39def40db7355e14a1f27', ''),
-(12, '20253995', 2, 'Amos', 'Carla', 'Shea', 'Kendall', 'voneqynuzo@mailinator.com', '$2y$10$oIjyIKlWhL9U07bFufI9YeOaCYAlXMa1oTVxHmV1LNt346db8ShAS', '1998-11-09', '2025-05-03', '2025-05-03', NULL, ''),
-(13, '20257603', 1, 'Arden', 'William', 'Isadora', 'Francis', 'mynewos@mailinator.com', '$2y$10$GJwPeLL763H11daXSfMpY.ctkCdSTxmdHDZVKG1rTwIDg8QdIDMVO', '2004-08-02', '2025-05-07', '2025-05-07', NULL, NULL),
-(14, '20251647', 3, 'Callum edited 2', 'Mercedes editd2 ', 'Juliet edited 2', 'Benjamin', 'ruzoge@mailinator.com', '$2y$10$0ITx5yGhP9UYUIX0cygVpOwru3/yI9H..iMMn66PSRh/8VwOSEiOq', '2000-01-17', '2025-05-07', '2025-05-07', NULL, NULL);
+(15, 20258428, 2, 'Madonna', 'Claire', 'Hedwig', 'Zeph', 'didapa@mailinator.com', '$2y$10$IQK.eXv7wSwZ8jxt/cJANOFJZexezHPrPL0gnWsBUx5XEQyK3uIXu', '2022-09-13', '2025-05-07', '2025-05-07', NULL, NULL),
+(16, 20258662, 3, 'Cara', 'Mason', 'Indigo', 'Alden', 'rurolese@mailinator.com', '$2y$10$luHH.osgOoxQqpME.F5GWuF8s59FUW2hjX1dDT7sJ4QqTS2gWvX.a', '1995-05-24', '2025-05-07', '2025-05-07', NULL, NULL),
+(17, 20257230, 3, 'Brynn', 'Judah', 'Clayton', 'Oliver', 'bamumole@mailinator.com', '$2y$10$TaDAiWN1ZqXI0y8i2tbSfOY9x7HdheNSac1wqoipvBZesIgpLJ0l.', '2024-05-25', '2025-05-07', '2025-05-07', NULL, NULL),
+(18, 20256432, 3, 'Fay', 'Shay', 'Ariana', 'Christian', 'kyjupapur@mailinator.com', '$2y$10$koIRKJxmCb8.zwVlgoZ9I.0qtMAvGU7h2f4qf3k66xyBw./cR9KnG', '1970-11-15', '2025-05-07', '2025-05-07', NULL, NULL),
+(19, 20251843, 1, 'Judah', 'Eric', 'Brittany', 'Odysseus', 'bicicamy@mailinator.com', '$2y$10$KNx3GsJF5i/c/E0N8/I70ustpijTffdAUL5fNS0apnLbZRn4j0Khi', '1979-10-10', '2025-05-07', '2025-05-07', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -142,7 +134,9 @@ INSERT INTO `users` (`id`, `user_id`, `role_id`, `first_name`, `middle_name`, `l
 -- Indexes for table `appointments`
 --
 ALTER TABLE `appointments`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`,`user_id_patient`),
+  ADD KEY `user_id_patient` (`user_id_patient`);
 
 --
 -- Indexes for table `roles`
@@ -154,13 +148,17 @@ ALTER TABLE `roles`
 -- Indexes for table `schedule`
 --
 ALTER TABLE `schedule`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`,`role_id`),
+  ADD KEY `role_id` (`role_id`),
+  ADD KEY `user_id_2` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -170,7 +168,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -182,13 +180,36 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `appointments`
+--
+ALTER TABLE `appointments`
+  ADD CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`user_id_patient`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `schedule`
+--
+ALTER TABLE `schedule`
+  ADD CONSTRAINT `schedule_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

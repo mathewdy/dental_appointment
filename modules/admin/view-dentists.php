@@ -76,7 +76,7 @@ $first_name = $_SESSION['first_name'];
                                         <td><?php echo $row_dentist['mobile_number']?></td>
                                         <td>
                                             <a href="edit-dentist.php?user_id=<?php echo$row_dentist['user_id']?>">Edit</a>
-                                            <a href="delete-dentist.php?user_id<?php echo $row_dentist['user_id']?>">Delete</a>
+                                            <a href="delete-dentist.php?user_id=<?php echo $row_dentist['user_id']?>">Delete</a>
                                         </td>
                                     </tr>
 
