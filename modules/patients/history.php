@@ -43,7 +43,7 @@ $user_id_patients = $_SESSION['user_id'];
                         ON
                         appointments.user_id = users.user_id
                         LEFT JOIN schedule
-                        ON appointments.user_id = schedule.user_id WHERE users.user_id =  '$user_id_patients'";
+                        ON appointments.user_id = schedule.user_id WHERE appointments.user_id_patient =  '$user_id_patients'";
                         $run_appointments = mysqli_query($conn,$query_appointments);
                         if(mysqli_num_rows($run_appointments) > 0){
                             foreach($run_appointments as $row_appointment){
