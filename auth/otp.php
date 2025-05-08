@@ -33,7 +33,7 @@ if(isset($_POST['verify'])){
 
     if($row_otp['otp'] == $otp_number){
         echo "accepted";
-        header("Location: ../modules/admin/dashboard.php");
+        header("Location: ../modules/patients/dashboard.php");
     }else{
         echo "wrong number";
     }
