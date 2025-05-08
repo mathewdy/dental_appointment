@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2025 at 11:25 AM
+-- Generation Time: May 08, 2025 at 03:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -37,15 +37,6 @@ CREATE TABLE `appointments` (
   `date_created` date NOT NULL,
   `date_updated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `appointments`
---
-
-INSERT INTO `appointments` (`id`, `user_id`, `user_id_patient`, `concern`, `confirmed`, `appointment_date`, `date_created`, `date_updated`) VALUES
-(10, 20258662, 20251843, 'sample concern 1 ', 0, '05/03/2025', '2025-05-07', '2025-05-07'),
-(11, 20258662, 20251843, 'sample concern 2 ', 0, '07/26/2025', '2025-05-07', '2025-05-07'),
-(12, 20258662, 20251843, 'hahaha', 0, '05/26/2025', '2025-05-07', '2025-05-07');
 
 -- --------------------------------------------------------
 
@@ -88,7 +79,6 @@ CREATE TABLE `schedule` (
 --
 
 INSERT INTO `schedule` (`id`, `user_id`, `day`, `start_time`, `end_time`, `date_created`, `date_updated`) VALUES
-(10, 20258662, 'Monday, Friday, Saturday', '13:42', '15:18', '2025-05-07', '2025-05-07'),
 (11, 20257230, 'Monday, Wednesday, Thursday, Friday, Saturday', '11:27', '17:00', '2025-05-07', '2025-05-07'),
 (12, 20256432, 'Monday, Thursday, Saturday', '10:55', '16:36', '2025-05-07', '2025-05-07');
 
@@ -112,19 +102,19 @@ CREATE TABLE `users` (
   `date_created` date NOT NULL,
   `date_updated` date NOT NULL,
   `token` varchar(255) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL
+  `address` varchar(255) DEFAULT NULL,
+  `otp` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `user_id`, `role_id`, `first_name`, `middle_name`, `last_name`, `mobile_number`, `email`, `password`, `date_of_birth`, `date_created`, `date_updated`, `token`, `address`) VALUES
-(15, 20258428, 2, 'Madonna', 'Claire', 'Hedwig', 'Zeph', 'didapa@mailinator.com', '$2y$10$IQK.eXv7wSwZ8jxt/cJANOFJZexezHPrPL0gnWsBUx5XEQyK3uIXu', '2022-09-13', '2025-05-07', '2025-05-07', NULL, NULL),
-(16, 20258662, 3, 'Cara', 'Mason', 'Indigo', 'Alden', 'rurolese@mailinator.com', '$2y$10$luHH.osgOoxQqpME.F5GWuF8s59FUW2hjX1dDT7sJ4QqTS2gWvX.a', '1995-05-24', '2025-05-07', '2025-05-07', NULL, NULL),
-(17, 20257230, 3, 'Brynn', 'Judah', 'Clayton', 'Oliver', 'bamumole@mailinator.com', '$2y$10$TaDAiWN1ZqXI0y8i2tbSfOY9x7HdheNSac1wqoipvBZesIgpLJ0l.', '2024-05-25', '2025-05-07', '2025-05-07', NULL, NULL),
-(18, 20256432, 3, 'Fay', 'Shay', 'Ariana', 'Christian', 'kyjupapur@mailinator.com', '$2y$10$koIRKJxmCb8.zwVlgoZ9I.0qtMAvGU7h2f4qf3k66xyBw./cR9KnG', '1970-11-15', '2025-05-07', '2025-05-07', NULL, NULL),
-(19, 20251843, 1, 'Judah', 'Eric', 'Brittany', 'Odysseus', 'bicicamy@mailinator.com', '$2y$10$KNx3GsJF5i/c/E0N8/I70ustpijTffdAUL5fNS0apnLbZRn4j0Khi', '1979-10-10', '2025-05-07', '2025-05-07', NULL, NULL);
+INSERT INTO `users` (`id`, `user_id`, `role_id`, `first_name`, `middle_name`, `last_name`, `mobile_number`, `email`, `password`, `date_of_birth`, `date_created`, `date_updated`, `token`, `address`, `otp`) VALUES
+(15, 20258428, 2, 'Madonna', 'Claire', 'Hedwig', 'Zeph', 'didapa@mailinator.com', '$2y$10$IQK.eXv7wSwZ8jxt/cJANOFJZexezHPrPL0gnWsBUx5XEQyK3uIXu', '2022-09-13', '2025-05-07', '2025-05-07', NULL, NULL, NULL),
+(17, 20257230, 2, 'Brynn', 'Judah', 'Clayton', 'Oliver', 'elephant10630@dotzi.net', '$2y$10$TaDAiWN1ZqXI0y8i2tbSfOY9x7HdheNSac1wqoipvBZesIgpLJ0l.', '2024-05-25', '2025-05-07', '2025-05-07', NULL, NULL, '29637'),
+(18, 20256432, 3, 'Fay', 'Shay', 'Ariana', 'Christian', 'elephant10630@dotzi.net1', '$2y$10$koIRKJxmCb8.zwVlgoZ9I.0qtMAvGU7h2f4qf3k66xyBw./cR9KnG', '1970-11-15', '2025-05-07', '2025-05-07', NULL, NULL, '18257'),
+(19, 20251843, 1, 'Judah', 'Eric', 'Brittany', 'Odysseus', 'mathewdalisay@gmail.com', '$2y$10$KNx3GsJF5i/c/E0N8/I70ustpijTffdAUL5fNS0apnLbZRn4j0Khi', '1979-10-10', '2025-05-07', '2025-05-07', NULL, NULL, '21578');
 
 --
 -- Indexes for dumped tables
