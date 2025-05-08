@@ -3,6 +3,7 @@ include('../../connection/connection.php');
 ob_start();
 session_start();
 $first_name = $_SESSION['first_name'];
+$user_id_patient = $_SESSION['user_id'];
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -34,8 +35,6 @@ error_reporting(E_ALL);
                             <div id="calendar"></div>
                         </div>
                     </div>
-
-                    <label for="">Pending Appointments</label>
                 <table>
                     <tr>
                         <th>Appointment Date & Time</th>
@@ -52,7 +51,7 @@ error_reporting(E_ALL);
                         ON
                         appointments.user_id = users.user_id
                         LEFT JOIN schedule 
-                        ON appointments.user_id = schedule.user_id";
+                        ON appointments.user_id = schedule.user_id WHERE appointments.user_id_patient =  '$user_id_patient'";
                         $run_appointments = mysqli_query($conn,$query_appointments);
                         if(mysqli_num_rows($run_appointments) > 0){
                             foreach($run_appointments as $row_appointment){
@@ -62,8 +61,6 @@ error_reporting(E_ALL);
                                     <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
                                 <td><?php echo $row_appointment['concern']?></td>
                                 <td>
-                                   
-                                
                                     <?php
 
                                         $status = (int)$row_appointment['confirmed'];

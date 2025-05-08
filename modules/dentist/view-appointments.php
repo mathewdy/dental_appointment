@@ -24,10 +24,13 @@ $first_name = $_SESSION['first_name'];
     <tr>
       <th>Name of Patient</th>
       <th>Date & Time</th>
+      <th>Concern</th>
+      <th>Remarks</th>
       <th>Status</th>
     </tr>
+    <form action="accepted.php" method="POST">
     <?php
-      $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed
+      $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed , appointments.remarks
       FROM appointments
       LEFT JOIN users
       ON
@@ -39,21 +42,52 @@ $first_name = $_SESSION['first_name'];
           foreach($run_appointments as $row_appointment){
             ?>
               <tr>
+                <td><?php echo $row_appointment['first_name']. " " . $row_appointment['last_name']?></td>
                 <td><?php echo $row_appointment['appointment_date']. " " . date("g:i A",strtotime($row_appointment['start_time'])). "-". date("g:i A",strtotime($row_appointment['end_time']))?></td>
-                <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
                 <td><?php echo $row_appointment['concern']?></td>
+                <td>
+
+                <?php
+                  $status = (int)$row_appointment['confirmed'];
+                  if ($status === 0) {
+                    ?>
+                        <input type="text" name="remarks">
+                    <?php
+                  }elseif ($status === 1){
+                    ?>
+                    <p><?php echo $row_appointment['remarks']?></p>
+                    <?php
+
+                  }elseif($status === 2){
+                    echo "Cancelled";
+                  }
+                      
+                ?>
+                 
+                
+                </td>
                 <td>
                   <?php
                       $status = (int)$row_appointment['confirmed'];
                       if ($status === 0) {
-                      echo "Unverified";
-                      } elseif ($status === 1) {
-                          echo "Confirmed";
-                      } elseif ($status === 2) {
-                          echo "Canceled";
+
+                        ?>
+                       
+                              <input type="submit" name="accept" value="Confirm">
+                              <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
+                              <input type="hidden" name="user_id_patient" value="<?php echo $row_appointment['user_id_patient']?>">
+                          
+                         
+                        <?php
+                      }
+                      elseif ($status === 1) {
+                        echo "Confirmed";
+                      }elseif ($status === 2) {
+                          echo "Cancelled";
                       }
                     ?>
-                  </td>
+                </td>
+               
               </tr>
             <?php
         }
@@ -61,6 +95,7 @@ $first_name = $_SESSION['first_name'];
         echo "No Data";
       }
     ?>
+    </form> 
     
   </table>
 

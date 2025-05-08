@@ -86,6 +86,7 @@ $(function () {
 if(isset($_POST['save'])){
     date_default_timezone_set("Asia/Manila");
     $date = date('y-m-d');
+    $appointment_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3) ;
 
     $user_id = $_GET['user_id'];
     $user_id_patient = $_SESSION['user_id'];
@@ -98,7 +99,7 @@ if(isset($_POST['save'])){
     if(mysqli_num_rows($run_check_appointment) > 0){
         echo "already added in this particular date";
     }else{
-        $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,concern,confirmed,appointment_date,date_created,date_updated) VALUES ('$user_id','$user_id_patient','$concern', '0', '$appointment_date','$date', '$date')";
+        $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_date,date_created,date_updated) VALUES ('$user_id','$user_id_patient','$appointment_id','$concern', '0', '$appointment_date','$date', '$date')";
         $run_appointment = mysqli_query($conn,$query_appointment);
         if($run_appointment) {
             echo "added appointment";
