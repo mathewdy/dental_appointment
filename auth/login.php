@@ -120,18 +120,21 @@ if (isset($_POST['login'])) {
                 $_SESSION['last_name'] = $row['last_name'];
                 // $_SESSION['image'] = $row['image'];
                 $_SESSION['role_id'] = $row['role_id'];
-                $update_otp = "UPDATE users SET otp = '$otp' WHERE email = '$email'";
-                $update_otp_run = mysqli_query($conn,$update_otp);
-        
-                if($update_otp_run){
-                    send_otp($email,$otp);
-                    //echo "otp sent";
-                    $_SESSION['email'] = $email ;
-                    echo "<script> alert('Please Check Your Email Address for OTP') </script>";
-                    echo "<script>window.location.href='otp.php'</script>";
-                }
                 
-
+                if($row['role_id'] == '1' ){
+                    $update_otp = "UPDATE users SET otp = '$otp' WHERE email = '$email'";
+                    $update_otp_run = mysqli_query($conn,$update_otp);
+            
+                    if($update_otp_run){
+                        send_otp($email,$otp);
+                        //echo "otp sent";
+                        $_SESSION['email'] = $email ;
+                        echo "<script> alert('Please Check Your Email Address for OTP') </script>";
+                        echo "<script>window.location.href='otp.php'</script>";
+                    }
+                }else{
+                    echo "Authentication Failed";
+                }
   
             }
         }

@@ -99,6 +99,13 @@ echo '
                             <p>Dentists</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="patients.php">
+                            <i class="fas fa-user-md"></i>
+                            <p>Patients</p>
+                        </a>
+                    </li>
                     ';
             }
             if($role == 3){

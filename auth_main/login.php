@@ -74,27 +74,23 @@ if (isset($_POST['login'])) {
                 $_SESSION['image'] = $row['image'];
 
                 $_SESSION['role_id'] = $row['role_id'];
-                $update_otp = "UPDATE users SET otp = '$otp' WHERE email = '$email'";
-                $update_otp_run = mysqli_query($conn,$update_otp);
-        
-                if($update_otp_run){
-                    send_otp($email,$otp);
-                    //echo "otp sent";
-                    $_SESSION['email'] = $email ;
-                    $_SESSION['role_id'] = $row['role_id'];
-                    echo "<script> alert('Please Check Your Email Address for OTP') </script>";
-                    echo "<script>window.location.href='otp.php'</script>";
-                }
 
-                // switch ($row['role_id']){
-                //     case '2':
-                //         header("Location: ../modules/admin/dashboard.php");
-                //         break;
-                //     case '3':
-                //         header("Location: ../modules/dentist/dashboard.php");
-                //         break;
-                // }
-                // exit;
+                if($row['role_id'] == '2' || $row['role_id'] == '3' ){
+                    $update_otp = "UPDATE users SET otp = '$otp' WHERE email = '$email'";
+                    $update_otp_run = mysqli_query($conn,$update_otp);
+        
+                    if($update_otp_run){
+                        send_otp($email,$otp);
+                        //echo "otp sent";
+                        $_SESSION['email'] = $email ;
+                        $_SESSION['role_id'] = $row['role_id'];
+                        echo "<script> alert('Please Check Your Email Address for OTP') </script>";
+                        echo "<script>window.location.href='otp.php'</script>";
+                    }
+
+                }else{
+                    echo "Authentication Failed";
+                }
             }
         }
     } else {

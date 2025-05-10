@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 08, 2025 at 05:13 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: May 10, 2025 at 11:52 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -48,10 +48,7 @@ INSERT INTO `appointments` (`id`, `user_id`, `user_id_patient`, `appointment_id`
 (20, 20256432, 20251843, 20259685, 'haha', 1, '05/29/2025', '2025-05-08', '2025-05-08', ''),
 (21, 20256432, 20251843, 202510068, 'hahahaha', 2, '05/31/2025', '2025-05-08', '2025-05-08', ''),
 (22, 20256432, 20251843, 20252071, 'hahaha', 1, '08/16/2025', '2025-05-08', '2025-05-08', 'tanga ka ba doi '),
-(23, 20256432, 20251843, 20257382, 'hahahahahaha ', 1, '06/14/2025', '2025-05-08', '2025-05-08', ''),
-(24, 20258970, 20259281, 20259491, 'haha woah', 0, '05/28/2025', '2025-05-08', '2025-05-08', ''),
-(25, 20258970, 20259281, 20252050, 'mathew ', 0, '05/24/2025', '2025-05-08', '2025-05-08', ''),
-(26, 20256432, 20259281, 20253879, 'hahaha', 1, '06/28/2025', '2025-05-08', '2025-05-08', 'dahan-dahan ka lang');
+(23, 20256432, 20251843, 20257382, 'hahahahahaha ', 1, '06/14/2025', '2025-05-08', '2025-05-08', '');
 
 -- --------------------------------------------------------
 
@@ -131,9 +128,11 @@ INSERT INTO `users` (`id`, `user_id`, `role_id`, `first_name`, `middle_name`, `l
 (17, 20257230, 2, 'Brynn', 'Judah', 'Clayton', 'Oliver', 'elephant10630@dotzi.net', '$2y$10$TaDAiWN1ZqXI0y8i2tbSfOY9x7HdheNSac1wqoipvBZesIgpLJ0l.', '2024-05-25', '2025-05-07', '2025-05-07', NULL, NULL, '37896'),
 (18, 20256432, 3, 'Fay', 'Shay', 'Ariana', 'Christian', 'elephant10630@dotzi.net1', '$2y$10$koIRKJxmCb8.zwVlgoZ9I.0qtMAvGU7h2f4qf3k66xyBw./cR9KnG', '1970-11-15', '2025-05-07', '2025-05-07', NULL, NULL, '70216'),
 (19, 20251843, 1, 'Judah', 'Eric', 'Brittany', 'Odysseus', 'hojiyap273@benznoi.com', '$2y$10$KNx3GsJF5i/c/E0N8/I70ustpijTffdAUL5fNS0apnLbZRn4j0Khi', '1979-10-10', '2025-05-07', '2025-05-07', NULL, NULL, '43678'),
-(20, 20259281, 1, 'Meredith', 'Kamal', 'Emmanuel', 'Howard', 'nenuxiwuk@mailinator.com', '$2y$10$G1/iE1l5cLW5mpRuZ3oRNOAYgLSWGDfFPTI/M0nelX3YdlVPKSTdK', '1982-12-01', '2025-05-08', '2025-05-08', NULL, NULL, '06718'),
-(21, 20255050, 2, 'Uriel', 'Armando', 'Nevada', 'Gage', 'nihyl@mailinator.com', '$2y$10$oFzbnk0AAGUPtkjxu85LMeMhhnko4/voagcsBBGmwajnLxO0eUiWe', '1982-10-02', '2025-05-08', '2025-05-08', NULL, NULL, '60438'),
-(22, 20258970, 3, 'Vaughan', 'Madison', 'Naida', 'Scarlett', 'mewoge@mailinator.com', '$2y$10$Z.AdREc/k2JREsjYGi/RK.qQS5TUODBzxbcqHcQ23rdpkl81tnejG', '2021-10-24', '2025-05-08', '2025-05-08', NULL, NULL, NULL);
+(21, 20255050, 2, 'Uriel', 'Armando', 'Nevada', 'Gage', 'nihyl@mailinator.com', '$2y$10$oFzbnk0AAGUPtkjxu85LMeMhhnko4/voagcsBBGmwajnLxO0eUiWe', '1982-10-02', '2025-05-08', '2025-05-08', NULL, NULL, '05368'),
+(22, 20258970, 3, 'Vaughan', 'Madison', 'Naida', 'Scarlett', 'mewoge@mailinator.com', '$2y$10$Z.AdREc/k2JREsjYGi/RK.qQS5TUODBzxbcqHcQ23rdpkl81tnejG', '2021-10-24', '2025-05-08', '2025-05-08', NULL, NULL, NULL),
+(23, 20253508, 2, 'Sheila', 'Lunea', 'Reese', 'Abraham', 'taton28756@hazhab.com', '$2y$10$6S7b/Szrk/nGS0QeTkGen.pKCSmDJZK8BuvQZTmYwU6BIOWRbCEVu', '1973-03-25', '2025-05-10', '2025-05-10', NULL, NULL, '49150'),
+(24, 20253564, 2, 'Ahmed', 'Harper', 'Howard', 'Dolan', 'kusi@mailinator.com', '$2y$10$TIxsC0xRq/WCNAduMmfEqeaL7ZJ2jRnH4fI1uR5.uUwUy2V0WH6Pi', '1976-08-28', '2025-05-10', '2025-05-10', NULL, NULL, NULL),
+(25, 20257691, 1, 'Violet', 'Callum', 'Hanna', 'Georgia', 'taton28756@hazhab.com123', '$2y$10$yuHAum/7ietjEqHGLP64quFpJLZu2PWKgemQ6pMc4jUjYgIyBWbdO', '1984-06-02', '2025-05-10', '2025-05-10', '2b5de2888a59bef63f263a5efac4462a', 'Laura', '13485');
 
 --
 -- Indexes for dumped tables
@@ -196,7 +195,7 @@ ALTER TABLE `schedule`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
