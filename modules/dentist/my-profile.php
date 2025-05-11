@@ -28,7 +28,24 @@ $email = $_SESSION['email'];
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-              <h4 class="page-title">My Profile</h4>
+            <span class="d-flex justify-content-between align-items-center w-100">
+                    <span class="d-flex">
+                        <h4 class="page-title">My Profile</h4>
+                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                            <li class="nav-home">
+                            <a href="dashboard.php">
+                                <i class="icon-home"></i>
+                            </a>
+                            </li>
+                            <li class="separator">
+                                <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                                <a href="my-profile.php">Profile</a>
+                            </li>
+                        </ul>
+                    </span>    
+                </span>
             </div>
             <div class="page-category">
                 <?php
@@ -52,8 +69,8 @@ $email = $_SESSION['email'];
                                             <div class="col-lg-12">
                                                 <span class="d-flex justify-content-between align-items-center">
                                                     <p class="h1"><?= $name; ?></p>
-                                                    <!-- <a class="btn btn-black op-8" href="edit-profile.php?user_id=<?php echo $row_profile['user_id']?>">Edit</a> -->
-                                                    <a class="btn btn-black op-8" href="edit-profile.php">Edit</a>
+                                                    <a class="btn btn-black op-8" href="edit-profile.php?user_id=<?php echo $row_profile['user_id']?>">Edit</a>
+                                                    <!-- <a class="btn btn-black op-8" href="edit-profile.php?user_id=<?= $_SESSION['user_id']?>">Edit</a> -->
                                                 </span>
                                                 <p class="h5"><?= "ID" . $row_profile['user_id'];?></p>
                                                 <br>

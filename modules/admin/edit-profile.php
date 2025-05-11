@@ -31,7 +31,30 @@ ini_set('display_errors', 1);
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-              <h4 class="page-title">Edit Profile</h4>
+            <span class="d-flex justify-content-between align-items-center w-100">
+                    <span class="d-flex">
+                        <h4 class="page-title">My Profile</h4>
+                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                            <li class="nav-home">
+                            <a href="dashboard.php">
+                                <i class="icon-home"></i>
+                            </a>
+                            </li>
+                            <li class="separator">
+                                <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                                <a href="my-profile.php">Profile</a>
+                            </li>
+                            <li class="separator">
+                                <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#">Edit Profile</a>
+                            </li>
+                        </ul>
+                    </span>    
+                </span>
             </div>
             <div class="page-category">
                 <div class="card p-5">
@@ -70,8 +93,9 @@ ini_set('display_errors', 1);
                                                 <p><?php echo $row_profile['date_of_birth']?></p>
                                                 <input type="date" class="form-control"  name="date_of_birth">
                                             </div>
-                                            <div class="col-lg-12 d-flex justify-content-end">
-                                                <input type="submit" class="btn btn-black op-8" name="update_profile" value="Update">
+                                            <div class="col-lg-12 text-end">
+                                                <a href="my-profile.php" class="btn btn-danger">Cancel</a>
+                                                <input type="submit" class="btn btn-primary" name="update_profile" value="Update">
                                             </div>
                                         </div>
                                         
@@ -92,7 +116,6 @@ ini_set('display_errors', 1);
 
                     ?>
                 </div>
-            <a href="my-profile.php">Back</a>
    
             </div>
           </div>

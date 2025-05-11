@@ -47,12 +47,6 @@ echo '
             if($role == 1){
                 echo '
                     <li class="nav-item">
-                        <a href="about.php">
-                            <i class="fas fa-info-circle"></i>
-                            <p>About</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="appointments.php">
                             <i class="fas fa-calendar-alt"></i>
                             <p>Appointments</p>
@@ -62,24 +56,6 @@ echo '
                         <a href="history.php">
                             <i class="fas fa-book"></i>
                             <p>History</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="services.php">
-                            <i class="fas fa-briefcase"></i>
-                            <p>Services</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="team.php">
-                            <i class="fas fa-user-friends"></i>
-                            <p>Team</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="contact.php">
-                            <i class="fas fa-phone"></i>
-                            <p>Contact</p>
                         </a>
                     </li>
                     ';
@@ -102,7 +78,7 @@ echo '
 
                     <li class="nav-item">
                         <a href="patients.php">
-                            <i class="fas fa-user-md"></i>
+                            <i class="fas fa-user-alt"></i>
                             <p>Patients</p>
                         </a>
                     </li>
@@ -110,12 +86,6 @@ echo '
             }
             if($role == 3){
                 echo '
-                    <li class="nav-item">
-                        <a href="about.php">
-                            <i class="fas fa-info-circle"></i>
-                            <p>About</p>
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a href="view-appointments.php">
                             <i class="fas fa-calendar-alt"></i>

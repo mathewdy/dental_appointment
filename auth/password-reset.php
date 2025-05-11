@@ -1,6 +1,9 @@
 <?php
+
 ob_start();
-include("../includes/header.php")
+session_start();
+date_default_timezone_set('Asia/Manila');
+include('../connection/connection.php');
 
 ?>
 
@@ -9,57 +12,57 @@ include("../includes/header.php")
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include '../includes/styles.php' ?>
     <title>Document</title>
 </head>
 <body>
-    <form action="" method="POST">
-        <label for="">Email:</label>
-        <input type="email" name="email" placeholder="Enter Email Address" required>
-        <label for="">New Password:</label>
-        <input type="password" name="password_1" placeholder="Enter New Password" required>
-        <label for="">Confirm Password:</label>
-        <input type="password" name="password_2" placeholder="Enter Confirm Password" required>
-        <input type="hidden" name="token" value="<?php if(isset($_GET['token'])){echo $_GET['token'];} ?>">
-        <input type="submit" name="update" Value="Update Password">
-    </form>
-    <div class="container" style="height: 55em;">
-        <div class="row d-flex justify-content-center align-items-center p-5" style="height: 100%;">
-            <div class="col-12">
-                <div class="card w-100 border-none rounded-0" style="height: 45em;">
-                    <div class="row" style="height: 100%;">
-                        <div class="col-lg-6 p-5 d-flex flex-column justify-content-center ">
-                            <span class="text-center">
-                                <img src="../assets/img/logo.png" height="100" alt="">
-                            </span>
-                            <span class="mb-4 text-center">
-                                <h1>Sign In</h1>
-                            </span>
-                            <form action="" method="POST">
-                                <div class="row px-4">
-                                    <div class="col-lg-12 mb-5">
-                                        <label for="">Email</label>
-                                        <input type="email" class="form-control" name="email" placeholder="Email">
-                                    </div>
-                                    <div class="col-lg-12 mb-5">
-                                        <label for="">Password </label>
-                                        <input type="password" class="form-control" name="password" placeholder="Password">
-                                    </div>
-                                    <div class="col-lg-12 text-center">
-                                        <input type="submit" class="btn btn-black op-8 w-100 mb-2" name="login" value="Login">
-                                        <a href="forgot-password.php" class="text-dark">Forgot Password?</a>
-                                    </div>
-                                </div>                                                      
-                            </form>
-                        </div>
+<div class="container" style="height: 55em;">
+    <div class="row d-flex justify-content-center align-items-center px-5" style="height: 100%;">
+        <div class="col-6">
+            <div class="card w-100 border-none rounded-0 px-5" style="height: 45em;">
+                <div class="row" style="height: 100%;">
+                    <div class="col-lg-12 d-flex flex-column justify-content-center ">
+                        <form action="" method="POST">
+                            <div class="row px-4">
+                                <div class="col-lg-12 text-center">
+                                    <i class="fas fa-lock fa-10x"></i>
+                                </div>
+                                <div class="col-lg-12">
+                                    <span class="mb-5 text-center">
+                                        <p class="h2">Reset Password</p>
+                                        <p class="h6">Create a new password below to complete the process.</p>
+                                        <hr class="featurette-divider">
+                                    </span>
+                                </div>
+                                <div class="col-lg-12"></div>
+                                <div class="col-lg-12 mb-4">
+                                    <label for="">Email</label>
+                                    <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                                </div>
+                                <div class="col-lg-12 mb-4">
+                                    <label for="">New Password:</label>
+                                    <input type="password" class="form-control" name="password_1" placeholder="Enter New Password" required>
+                                </div>
+                                <div class="col-lg-12 mb-4">
+                                    <label for="">Confirm Password:</label>
+                                    <input type="password" class="form-control" name="password_2" placeholder="Enter Confirm Password" required>
+                                </div>
+                                <div class="col-lg-12 text-center mb-5">
+                                    <input type="hidden" name="token" value="<?php if(isset($_GET['token'])){echo $_GET['token'];} ?>">
+                                    <input type="submit" class="btn btn-black op-8 w-100 mb-2" name="update" value="Update Password">
+                                    <!-- <a href="login.php" class="text-dark">Go back to login</a> -->
+                                </div>
+                            </div>                                                      
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <?php include "../includes/scripts.php"; ?>
+</div>
+<?php include "../includes/scripts.php"; ?>
 </body>
 </html>
-
 
 <?php
 

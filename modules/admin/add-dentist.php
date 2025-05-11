@@ -3,6 +3,7 @@ include('../../connection/connection.php');
 
 session_start();
 ob_start();
+$first_name = $_SESSION['first_name']
 ?>
 
 
@@ -11,43 +12,121 @@ ob_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include '../../includes/styles.php' ?>
     <title>Document</title>
 </head>
 <body>
 
-    <h1>Add Dentist</h1>
-    <form action="add-dentist.php" method="POST">
-        <label for="">First Name</label>
-        <input type="text" name="first_name">
-        <label for="">Middle Name</label>
-        <input type="text" name="middle_name">
-        <label for="">Last Name</label>
-        <input type="text" name="last_name">
-        <label for="">Mobile Number </label>
-        <input type="text" name="mobile_number">
-        <label for="">Date of Birth</label>
-        <input type="date" name="date_of_birth">
-        <label for="">Email</label>
-        <input type="email" name="email">
-        <br>
-        <label for="">Password</label>
-        <input type="password" name="password">
-        <br>
-        <label for="">Schedule</label><br>
-        <input type="checkbox" name="schedule[]" value="Monday"> Monday <br>
-        <input type="checkbox" name="schedule[]" value="Tuesday"> Tuesday <br>
-        <input type="checkbox" name="schedule[]" value="Wednesday"> Wednesday <br>
-        <input type="checkbox" name="schedule[]" value="Thursday"> Thursday <br>
-        <input type="checkbox" name="schedule[]" value="Friday"> Friday <br>
-        <input type="checkbox" name="schedule[]" value="Saturday"> Saturday <br>
-        <label for="">Start Time</label>
-        <input type="time" name="start_time" id="start_time" min="10:00" max="17:00">
-        <label for="">End Time</label>
-        <input type="time" name="end_time" id="end_time" min="10:00" max="17:00">
+    <div class="wrapper">
+        <?php include '../../includes/sidebar.php'; ?>
 
-        
-        <input type="submit" name="add_dentist" value="Create">
-    </form>
+      <div class="main-panel">
+        <?php include '../../includes/topbar.php'; ?>
+        <div class="container">
+          <div class="page-inner">
+            <div class="page-header">
+              <span class="d-flex justify-content-between align-items-center w-100">
+                    <span class="d-flex">
+                        <h4 class="page-title">Add New Dentist</h4>
+                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                            <li class="nav-home">
+                            <a href="dashboard.php">
+                                <i class="icon-home"></i>
+                            </a>
+                            </li>
+                            <li class="separator">
+                                <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                                <a href="view-dentists.php">Dentists</a>
+                            </li>
+                            <li class="separator">
+                                <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#">Add Dentist</a>
+                            </li>
+                        </ul>
+                    </span>    
+                </span>
+            </div>
+            <div class="page-category">
+                <div class="card p-5">
+                    <form action="add-dentist.php" method="POST">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3>Basic Information</h3>
+                            </div>
+                            <div class="col-lg-4 mb-4">
+                                <label for="">First Name</label>
+                                <input type="text" class="form-control" name="first_name">
+                            </div>
+                            <div class="col-lg-4 mb-4">
+                                <label for="">Middle Name</label>
+                                <input type="text" class="form-control" name="middle_name">
+                            </div>
+                            <div class="col-lg-4 mb-4">
+                                <label for="">Last Name</label>
+                                <input type="text" class="form-control" name="last_name">
+                            </div>
+                            <div class="col-lg-6 mb-4">
+                                <label for="">Mobile Number </label>
+                                <input type="text" class="form-control" name="mobile_number">
+                            </div>
+                            <div class="col-lg-6 mb-4">
+                                <label for="">Date of Birth</label>
+                                <input type="date" class="form-control" name="date_of_birth">
+                            </div>
+                            <div class="col-lg-6 mb-4">
+                                <label for="">Email</label>
+                                <input type="email" class="form-control" name="email">
+                            </div>
+                            <div class="col-lg-6 mb-4">
+                                <label for="">Password</label>
+                                <input type="password" class="form-control" name="password">
+                            </div>
+                            <div class="col-lg-12">
+                                <h3>Schedule Information</h3>
+                            </div>
+                            <div class="col-lg-12 mb-4">
+                                <label for="">Schedule</label><br>
+                                <input type="checkbox" name="schedule[]" value="Monday"> Monday <br>
+                                <input type="checkbox" name="schedule[]" value="Tuesday"> Tuesday <br>
+                                <input type="checkbox" name="schedule[]" value="Wednesday"> Wednesday <br>
+                                <input type="checkbox" name="schedule[]" value="Thursday"> Thursday <br>
+                                <input type="checkbox" name="schedule[]" value="Friday"> Friday <br>
+                                <input type="checkbox" name="schedule[]" value="Saturday"> Saturday <br>
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="">Start Time</label>
+                                <input type="time" class="form-control" name="start_time" id="start_time" min="10:00" max="17:00">
+                                
+                            </div>
+                            <div class="col-lg-6 mb-5">
+                                <label for="">End Time</label>
+                                <input type="time" class="form-control" name="end_time" id="end_time" min="10:00" max="17:00">
+                            </div>
+                            <div class="col-lg-12 text-end">
+                                <a href="view-dentists.php" class="btn btn-danger">Cancel</a>
+                                <input type="submit" class="btn btn-primary" name="add_dentist" value="Create">
+
+                            </div>
+                        </div>                        
+                    </form>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <?php include "../../includes/scripts.php"; ?>
+
+</body>
+</html>
+
+
+    <h1>Add Dentist</h1>
+   
 
 </body>
 <script>
