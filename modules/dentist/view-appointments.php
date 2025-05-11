@@ -80,6 +80,5 @@ $first_name = $_SESSION['first_name'];
         </div>
     </div>
     <?php include "../../includes/scripts.php"; ?>
-    <script src="../../assets/js/dentist-event.js"></script>
 </body>
 </html>

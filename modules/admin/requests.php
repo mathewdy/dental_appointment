@@ -52,13 +52,14 @@ error_reporting(E_ALL);
                 </span>
             </div>
             <div class="page-category">
-                <div class="card">
+                <div class="card p-5">
                     <div class="table-responsive">
                     <table class="display table table-border table-hover" id="dataTable">
                         <thead>
                             <tr>
                                 <th>Name of Patient</th>
                                 <th>Date & Time</th>
+                                <th>Concern</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -80,15 +81,13 @@ error_reporting(E_ALL);
                                             <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
                                             <td><?php echo $row_appointment['concern']?></td>
                                             <td>
-                                            <?php
-                                                $status = (int)$row_appointment['confirmed'];
-                                                if ($status === 0) {
-                                                echo "Unverified";
-                                                } elseif ($status === 1) {
-                                                    echo "Confirmed";
-                                                } elseif ($status === 2) {
-                                                    echo "Canceled";
-                                                }
+                                                 <?php
+                                                    $handler = match($row_appointment['confirmed']){
+                                                        '1' => '<span class="badge bg-success">Confirmed</span>',
+                                                        '2' => '<span class="badge bg-danger">Cancelled</span>',
+                                                        default => '<span class="badge bg-info">Unverified</span>'
+                                                    };
+                                                    echo $handler;
                                                 ?>
                                             </td>
                                         </tr>

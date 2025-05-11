@@ -193,7 +193,7 @@ if(isset($_POST['update'])){
     $run_update = mysqli_query($conn,$query_update);
 
     if($run_update){
-        echo "updated";
+        header("Location: patients.php");
     }else{
         echo "error";
     }

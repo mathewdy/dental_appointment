@@ -52,7 +52,7 @@ error_reporting(E_ALL);
                         </ul>
                     </span>    
                     <span>
-                        <a href="requests.php" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#doctorModal">Add Appointment</a>
+                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#doctorModal">Add Appointment</a>
                         <a href="requests.php" class="btn btn-dark op-7">View All Requests</a>
                     </span>
                 </span>
@@ -195,7 +195,6 @@ error_reporting(E_ALL);
 
     
     <?php include "../../includes/scripts.php"; ?>
-    <script src="../../assets/js/patient-event.js"></script>
 </body>
 </html>
 

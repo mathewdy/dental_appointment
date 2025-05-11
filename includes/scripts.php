@@ -16,6 +16,6 @@ echo '
 <script src="' . BASE_PATH . '/assets/js/kaiadmin.min.js"></script>
 <script src="' . BASE_PATH . '/assets/js/datatable-init.js"></script>
 <script src="' . BASE_PATH . '/libs/fullcalendar/index.global.js"></script>
-
+<script src="' . BASE_PATH . '/assets/js/events.js"></script>
 ';
 ?>

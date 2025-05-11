@@ -19,16 +19,20 @@ $first_name = $_SESSION['first_name'];
 <body>
 
     <div class="wrapper">
-        <?php include '../../includes/sidebar.php'; ?>
+        <?php 
+        include '../../includes/sidebar.php';
+        ?>
 
       <div class="main-panel">
-        <?php include '../../includes/topbar.php'; ?>
+        <?php 
+        include '../../includes/topbar.php';
+        ?>
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
             <span class="d-flex justify-content-between align-items-center w-100">
                     <span class="d-flex">
-                        <h4 class="page-title">Add New Dentist</h4>
+                        <h4 class="page-title">Edit Dentist</h4>
                         <ul class="breadcrumbs d-flex justify-items-center align-items-center">
                             <li class="nav-home">
                             <a href="dashboard.php">
@@ -69,7 +73,7 @@ $first_name = $_SESSION['first_name'];
                                     foreach($run_dentist as $row_dentist){
                                         ?>
 
-                            <form action="add-dentist.php" method="POST">
+                            <form action="" method="POST">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <h3>Basic Information</h3>
@@ -202,9 +206,10 @@ if(isset($_POST['update_dentist'])){
     $run_update = mysqli_query($conn, $query_update);
     
     if ($run_dentist) {
-        echo "updated";
         $query_update_schedule = "UPDATE schedule SET day = '$days_combined_updated', start_time = '$start_time', end_time = '$end_time' WHERE user_id = '$user_id'";
         $run_update_schedule = mysqli_query($conn, $query_update_schedule);
+
+        header("Location: view-dentists.php");
     } else {
         echo "error: " . $conn->error;
     }
