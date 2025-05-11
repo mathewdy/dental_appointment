@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 10, 2025 at 11:52 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: May 11, 2025 at 03:01 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,16 +39,6 @@ CREATE TABLE `appointments` (
   `date_updated` date NOT NULL,
   `remarks` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `appointments`
---
-
-INSERT INTO `appointments` (`id`, `user_id`, `user_id_patient`, `appointment_id`, `concern`, `confirmed`, `appointment_date`, `date_created`, `date_updated`, `remarks`) VALUES
-(20, 20256432, 20251843, 20259685, 'haha', 1, '05/29/2025', '2025-05-08', '2025-05-08', ''),
-(21, 20256432, 20251843, 202510068, 'hahahaha', 2, '05/31/2025', '2025-05-08', '2025-05-08', ''),
-(22, 20256432, 20251843, 20252071, 'hahaha', 1, '08/16/2025', '2025-05-08', '2025-05-08', 'tanga ka ba doi '),
-(23, 20256432, 20251843, 20257382, 'hahahahahaha ', 1, '06/14/2025', '2025-05-08', '2025-05-08', '');
 
 -- --------------------------------------------------------
 
@@ -86,15 +76,6 @@ CREATE TABLE `schedule` (
   `date_updated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `schedule`
---
-
-INSERT INTO `schedule` (`id`, `user_id`, `day`, `start_time`, `end_time`, `date_created`, `date_updated`) VALUES
-(11, 20257230, 'Monday, Wednesday, Thursday, Friday, Saturday', '11:27', '17:00', '2025-05-07', '2025-05-07'),
-(12, 20256432, 'Monday, Thursday, Saturday', '10:55', '16:36', '2025-05-07', '2025-05-07'),
-(13, 20258970, 'Wednesday, Saturday', '11:49', '16:26', '2025-05-08', '2025-05-08');
-
 -- --------------------------------------------------------
 
 --
@@ -118,21 +99,6 @@ CREATE TABLE `users` (
   `address` varchar(255) DEFAULT NULL,
   `otp` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`id`, `user_id`, `role_id`, `first_name`, `middle_name`, `last_name`, `mobile_number`, `email`, `password`, `date_of_birth`, `date_created`, `date_updated`, `token`, `address`, `otp`) VALUES
-(15, 20258428, 2, 'Madonna', 'Claire', 'Hedwig', 'Zeph', 'didapa@mailinator.com', '$2y$10$IQK.eXv7wSwZ8jxt/cJANOFJZexezHPrPL0gnWsBUx5XEQyK3uIXu', '2022-09-13', '2025-05-07', '2025-05-07', NULL, NULL, NULL),
-(17, 20257230, 2, 'Brynn', 'Judah', 'Clayton', 'Oliver', 'elephant10630@dotzi.net', '$2y$10$TaDAiWN1ZqXI0y8i2tbSfOY9x7HdheNSac1wqoipvBZesIgpLJ0l.', '2024-05-25', '2025-05-07', '2025-05-07', NULL, NULL, '37896'),
-(18, 20256432, 3, 'Fay', 'Shay', 'Ariana', 'Christian', 'elephant10630@dotzi.net1', '$2y$10$koIRKJxmCb8.zwVlgoZ9I.0qtMAvGU7h2f4qf3k66xyBw./cR9KnG', '1970-11-15', '2025-05-07', '2025-05-07', NULL, NULL, '70216'),
-(19, 20251843, 1, 'Judah', 'Eric', 'Brittany', 'Odysseus', 'hojiyap273@benznoi.com', '$2y$10$KNx3GsJF5i/c/E0N8/I70ustpijTffdAUL5fNS0apnLbZRn4j0Khi', '1979-10-10', '2025-05-07', '2025-05-07', NULL, NULL, '43678'),
-(21, 20255050, 2, 'Uriel', 'Armando', 'Nevada', 'Gage', 'nihyl@mailinator.com', '$2y$10$oFzbnk0AAGUPtkjxu85LMeMhhnko4/voagcsBBGmwajnLxO0eUiWe', '1982-10-02', '2025-05-08', '2025-05-08', NULL, NULL, '05368'),
-(22, 20258970, 3, 'Vaughan', 'Madison', 'Naida', 'Scarlett', 'mewoge@mailinator.com', '$2y$10$Z.AdREc/k2JREsjYGi/RK.qQS5TUODBzxbcqHcQ23rdpkl81tnejG', '2021-10-24', '2025-05-08', '2025-05-08', NULL, NULL, NULL),
-(23, 20253508, 2, 'Sheila', 'Lunea', 'Reese', 'Abraham', 'taton28756@hazhab.com', '$2y$10$6S7b/Szrk/nGS0QeTkGen.pKCSmDJZK8BuvQZTmYwU6BIOWRbCEVu', '1973-03-25', '2025-05-10', '2025-05-10', NULL, NULL, '49150'),
-(24, 20253564, 2, 'Ahmed', 'Harper', 'Howard', 'Dolan', 'kusi@mailinator.com', '$2y$10$TIxsC0xRq/WCNAduMmfEqeaL7ZJ2jRnH4fI1uR5.uUwUy2V0WH6Pi', '1976-08-28', '2025-05-10', '2025-05-10', NULL, NULL, NULL),
-(25, 20257691, 1, 'Violet', 'Callum', 'Hanna', 'Georgia', 'taton28756@hazhab.com123', '$2y$10$yuHAum/7ietjEqHGLP64quFpJLZu2PWKgemQ6pMc4jUjYgIyBWbdO', '1984-06-02', '2025-05-10', '2025-05-10', '2b5de2888a59bef63f263a5efac4462a', 'Laura', '13485');
 
 --
 -- Indexes for dumped tables
@@ -177,7 +143,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -189,13 +155,13 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `schedule`
 --
 ALTER TABLE `schedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
