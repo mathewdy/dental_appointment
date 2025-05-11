@@ -52,72 +52,68 @@ error_reporting(E_ALL);
                 </span>
             </div>
             <div class="page-category">
+                <div class="card p-5">
                 <div class="table-responsive">
                 <table class="display table table-hover" id="dataTable">
-                    <tr>
-                        <th>Appointment Date & Time</th>
-                        <th>Dentist</th>
-                        <th>Concern</th>
-                        <th>Action</th>
-                    </tr>
-                    
-                    <?php 
-
-                        $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed
-                        FROM appointments
-                        LEFT JOIN users
-                        ON
-                        appointments.user_id = users.user_id
-                        LEFT JOIN schedule 
-                        ON appointments.user_id = schedule.user_id WHERE appointments.user_id_patient =  '$user_id_patient'";
-                        $run_appointments = mysqli_query($conn,$query_appointments);
-                        if(mysqli_num_rows($run_appointments) > 0){
-                            foreach($run_appointments as $row_appointment){
-                                ?>
-                                <tr>
-                                    <td><?php echo $row_appointment['appointment_date']. " " . date("g:i A",strtotime($row_appointment['start_time'])). "-". date("g:i A",strtotime($row_appointment['end_time']))?></td>
-                                    <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
-                                <td><?php echo $row_appointment['concern']?></td>
-                                <td>
-                                    <?php
-
-                                        $status = (int)$row_appointment['confirmed'];
-
-                                        if ($status === 0) {
-                                            ?>
-
-                                            <!-- <form action="accepted.php" method="POST">
-                                                <input type="submit" name="accept" value="Confirmed">
-                                                <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
-                                                
-                                            </form> -->
-                                            <form action="declined.php" method="POST">
-                                                <input type="submit" name="decline" value="Cancel">
-                                                <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
-                                            </form>
-                                            <?php
-                                             
-                                        } elseif ($status === 1) {
-                                            echo "Confirmed";
-                                        } elseif ($status === 2) {
-                                            echo "Cancelled";
-                                        }
+                    <thead>
+                        <tr>
+                            <th>Appointment Date & Time</th>
+                            <th>Dentist</th>
+                            <th>Concern</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php 
+                            $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed
+                            FROM appointments
+                            LEFT JOIN users
+                            ON
+                            appointments.user_id = users.user_id
+                            LEFT JOIN schedule 
+                            ON appointments.user_id = schedule.user_id WHERE appointments.user_id_patient =  '$user_id_patient'";
+                            $run_appointments = mysqli_query($conn,$query_appointments);
+                            if(mysqli_num_rows($run_appointments) > 0){
+                                foreach($run_appointments as $row_appointment){
                                     ?>
-                                        
-                                    </td>
-                                
-                                </tr>
-                                <?php
+                                    <tr>
+                                        <td><?php echo $row_appointment['appointment_date']. " " . date("g:i A",strtotime($row_appointment['start_time'])). "-". date("g:i A",strtotime($row_appointment['end_time']))?></td>
+                                        <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
+                                    <td><?php echo $row_appointment['concern']?></td>
+                                    <td>
+                                        <?php
+                                        $handler = match($row_appointment['confirmed']){
+                                            '1' => '<span class="badge bg-success">Confirmed</span>',
+                                            '2' => '<span class="badge bg-danger">Cancelled</span>',
+                                            default => '
+                                                <form action="declined.php" method="POST">
+                                                <input type="submit" class="btn btn-danger btn-sm" name="decline" value="Cancel">
+                                                <input type="hidden" name="appointment_date" value="' . $row_appointment['appointment_date']. '">
+                                            </form>
+                                            '
+                                        };
+                                        echo $handler;
+                                        ?>
+                                            
+                                        </td>
+                                    
+                                    </tr>
+                                    <?php
+                                }
                             }
-                        }
-                    ?>
+                        ?>
+                    </tbody>
                 </table>
                 </div>
+            </div>
             </div>
         </div>
       </div>
     </div>
     <a href="appointments.php">Appointment</a>
     <?php include "../../includes/scripts.php"; ?>
+    <script>
+
+    </script>
 </body>
 </html>

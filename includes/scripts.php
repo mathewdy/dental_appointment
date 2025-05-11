@@ -16,38 +16,6 @@ echo '
 <script src="' . BASE_PATH . '/assets/js/kaiadmin.min.js"></script>
 <script src="' . BASE_PATH . '/assets/js/datatable-init.js"></script>
 <script src="' . BASE_PATH . '/libs/fullcalendar/index.global.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var calendarEl = document.getElementById("calendar");
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth",
-        themeSystem: "standard",
-        events: "'. BASE_PATH .'/includes/events.php",
-        dateClick: function(info) {
-            const clickedDate = info.dateStr;        
-            const eventsOnDate = calendar.getEvents().filter(event=>
-            event.startStr.startsWith(clickedDate));  
-            if(eventsOnDate.length === 0){
-                var prompt = new bootstrap.Modal(document.getElementById("doctorModal"))
-                prompt.show()
-            }else{
-                var offCanvas = new bootstrap.Offcanvas(document.getElementById("infoPanel"))
-                offCanvas.show()
 
-                $.ajax({
-                    url: "event-info.php",
-                    type: "POST",
-                    data: {date : clickedDate},
-                    success: function(res){
-                        document.getElementById("appointment_info").innerHTML = res
-                        console.log(clickedDate)
-                    }
-                })
-            }
-        }
-    });
-    calendar.render();
-});
-</script>
 ';
 ?>

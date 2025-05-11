@@ -50,15 +50,16 @@ $user_id_patients = $_SESSION['user_id'];
                 <div class="card p-5">
                   <div class="table-responsive">
                     <table class="display table table-striped table-hover" id="dataTable">
-                      <tr>
-                          <th>Appointment Date & Time</th>
-                          <th>Dentist</th>
-                          <th>Concern</th>
-                          <th>Doctor's Remarks</th>
-                      </tr>
-                  
-                      <?php
-
+                      <thead>
+                        <tr>
+                            <th>Appointment Date & Time</th>
+                            <th>Dentist</th>
+                            <th>Concern</th>
+                            <th>Doctor's Remarks</th>
+                        </tr>  
+                      </thead>
+                      <tbody>
+                        <?php
                           $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed, appointments.remarks
                           FROM appointments
                           LEFT JOIN users
@@ -79,7 +80,8 @@ $user_id_patients = $_SESSION['user_id'];
                                   <?php
                               }
                           } 
-                      ?>
+                          ?>
+                      </tbody>
                   </table>
                   </div>
                 

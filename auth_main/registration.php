@@ -3,40 +3,71 @@ include('../connection/connection.php');
 session_start();
 ob_start();
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include '../includes/styles.php' ?>
     <title>Document</title>
 </head>
 <body>
-
-    <h1>Create a new account
-    It’s quick and easy.</h1>
-    <form action="" method="POST">
-        <label for="">First Name</label>
-        <input type="text" name="first_name">
-        <label for="">Middle Name</label>
-        <input type="text" name="middle_name">
-        <label for="">Last Name</label>
-        <input type="text" name="last_name">
-        <label for="">Mobile Number </label>
-        <input type="text" name="mobile_number">
-        <label for="">Date of Birth</label>
-        <input type="date" name="date_of_birth">
-        <label for="">Email</label>
-        <input type="email" name="email">
-        <label for="">Password</label>
-        <input type="password" name="password">
-        <input type="submit" name="register_admin" value="Register">
-    </form>
-
-    <a href="login.php">Already have an account?</a>
-    
-</body>
+<div class="container" style="height: 55em;">
+        <div class="row d-flex justify-content-center align-items-center p-5" style="height: 100%;">
+            <div class="col-8">
+                <div class="card w-100 border-none rounded-0">
+                    <div class="row" style="height: 100%;">
+                        <div class="col-lg-12 p-5 d-flex flex-column justify-content-center ">
+                            <span class="text-center">
+                                <img src="../assets/img/logo.png" height="100" alt="">
+                            </span>
+                            <span class="mb-4 text-center">
+                                <h2>Create a new account</h2>
+                                <p>It’s quick and easy.</p>
+                                <hr class="featurette-divider">
+                            </span>
+                            <form action="" method="POST">
+                                <div class="row px-4">
+                                    <div class="col-lg-4 mb-5">
+                                        <label for="">First Name</label>
+                                        <input type="text" class="form-control" name="first_name">
+                                    </div>
+                                    <div class="col-lg-4 mb-5">
+                                        <label for="">Middle Name</label>
+                                        <input type="text" class="form-control" name="middle_name">
+                                    </div>
+                                    <div class="col-lg-4 mb-5">
+                                        <label for="">Last Name</label>
+                                        <input type="text" class="form-control" name="last_name">
+                                    </div>
+                                    <div class="col-lg-6 mb-5">
+                                        <label for="">Date of Birth</label>
+                                        <input type="date" class="form-control" name="date_of_birth">
+                                    </div>
+                                    <div class="col-lg-6 mb-5">
+                                        <label for="">Mobile Number</label>
+                                        <input type="text" class="form-control" name="mobile_number">
+                                    </div>
+                                    <div class="col-lg-6 mb-5">
+                                        <label for="">Email</label>
+                                        <input type="email" class="form-control" name="email">
+                                    </div>
+                                    <div class="col-lg-6 mb-5">
+                                        <label for="">Password </label>
+                                        <input type="password" class="form-control" name="password" placeholder="Password">
+                                    </div>
+                                    <div class="col-lg-12 text-center">
+                                        <input type="submit" class="btn btn-black op-8 w-100 mb-2" name="register_admin" value="Register">
+                                        <a href="login.php" class="text-black">Already have an account?</a>
+                                    </div>
+                                </div>                                                      
+                            </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php include "../includes/scripts.php"; ?>
 </html>
 
 <?php

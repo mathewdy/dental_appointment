@@ -26,7 +26,30 @@ $first_name = $_SESSION['first_name'];
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-              <h4 class="page-title">Add Appointment</h4>
+            <span class="d-flex justify-content-between align-items-center w-100">
+                    <span class="d-flex">
+                        <h4 class="page-title">Add Appointment</h4>
+                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                            <li class="nav-home">
+                            <a href="dashboard.php">
+                                <i class="icon-home"></i>
+                            </a>
+                            </li>
+                            <li class="separator">
+                            <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                            <a href="appointments.php">Appointments</a>
+                            </li>
+                            <li class="separator">
+                            <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                            <a href="#">Add New Appointment</a>
+                            </li>
+                        </ul>
+                    </span>    
+                </span>
             </div>
             <div class="page-category">
                 <div class="card p-5">
@@ -117,7 +140,7 @@ if(isset($_POST['save'])){
         $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_date,date_created,date_updated) VALUES ('$user_id','$user_id_patient','$appointment_id','$concern', '0', '$appointment_date','$date', '$date')";
         $run_appointment = mysqli_query($conn,$query_appointment);
         if($run_appointment) {
-            echo "added appointment";
+            header("Location: appointments.php");
         }else{
             echo "not added";
         }

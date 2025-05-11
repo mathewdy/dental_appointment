@@ -51,8 +51,10 @@ error_reporting(E_ALL);
                             </li>
                         </ul>
                     </span>    
-
-                    <a href="requests.php" class="btn btn-dark op-7">View All Requests</a>
+                    <span>
+                        <a href="requests.php" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#doctorModal">Add Appointment</a>
+                        <a href="requests.php" class="btn btn-dark op-7">View All Requests</a>
+                    </span>
                 </span>
             </div>
             <div class="page-category">
@@ -66,62 +68,134 @@ error_reporting(E_ALL);
             </div>
         </div>
     </div>
-                    <div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Dentists</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="" method="POST">
+    <div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dentists</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <form action="" method="POST">
 
-                                        <table class="table" id="dataTable">
+                        <table class="table" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Schedule</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    $query_dentist = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time , schedule.end_time AS end_time
+                                    FROM
+                                    users 
+                                    LEFT JOIN schedule 
+                                    ON users.user_id = schedule.user_id 
+                                    WHERE users.role_id = '3'";
+                                    $run_dentist = mysqli_query($conn,$query_dentist);
+                                    while($row_dentist = mysqli_fetch_assoc($run_dentist)){
+                                        ?>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Schedule</th>
-                                                <th>Action</th>
-                                            </tr>
-
-                                            <?php
-
-                                                $query_dentist = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time , schedule.end_time AS end_time
-                                                FROM
-                                                users 
-                                                LEFT JOIN schedule 
-                                                ON users.user_id = schedule.user_id 
-                                                WHERE users.role_id = '3'";
-                                                $run_dentist = mysqli_query($conn,$query_dentist);
-                                                while($row_dentist = mysqli_fetch_assoc($run_dentist)){
+                                                <td><?php echo $row_dentist['first_name']. " " . $row_dentist['last_name']?>
+                                                </td>
+                                                <td>
+                                                    <?php 
+                                                        $start = date("g:i A", strtotime($row_dentist['start_time']));
+                                                        $end = date("g:i A", strtotime($row_dentist['end_time']));
+                                                        echo $row_dentist['day'] . " " . $start . " - " . $end;
                                                     ?>
-                                                        <tr>
-                                                            <td><?php echo $row_dentist['first_name']. " " . $row_dentist['last_name']?>
-                                                            </td>
-                                                            <td>
-                                                                <?php 
-                                                                    $start = date("g:i A", strtotime($row_dentist['start_time']));
-                                                                    $end = date("g:i A", strtotime($row_dentist['end_time']));
-                                                                    echo $row_dentist['day'] . " " . $start . " - " . $end;
-                                                                ?>
-                                                            </td>
-                                                            <td>
-                                                                <a href="select-dentist.php?user_id=<?php echo $row_dentist['user_id']?>">Select</a>
-                                                            </td>
-                                                        </tr>
-                                                    <?php
-                                                }
-                                            ?>
-                                        
-                                        </table>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-    
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" id="date">
+                                                    <a href="select-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" >Select</a>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                    }
+                                    ?>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dentists</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    
+                    <form action="" method="POST">
+
+                        <table class="table" id="dataTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Schedule</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                    $query_dentist = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time , schedule.end_time AS end_time
+                                    FROM
+                                    users 
+                                    LEFT JOIN schedule 
+                                    ON users.user_id = schedule.user_id 
+                                    WHERE users.role_id = '3'";
+                                    $run_dentist = mysqli_query($conn,$query_dentist);
+                                    while($row_dentist = mysqli_fetch_assoc($run_dentist)){
+                                        ?>
+                                            <tr>
+                                                <td><?php echo $row_dentist['first_name']. " " . $row_dentist['last_name']?>
+                                                </td>
+                                                <td>
+                                                    <?php 
+                                                        $start = date("g:i A", strtotime($row_dentist['start_time']));
+                                                        $end = date("g:i A", strtotime($row_dentist['end_time']));
+                                                        echo $row_dentist['day'] . " " . $start . " - " . $end;
+                                                    ?>
+                                                </td>
+                                                <td>
+                                                    <input type="hidden" id="date">
+                                                    <a href="select-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" >Select</a>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                    }
+                                    ?>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="appointmentInfo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Appointment Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="appointment_info" id="appointment_info"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     
     <?php include "../../includes/scripts.php"; ?>
+    <script src="../../assets/js/patient-event.js"></script>
 </body>
 </html>
 
