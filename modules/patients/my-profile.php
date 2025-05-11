@@ -5,7 +5,7 @@ include('../../connection/connection.php');
 
 $first_name = $_SESSION['first_name'];
 $email = $_SESSION['email'];
-
+$roleId = $_SESSION['role_id'];
 
 ?>
 
@@ -47,7 +47,7 @@ $email = $_SESSION['email'];
                 <?php
 
 
-                $query_profile = "SELECT * FROM users WHERE email =  '$email'";
+                $query_profile = "SELECT * FROM users WHERE email =  '$email' AND role_id = '$roleId'";
                 $run_profile = mysqli_query($conn,$query_profile);
 
                 if(mysqli_num_rows($run_profile) > 0){

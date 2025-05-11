@@ -24,10 +24,14 @@ ini_set('display_errors', 1);
 <body>
 
     <div class="wrapper">
-        <?php include '../../includes/sidebar.php'; ?>
+        <?php 
+        include '../../includes/sidebar.php'; 
+        ?>
 
       <div class="main-panel">
-        <?php include '../../includes/topbar.php'; ?>
+        <?php 
+        include '../../includes/topbar.php'; 
+        ?>
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
@@ -67,6 +71,7 @@ ini_set('display_errors', 1);
 
                         if(mysqli_num_rows($run_profile) > 0){
                             foreach($run_profile as $row_profile){
+                                $formattedDate = date("m/d/Y", strtotime($row_profile['date_of_birth']));
                                 ?>
 
 
@@ -90,8 +95,10 @@ ini_set('display_errors', 1);
                                             </div>
                                             <div class="col-lg-12 mb-5">
                                                 <label for="">Date of Birth</label>
-                                                <p><?php echo $row_profile['date_of_birth']?></p>
+                                                <p><?php echo $formattedDate?></p>
+                                                <input type="hidden" name="birth_date" value="<?= $row_profile['date_of_birth']?>">
                                                 <input type="date" class="form-control"  name="date_of_birth">
+                                                
                                             </div>
                                             <div class="col-lg-12 text-end">
                                                 <a href="my-profile.php" class="btn btn-danger">Cancel</a>
@@ -137,14 +144,16 @@ if(isset($_POST['update_profile'])){
     $last_name = $_POST['last_name'];
     $mobile_number = $_POST['mobile_number'];
     $email = $_POST['email'];
-    $date_of_birth = $_POST['date_of_birth'];
-
-
+    if(!empty($_POST['date_of_birth'])){
+        $date_of_birth = $_POST['date_of_birth'];
+    }else{
+        $date_of_birth = $_POST['birth_date'];
+    }
     $query_update = "UPDATE users SET first_name = '$first_name', last_name='$last_name',mobile_number = '$mobile_number', email = '$email', date_of_birth =  '$date_of_birth', date_updated = '$date' WHERE user_id = '$user_id'" ;
     $run_update = mysqli_query($conn,$query_update);
 
     if($run_update){
-        echo "updated";
+        header("Location: my-profile.php");
         
     }else{
         echo "error". $conn->error;

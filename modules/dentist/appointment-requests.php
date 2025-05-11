@@ -4,9 +4,6 @@ ob_start();
 session_start();
 $first_name = $_SESSION['first_name'];
 $user_id = $_SESSION['user_id'];
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 ?>
 
@@ -28,7 +25,7 @@ error_reporting(E_ALL);
             <div class="page-header">
                 <span class="d-flex justify-content-between align-items-center w-100">
                     <span class="d-flex">
-                        <h4 class="page-title">My Requests</h4>
+                        <h4 class="page-title">Appointment Requests</h4>
                         <ul class="breadcrumbs d-flex justify-items-center align-items-center">
                             <li class="nav-home">
                             <a href="dashboard.php">
@@ -104,24 +101,17 @@ error_reporting(E_ALL);
                                             
                                             </td>
                                             <td>
-                                            <?php
-                                                $status = (int)$row_appointment['confirmed'];
-                                                if ($status === 0) {
-
-                                                    ?>
-                                                
-                                                        <input type="submit" name="accept" value="Confirm">
-                                                        <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
-                                                        <input type="hidden" name="user_id_patient" value="<?php echo $row_appointment['user_id_patient']?>">
-                                                    
-                                                    
-                                                    <?php
-                                                }
-                                                elseif ($status === 1) {
-                                                    echo "Confirmed";
-                                                }elseif ($status === 2) {
-                                                    echo "Cancelled";
-                                                }
+                                                <?php
+                                                    $handler = match($row_appointment['confirmed']){
+                                                        '1' => '<span class="badge bg-success">Confirmed</span>',
+                                                        '2' => '<span class="badge bg-danger">Cancelled</span>',
+                                                        default => '
+                                                            <input type="submit" name="accept" value="Confirm">
+                                                            <input type="hidden" name="appointment_date" value="'.$row_appointment['appointment_date'].'">
+                                                            <input type="hidden" name="user_id_patient" value="'.$row_appointment['user_id_patient'].'">
+                                                        '
+                                                    };
+                                                    echo $handler;
                                                 ?>
                                             </td>
                                         
