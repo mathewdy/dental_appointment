@@ -2,7 +2,6 @@
 ob_start();
 session_start();
 include('../../connection/connection.php');
-
 if(isset($_POST['accept'])){
     $accept = "1";
     $remarks = $_POST['remarks'];

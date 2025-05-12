@@ -18,11 +18,11 @@ $user_id = $_SESSION['user_id'];
 <body>
     <div class="wrapper">
       <?php 
-    //   include '../../includes/sidebar.php'; 
+      include '../../includes/sidebar.php'; 
       ?>
       <div class="main-panel">
         <?php 
-        // include '../../includes/topbar.php'; 
+        include '../../includes/topbar.php'; 
         ?>
         <div class="container">
           <div class="page-inner">
@@ -66,6 +66,7 @@ $user_id = $_SESSION['user_id'];
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- <form action="accepted.php" method="POST"> -->
                                 <?php
                                 $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed , appointments.remarks
                                 FROM appointments
@@ -77,7 +78,6 @@ $user_id = $_SESSION['user_id'];
                                 $run_appointments = mysqli_query($conn,$query_appointments);
                                 if(mysqli_num_rows($run_appointments) > 0){
                                     foreach($run_appointments as $row_appointment){
-                                        echo '<form action="accepted.php" method="POST">';
                                         ?>
                                         <tr>
                                             <td><?php echo $row_appointment['first_name']. " " . $row_appointment['last_name']?></td>
@@ -88,8 +88,9 @@ $user_id = $_SESSION['user_id'];
                                             <?php
                                             $status = (int)$row_appointment['confirmed'];
                                             if ($status === 0) {
+                                                echo "N/A";
                                                 ?>
-                                                    <input type="text" name="remarks">
+                                                    <!-- <input type="text" name="remarks"> -->
                                                 <?php
                                             }elseif ($status === 1){
                                                 ?>
@@ -116,23 +117,51 @@ $user_id = $_SESSION['user_id'];
                                                 }elseif ($status === 0) {
                                                     ?>
                                                 
-                                                        <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
-                                                        <input type="hidden" name="user_id_patient" value="<?php echo $row_appointment['user_id_patient']?>">
-                                                        <input type="submit" name="accept" value="Confirm">
+                                                        <!-- <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
+                                                        <input type="hidden" name="user_id_patient" value="<?php echo $row_appointment['user_id_patient']?>"> -->
+                                                        <!-- <input type="submit" name="accept" value="Confirm"> -->
+                                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#doctorRemarks">Confirm</button>
 
                                                     
                                                     <?php
                                                 }
                                                 ?>
+                                                    <div class="modal fade" id="doctorRemarks" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">Doctor Remarks</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form action="confirm.php" method="POST">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-12 mb-5 mt-3">
+                                                                                <label for="">Remarks <small>(optional)</small></label>
+                                                                                <textarea class="form-control" name="remarks" id="comment" rows="5"></textarea>
+                                                                                <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
+                                                                                <input type="hidden" name="user_id_patient" value="<?php echo $row_appointment['user_id_patient']?>">
+                                                                            </div>
+                                                                            <div class="col-lg-12 text-end">
+                                                                                <button type="button" class="btn btn-danger btn-md" data-bs-dismiss="modal">Close</button>
+                                                                                <input type="submit" class="btn btn-primary btn-md" name="accept" value="Confirm">
+                                                                            </div>
+                                                                        </div>
+                                                                       
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                             </td>
                                         
                                         </tr>
-                                        </form> 
 
                                         <?php
                                     }
                                 }
                                 ?>
+                            <!-- </form>  -->
                         </tbody>
                     </table>
                 </div>
@@ -144,9 +173,3 @@ $user_id = $_SESSION['user_id'];
 <?php include "../../includes/scripts.php"; ?>
 </body>
 </html>
-
-<?php 
-if(isset($_POST['accept'])){
-    echo "<script>alert('fuckwit')</script>";
-}
-?>
