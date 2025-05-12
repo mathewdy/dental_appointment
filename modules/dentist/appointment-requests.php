@@ -66,7 +66,6 @@ $user_id = $_SESSION['user_id'];
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <form action="accepted.php" method="POST"> -->
                                 <?php
                                 $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed , appointments.remarks
                                 FROM appointments
@@ -161,7 +160,6 @@ $user_id = $_SESSION['user_id'];
                                     }
                                 }
                                 ?>
-                            <!-- </form>  -->
                         </tbody>
                     </table>
                 </div>

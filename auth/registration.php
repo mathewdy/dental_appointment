@@ -25,7 +25,7 @@ ob_start();
                                     <div class="col-lg-12 align-items-center text-center">
                                         <img src="../assets/img/logo-with-name.png" alt="logo" height="150">
                                         <h1 class="display-7 fw-bold">We take care of your teeth</h1>
-                                        <a href="registration.php" class="btn text-white border-light btn-round">Sign Up</a>
+                                        <a href="#" class="btn text-white border-light btn-round">About</a>
                                     </div>
                                 </div>
                                 
