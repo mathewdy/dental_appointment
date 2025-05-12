@@ -46,6 +46,7 @@ if(mysqli_num_rows($run_appointments) > 0){
                 <p>Concern: '. $row_appointment['concern'] .'</p>
             </div>
         </div>
+        <hr class="featurette-divider">
         ';
         echo $html;
     }

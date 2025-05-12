@@ -1,68 +1,111 @@
 <?php
 include('../../connection/connection.php');
-session_start();
 ob_start();
+session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+$first_name = $_SESSION['first_name'];
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <?php include '../../includes/styles.php'; ?>
+    <?php include '../../includes/styles.php'; ?>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <title>Document</title>
 </head>
 <body>
+    <div class="wrapper">
+      <?php include '../../includes/sidebar.php'; ?>
+      <div class="main-panel">
+        <?php include '../../includes/topbar.php'; ?>
+        <div class="container">
+          <div class="page-inner">
+            <div class="page-header">
+            <span class="d-flex justify-content-between align-items-center w-100">
+                    <span class="d-flex">
+                        <h4 class="page-title">Set Schedule</h4>
+                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                            <li class="nav-home">
+                            <a href="dashboard.php">
+                                <i class="icon-home"></i>
+                            </a>
+                            </li>
+                            <li class="separator">
+                            <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                            <a href="appointments.php">Patient</a>
+                            </li>
+                            <li class="separator">
+                            <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                            <a href="set-doctor.php?user_id_patient=<?= $_GET['user_id_patient'] ?>">Set Doctor</a>
+                            </li>
+                            <li class="separator">
+                            <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                            <a href="#">Set Schedule</a>
+                            </li>
+                        </ul>
+                    </span>    
+                </span>
+            </div>
+            <div class="page-category">
+                <div class="card p-5">                   
+                        <?php
+                        if(isset($_GET['user_id_patient']) && isset($_GET['user_id_dentist'])){
+                            $user_id_patient = $_GET['user_id_patient'];
+                            $user_id_dentist = $_GET['user_id_dentist'];
+
+                            $query_dentist = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time , schedule.end_time AS end_time
+                            FROM
+                            users 
+                            LEFT JOIN schedule 
+                            ON users.user_id = schedule.user_id 
+                            WHERE users.role_id = '3' AND users.user_id =  '$user_id_dentist'";
+                            $run_dentist = mysqli_query($conn,$query_dentist);
+                            $row_dentist = mysqli_fetch_assoc($run_dentist);
+                            json_encode($available_days = explode(", ", $row_dentist['day']));
+
+
+                            ?>
+
+                            <form action="" method="POST">
+                                <label>Select Appointment Date:</label>
+                                <input type="text" class="appointment_date form-control mb-4" name="appointment_date">
+                                <label for="">Doctor:</label>
+                                <input type="text" class="form-control mb-4" value="<?= 'Dr. ' . $row_dentist['first_name']. " " . $row_dentist['last_name']?>" readonly>
+                                <label for="">Concern:</label>
+                                <input type="text" class="form-control" name="concern" required>
+                                <br>
+                                <br>
+                                <div class="text-end w-100">
+                                    <a href="set-doctor.php?user_id_patient=<?= $_GET['user_id_patient'] ?>" class="btn btn-danger">Cancel</a>
+                                    <input type="submit" class="btn btn-primary" name="save" value="Save">
+                                </div>
+                            </form>
+
+                            <?php
 
 
 
-<a href="patients.php">Cancel</a>
+                        }
 
-<h3>Set Schedule</h3>
-
-<?php
-if(isset($_GET['user_id_patient']) && isset($_GET['user_id_dentist'])){
-    $user_id_patient = $_GET['user_id_patient'];
-    $user_id_dentist = $_GET['user_id_dentist'];
-
-    $query_dentist = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time , schedule.end_time AS end_time
-    FROM
-    users 
-    LEFT JOIN schedule 
-    ON users.user_id = schedule.user_id 
-    WHERE users.role_id = '3' AND users.user_id =  '$user_id_dentist'";
-    $run_dentist = mysqli_query($conn,$query_dentist);
-    $row_dentist = mysqli_fetch_assoc($run_dentist);
-    json_encode($available_days = explode(", ", $row_dentist['day']));
-
-
-    ?>
-
-    <form action="" method="POST">
-        <label>Select Appointment Date:</label>
-        <input type="text" class="appointment_date form-control mb-4" name="appointment_date">
-        <label for="">Doctor:</label>
-        <input type="text" class="form-control mb-4" value="<?= 'Dr. ' . $row_dentist['first_name']. " " . $row_dentist['last_name']?>" readonly>
-        <label for="">Concern:</label>
-        <input type="text" class="form-control" name="concern" required>
-        <br>
-        <br>
-        <div class="text-end w-100">
-            <a href="appointments.php" class="btn btn-danger">Cancel</a>
-            <input type="submit" class="btn btn-primary" name="save" value="Save">
+                        ?>
+                </div>
+            </div>
+          </div>
         </div>
-    </form>
-
-    <?php
-
-
-
-}
-
-?>
-
-<?php include "../../includes/scripts.php"; ?>
+      </div>
+    </div>
+    <?php include "../../includes/scripts.php"; ?>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 </script>
 <script>

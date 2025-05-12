@@ -17,9 +17,13 @@ $user_id = $_SESSION['user_id'];
 </head>
 <body>
     <div class="wrapper">
-      <?php include '../../includes/sidebar.php'; ?>
+      <?php 
+    //   include '../../includes/sidebar.php'; 
+      ?>
       <div class="main-panel">
-        <?php include '../../includes/topbar.php'; ?>
+        <?php 
+        // include '../../includes/topbar.php'; 
+        ?>
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
@@ -49,7 +53,7 @@ $user_id = $_SESSION['user_id'];
                 </span>
             </div>
             <div class="page-category">
-                <div class="card">
+                <div class="card p-5">
                     <div class="table-responsive">
                     <table class="display table table-border table-hover" id="dataTable">
                         <thead>
@@ -62,7 +66,6 @@ $user_id = $_SESSION['user_id'];
                             </tr>
                         </thead>
                         <tbody>
-                            <form action="accepted.php" method="POST">
                                 <?php
                                 $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed , appointments.remarks
                                 FROM appointments
@@ -74,6 +77,7 @@ $user_id = $_SESSION['user_id'];
                                 $run_appointments = mysqli_query($conn,$query_appointments);
                                 if(mysqli_num_rows($run_appointments) > 0){
                                     foreach($run_appointments as $row_appointment){
+                                        echo '<form action="accepted.php" method="POST">';
                                         ?>
                                         <tr>
                                             <td><?php echo $row_appointment['first_name']. " " . $row_appointment['last_name']?></td>
@@ -101,26 +105,34 @@ $user_id = $_SESSION['user_id'];
                                             
                                             </td>
                                             <td>
-                                                <?php
-                                                    $handler = match($row_appointment['confirmed']){
-                                                        '1' => '<span class="badge bg-success">Confirmed</span>',
-                                                        '2' => '<span class="badge bg-danger">Cancelled</span>',
-                                                        default => '
-                                                            <input type="submit" name="accept" value="Confirm">
-                                                            <input type="hidden" name="appointment_date" value="'.$row_appointment['appointment_date'].'">
-                                                            <input type="hidden" name="user_id_patient" value="'.$row_appointment['user_id_patient'].'">
-                                                        '
-                                                    };
-                                                    echo $handler;
+
+                                            <?php
+                                                $status = (int)$row_appointment['confirmed'];
+                                                if ($status === 1) {
+                                                    echo '<span class="badge bg-success">Confirmed</span>';                                                  
+                                                }
+                                                elseif ($status === 2) {
+                                                    echo '<span class="badge bg-danger">Cancelled</span>';  
+                                                }elseif ($status === 0) {
+                                                    ?>
+                                                
+                                                        <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
+                                                        <input type="hidden" name="user_id_patient" value="<?php echo $row_appointment['user_id_patient']?>">
+                                                        <input type="submit" name="accept" value="Confirm">
+
+                                                    
+                                                    <?php
+                                                }
                                                 ?>
                                             </td>
                                         
                                         </tr>
+                                        </form> 
+
                                         <?php
                                     }
                                 }
                                 ?>
-                                </form> 
                         </tbody>
                     </table>
                 </div>
@@ -129,7 +141,12 @@ $user_id = $_SESSION['user_id'];
     </div>
 </div>
 </div>
-<a href="appointments.php">Appointment</a>
 <?php include "../../includes/scripts.php"; ?>
 </body>
 </html>
+
+<?php 
+if(isset($_POST['accept'])){
+    echo "<script>alert('fuckwit')</script>";
+}
+?>

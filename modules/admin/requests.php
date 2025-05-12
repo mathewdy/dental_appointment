@@ -28,7 +28,7 @@ error_reporting(E_ALL);
             <div class="page-header">
                 <span class="d-flex justify-content-between align-items-center w-100">
                     <span class="d-flex">
-                        <h4 class="page-title">My Requests</h4>
+                        <h4 class="page-title">Appointment Requests</h4>
                         <ul class="breadcrumbs d-flex justify-items-center align-items-center">
                             <li class="nav-home">
                             <a href="dashboard.php">
