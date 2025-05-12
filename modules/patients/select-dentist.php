@@ -132,7 +132,7 @@ if(isset($_POST['save'])){
 
     $appointment_date  = $_POST['appointment_date'];
 
-    $check_appointment = "SELECT appointment_date FROM appointments WHERE appointment_date =  '$appointment_date'";
+    $check_appointment = "SELECT appointment_date , user_id_patient FROM appointments WHERE appointment_date =  '$appointment_date' AND user_id_patient =  '$user_id_patient'";
     $run_check_appointment = mysqli_query($conn,$check_appointment);
     if(mysqli_num_rows($run_check_appointment) > 0){
         echo "already added in this particular date";
