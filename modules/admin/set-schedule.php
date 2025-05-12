@@ -119,7 +119,8 @@ $(function () {
         beforeShowDay: function(date) {
             var dayIndex = date.getDay(); 
             return [availableIndexes.includes(dayIndex)];
-        }
+        },
+        min: 0
     });
 });
 </script>
