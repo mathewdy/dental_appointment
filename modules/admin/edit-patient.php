@@ -24,7 +24,7 @@ $first_name = $_SESSION['first_name'];
 <body>
 
     <div class="wrapper">
-        <?php include '../../includes/sidebar.php'; ?>
+     <?php include '../../includes/sidebar.php'; ?>
 
       <div class="main-panel">
         <?php include '../../includes/topbar.php'; ?>
@@ -61,10 +61,9 @@ $first_name = $_SESSION['first_name'];
                 <?php
                     if(isset($_GET['user_id'])){
                         $user_id_patient = $_GET['user_id'];
-                        $query_patients = "SELECT users.user_id, users.first_name,users.middle_name,users.last_name,users.mobile_number,users.email,users.password,users.date_of_birth,users.address, appointments.appointment_id,appointments.concern,appointments.confirmed,appointments.appointment_date,appointments.remarks
+                        $query_patients = "SELECT users.user_id, users.first_name,users.middle_name,users.last_name,users.mobile_number,users.email,users.password,users.date_of_birth,users.address
                         FROM users
-                        LEFT JOIN appointments
-                        ON users.user_id = appointments.user_id WHERE users.role_id = '1' AND users.user_id = '$user_id_patient'";
+                        WHERE users.role_id = '1' AND users.user_id = '$user_id_patient'";
 
                         $run_patients = mysqli_query($conn,$query_patients);
 
@@ -106,50 +105,21 @@ $first_name = $_SESSION['first_name'];
                                             <input type="text"  class="form-control" name="address" value="<?php echo $row_patients['address']?>">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <h2>Patient's Appointments</h2>
-                                        </div>
-                                        <div class="col-lg-12 mb-4">
-                                            <label for="">Appointment Date</label>
-                                            <p><?php echo $row_patients['appointment_date']?></p>
-                                        </div>
-                                        <div class="col-lg-12 mb-4">
-                                            <label for="">Status</label>
-                                            <p>
-                                            
-                                                <?php 
-                                                
-                                                $status = (int)$row_patients['confirmed'];
-                                                if ($status === 0) {
-                                                    echo "Unverified / No Data";
-                                                } elseif ($status === 1) {
-                                                    echo "Confirmed";
-                                                } elseif ($status === 2) {
-                                                    echo "Canceled";
-                                                }
-                                                
-                                                ?>
-                                            </p>
-                                        </div>
-                                        <div class="col-lg-12 mb-4">
-                                            <label for="">Doctor's Remarks</label>
-                                            <p><?= $row_patients['remarks'] ?? 'N/A'?></p>
-                                        </div>
-                                        <div class="col-lg-12 text-end">
-                                            <a href="patients.php" class="btn btn-danger">Cancel</a>
-                                            <input type="submit" class="btn btn-primary" name="update" value="Update">
-                                        </div>
+                                    
+                                    <div class="col-lg-12 text-end">
+                                        <a href="patients.php" class="btn btn-danger">Cancel</a>
+                                        <input type="submit" class="btn btn-primary" name="update" value="Update">
+                                    </div>
                                     </div>
                                 </form>
-                                <!-- <form action="send_reset_password.php" method="POST">
+                                <form action="send_reset_password.php" method="POST">
 
                                     <h3>Send Reset Password</h3>
                                         
-                                    <input type="submit" name="send_reset_password" value="Send Email">
+                                    <input type="submit" class="btn btn-primary" name="send_reset_password" value="Send Email">
                                     <input type="hidden" name="email" value="<?php echo $row_patients['email']?>">
 
-                                </form> -->
+                                </form>
                                 <?php
                                 
                             }
@@ -162,17 +132,55 @@ $first_name = $_SESSION['first_name'];
           </div>
         </div>
       </div>
+
+
+      <h2>Patient's Appointment</h2>
+      
+      <table>
+        <tr>
+            <th>Date</th>
+            <th>Concern</th>
+            <th>Status</th>
+        </tr>
+
+        <?php
+
+        $query_appointment = "SELECT * FROM appointments WHERE user_id_patient = '$user_id_patient'";
+        $run_appointment = mysqli_query($conn,$query_appointment);
+
+        if(mysqli_num_rows($run_appointment) > 0){
+            foreach($run_appointment as $row_appointment){
+                ?>
+                <tr>
+                    <td><?php echo $row_appointment['appointment_date']?></td>
+                    <td><?php echo $row_appointment['concern']?></td>
+                    <td>
+                        <?php 
+                           echo  $status = match($row_appointment['confirmed']){
+                            '0' => '<span class="badge bg-warning">Pending</span>',
+                            '1' => '<span class="badge bg-success">Completed</span>',
+                            '2' => '<span class="badge bg-danger">Canceled</span>'
+                        };
+
+                        ?>
+                    </td>
+                </tr>
+
+                <?php
+
+
+            }
+        }
+
+        
+        ?>
+      </table>
+
     </div>
     <?php include "../../includes/scripts.php"; ?>
 </body>
 </html>
 
-    <h1>Edit Patient</h1>
-    <a href="patients.php">Back</a>
-
-    
-</body>
-</html>
 
 <?php
 

@@ -77,6 +77,7 @@ error_reporting(E_ALL);
                                     foreach($run_appointments as $row_appointment){
                                         ?>
                                         <tr>
+                                            <td><?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
                                             <td><?php echo $row_appointment['appointment_date']. " " . date("g:i A",strtotime($row_appointment['start_time'])). "-". date("g:i A",strtotime($row_appointment['end_time']))?></td>
                                             <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
                                             <td><?php echo $row_appointment['concern']?></td>

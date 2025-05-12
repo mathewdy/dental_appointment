@@ -67,7 +67,6 @@ $first_name = $_SESSION['first_name'];
                         $run_dentist = mysqli_query($conn,$query_dentist);
                         $row_dentist = mysqli_fetch_assoc($run_dentist);
                         json_encode($available_days = explode(", ", $row_dentist['day']));
-                            
                         ?>
 
                             <form action="" method="POST">
@@ -132,7 +131,7 @@ if(isset($_POST['save'])){
 
     $appointment_date  = $_POST['appointment_date'];
 
-    $check_appointment = "SELECT appointment_date FROM appointments WHERE appointment_date =  '$appointment_date'";
+    $check_appointment = "SELECT appointment_date, user_id_patient FROM appointments WHERE appointment_date =  '$appointment_date' AND user_id_patient = '$user_id_patient'";
     $run_check_appointment = mysqli_query($conn,$check_appointment);
     if(mysqli_num_rows($run_check_appointment) > 0){
         echo "already added in this particular date";

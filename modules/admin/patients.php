@@ -80,7 +80,7 @@ $first_name = $_SESSION['first_name'];
                                         <td>
                                             <a href="edit-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="btn btn-sm btn-info">Edit</a>
                                             <a href="delete-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="btn btn-sm btn-danger">Delete</a>
-                                            <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#doctorModal">Set Appointment</a>
+                                            <a href="set-doctor.php?user_id_patient=<?php echo $row_patients['user_id']?>" class="btn btn-sm btn-primary">Set Appointment</a>
                                             
                                         </td>
                                     </tr>
@@ -103,7 +103,7 @@ $first_name = $_SESSION['first_name'];
         </div>
       </div>
     </div>
-    <div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -156,7 +156,7 @@ $first_name = $_SESSION['first_name'];
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <?php include "../../includes/scripts.php"; ?>
 
