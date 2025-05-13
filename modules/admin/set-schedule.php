@@ -120,7 +120,7 @@ $(function () {
             var dayIndex = date.getDay(); 
             return [availableIndexes.includes(dayIndex)];
         },
-        min: 0
+        minDate: 0
     });
 });
 </script>
