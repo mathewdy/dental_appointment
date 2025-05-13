@@ -26,31 +26,26 @@ if(mysqli_num_rows($run_appointments) > 0){
             '2' => '<span class="badge bg-danger">Canceled</span>'
         };
 
-        $eventInfo = [
-            'status' => $status,
-            'date'   => $formattedDate,
-            'start'  => $formattedStartTime,
-            'end'    => $formattedEndTime,
-        ];
-        ?>
+        echo '
          <div class="row">
             <div class="col-lg-12">
-                <p>Status: <?= $status ?></p>
+                <p>Status: '. $status .'</p>
             </div>
             <div class="col-lg-6">
-                <p>Date: <?= $formattedDate ?> </p>
+                <p>Date: '. $formattedDate . ' </p>
             </div>
             <div class="col-lg-6">
-                <p>Time: <?= $formattedStartTime .' - ' . $formattedEndTime ?> </p>
+                <p>Time: '. $formattedStartTime .' - ' . $formattedEndTime . ' </p>
             </div>
             <div class="col-lg-12">
-                <p>Patient: <?= $row_appointment['first_name'] . ' ' . $row_appointment['last_name'] ?></p>
+                <p>Dentist: Dr. '. $row_appointment['first_name'] . ' ' . $row_appointment['last_name'] . '</p>
             </div>
             <div class="col-lg-12">
-                <p>Concern: <?php $row_appointment['concern'] ?></p>
+                <p>Concern: '. $row_appointment['concern'] .'</p>
             </div>
         </div>
-        <?php
+        <hr class="featurette-divider">
+        ';
     }
 }else{
     echo "Error";
