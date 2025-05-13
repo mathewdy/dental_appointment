@@ -7,8 +7,6 @@ $userId = $_SESSION['user_id'];
 $clickedDate = $_POST['date'] ?? null;
 $formattedClickedDate = date("m/d/Y", strtotime($clickedDate));
 
-$html = '';
-
 $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed
 FROM appointments
 LEFT JOIN users
@@ -28,27 +26,31 @@ if(mysqli_num_rows($run_appointments) > 0){
             '2' => '<span class="badge bg-danger">Canceled</span>'
         };
 
-        $html .= '
+        $eventInfo = [
+            'status' => $status,
+            'date'   => $formattedDate,
+            'start'  => $formattedStartTime,
+            'end'    => $formattedEndTime,
+        ];
+        ?>
          <div class="row">
             <div class="col-lg-12">
-                <p>Status: '. $status .'</p>
+                <p>Status: <?= $status ?></p>
             </div>
             <div class="col-lg-6">
-                <p>Date: '. $formattedDate . ' </p>
+                <p>Date: <?= $formattedDate ?> </p>
             </div>
             <div class="col-lg-6">
-                <p>Time: '. $formattedStartTime .' - ' . $formattedEndTime . ' </p>
+                <p>Time: <?= $formattedStartTime .' - ' . $formattedEndTime ?> </p>
             </div>
             <div class="col-lg-12">
-                <p>Dentist: Dr. '. $row_appointment['first_name'] . ' ' . $row_appointment['last_name'] . '</p>
+                <p>Patient: <?= $row_appointment['first_name'] . ' ' . $row_appointment['last_name'] ?></p>
             </div>
             <div class="col-lg-12">
-                <p>Concern: '. $row_appointment['concern'] .'</p>
+                <p>Concern: <?php $row_appointment['concern'] ?></p>
             </div>
         </div>
-        <hr class="featurette-divider">
-        ';
-        echo $html;
+        <?php
     }
 }else{
     echo "Error";

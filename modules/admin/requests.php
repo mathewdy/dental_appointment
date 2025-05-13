@@ -69,7 +69,7 @@ error_reporting(E_ALL);
                                 FROM appointments
                                 LEFT JOIN users
                                 ON
-                                appointments.user_id = users.user_id
+                                appointments.user_id_patient = users.user_id
                                 LEFT JOIN schedule 
                                 ON appointments.user_id = schedule.user_id";
                                 $run_appointments = mysqli_query($conn,$query_appointments);
