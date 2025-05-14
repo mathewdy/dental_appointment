@@ -89,7 +89,7 @@ if (isset($_POST['login'])) {
                     }
 
                 }else{
-                    echo "Authentication Failed";
+                    echo "<script>window.alert('Authentication Failed')</script>";
                 }
             }
         }

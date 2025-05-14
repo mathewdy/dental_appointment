@@ -133,7 +133,8 @@ if (isset($_POST['login'])) {
                         echo "<script>window.location.href='otp.php'</script>";
                     }
                 }else{
-                    echo "Authentication Failed";
+                    echo "<script>window.alert('Authentication Failed')</script>";
+                    echo "<script>window.location.origin</script>";
                 }
   
             }

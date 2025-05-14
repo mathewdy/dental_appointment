@@ -63,7 +63,11 @@ ob_start();
                                     </div>
                                     <div class="col-lg-12 mb-4">
                                         <label for="">Password</label>
-                                        <input type="password" class="form-control" name="password">
+                                        <input type="password" class="form-control" name="password" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
+                                    </div>
+                                    <div class="col-lg-12 mb-4">
+                                        <label for="">Confirm Password</label>
+                                        <input type="password" class="form-control" name="password_2" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
                                     </div>
                                     <div class="col-lg-12 mb-4 text-center">
                                         <input type="submit" class="btn btn-black op-8 w-100" name="register_patient" value="Register">
@@ -96,34 +100,45 @@ if(isset($_POST['register_patient'])){
     $mobile_number = $_POST['mobile_number'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $new_password = password_hash($password,PASSWORD_DEFAULT);
+    $password_2 = $_POST['password_2'];
 
-    date_default_timezone_set("Asia/Manila");
-    $date = date('y-m-d');
-    
-    //errors
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
-    $query_check_user = "SELECT * FROM users WHERE email='$email'";
-    $run_check_user = mysqli_query($conn,$query_check_user);
-    
-    if(mysqli_num_rows($run_check_user) > 0){
-        echo "<script>alert('User Already Added')</script>";
-        exit();
+    if ($password !== $password_2) {
+        echo "<script>window.alert('Password does not match')</script>";
+        echo "<script>window.location.origin</script>";
     }else{
-        $query_register = "INSERT INTO users (user_id,role_id,first_name,middle_name,last_name,mobile_number,email,password,date_of_birth,date_created,date_updated) VALUES ('$user_id','$role_id', '$first_name','$middle_name','$last_name','$mobile_number','$email','$new_password','$date_of_birth','$date','$date')";
-        $run_sql = mysqli_query($conn,$query_register);
-        echo "user_added" ; 
+        $new_password = password_hash($password,PASSWORD_DEFAULT);
 
-        if($run_sql){
-            echo "<script>window.location.href='login.php'</script>";
+        date_default_timezone_set("Asia/Manila");
+        $date = date('y-m-d');
+        
+        //errors
+        ini_set('display_errors', 1);
+        ini_set('display_startup_errors', 1);
+        error_reporting(E_ALL);
+
+        $query_check_user = "SELECT * FROM users WHERE email='$email'";
+        $run_check_user = mysqli_query($conn,$query_check_user);
+        
+        if(mysqli_num_rows($run_check_user) > 0){
+            echo "<script>alert('User Already Added')</script>";
+            exit();
         }else{
-            echo "error" . $conn->error;
+            $query_register = "INSERT INTO users (user_id,role_id,first_name,middle_name,last_name,mobile_number,email,password,date_of_birth,date_created,date_updated) VALUES ('$user_id','$role_id', '$first_name','$middle_name','$last_name','$mobile_number','$email','$new_password','$date_of_birth','$date','$date')";
+            $run_sql = mysqli_query($conn,$query_register);
+            echo "user_added" ; 
+
+            if($run_sql){
+                echo "<script>window.alert('Account Created')</script>";
+                echo "<script>window.location.href='login.php'</script>";
+            }else{
+                echo "error" . $conn->error;
+            }
         }
+
     }
 
+
+    
 }
 ob_end_flush();
 

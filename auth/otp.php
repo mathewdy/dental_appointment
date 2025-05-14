@@ -54,7 +54,8 @@ if(isset($_POST['verify'])){
         echo "accepted";
         header("Location: ../modules/patients/dashboard.php");
     }else{
-        echo "wrong number";
+       echo "<script>window.alert('Invalid Number')</script>";
+        echo "<script>window.location.origin</script>";
     }
 
 }

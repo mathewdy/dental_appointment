@@ -62,7 +62,8 @@ if(isset($_POST['verify'])){
         exit;
         
     }else{
-        echo "wrong number";
+        echo "<script>window.alert('Invalid Number')</script>";
+        echo "<script>window.location.origin</script>";
     }
 
 }
