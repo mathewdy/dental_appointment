@@ -4,7 +4,7 @@ ob_start();
 include('../../connection/connection.php');
 
 $first_name = $_SESSION['first_name'];
-
+include('../../includes/security.php');
 ?>
 
 

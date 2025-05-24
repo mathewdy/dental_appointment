@@ -7,9 +7,9 @@ $first_name = $_SESSION['first_name'];
 $email = $_SESSION['email'];
 $roleId = $_SESSION['role_id'];
 ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+include('../../includes/security.php');
 
 ?>
 

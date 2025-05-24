@@ -4,6 +4,7 @@ ob_start();
 include('../../connection/connection.php');
 
 $first_name = $_SESSION['first_name'];
+include('../../includes/security.php');
 
 ?>
 
@@ -45,6 +46,8 @@ $first_name = $_SESSION['first_name'];
           if(mysqli_num_rows($run_date_today) > 0){
             foreach($run_date_today as $row_date_today){
               ?>
+
+              <h1>For today!</h1>
 
               <h1>Total Appointments Scheduled: <?php echo $row_date_today['total_appointments']?></h1>
               <h1>Total Appointments Completed: <?php echo $row_date_today['total_completed']?></h1>

@@ -6,7 +6,7 @@ include('../../connection/connection.php');
 $first_name = $_SESSION['first_name'];
 $email = $_SESSION['email'];
 $roleId = $_SESSION['role_id'];
-
+include('../../includes/security.php');
 ?>
 
 

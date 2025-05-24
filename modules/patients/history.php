@@ -8,6 +8,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $user_id_patients = $_SESSION['user_id'];
+include('../../includes/security.php');
 
 ?>
 

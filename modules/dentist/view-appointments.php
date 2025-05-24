@@ -4,6 +4,7 @@ ob_start();
 include('../../connection/connection.php');
 $user_id = $_SESSION['user_id'];
 $first_name = $_SESSION['first_name'];
+include('../../includes/security.php');
 
 ?>
 

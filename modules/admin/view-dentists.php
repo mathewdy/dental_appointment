@@ -3,6 +3,7 @@ include('../../connection/connection.php');
 session_start();
 ob_start();
 $first_name = $_SESSION['first_name'];
+include('../../includes/security.php');
 
 ?>
 
