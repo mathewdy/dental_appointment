@@ -142,11 +142,16 @@ $first_name = $_SESSION['first_name'];
                                             <th>Date</th>
                                             <th>Concern</th>
                                             <th>Status</th>
+                                            <th>Dentist</th>
                                         </tr>
 
                                         <?php
 
-                                        $query_appointment = "SELECT * FROM appointments WHERE user_id_patient = '$user_id_patient'";
+                                        $query_appointment = "SELECT appointments.user_id, appointments.user_id_patient, appointments.appointment_id, appointments.concern, appointments.appointment_date, appointments.confirmed, appointments.walk_in, users.first_name, users.last_name
+                                        FROM appointments
+                                        LEFT JOIN users
+                                        ON appointments.user_id = users.user_id 
+                                        WHERE appointments.user_id_patient = '$user_id_patient'";
                                         $run_appointment = mysqli_query($conn,$query_appointment);
 
                                         if(mysqli_num_rows($run_appointment) > 0){
@@ -165,6 +170,7 @@ $first_name = $_SESSION['first_name'];
 
                                                         ?>
                                                     </td>
+                                                    <td><?php echo "Dr. " . $row_appointment['first_name']. " " . $row_appointment['last_name']?></td>
                                                 </tr>
 
                                                 <?php

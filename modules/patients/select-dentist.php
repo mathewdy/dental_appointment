@@ -75,9 +75,25 @@ $first_name = $_SESSION['first_name'];
                                 <input type="text" class="appointment_date form-control mb-4" name="appointment_date">
                                 <label for="">Doctor:</label>
                                 <input type="text" class="form-control mb-4" value="<?= 'Dr. ' . $row_dentist['first_name']. " " . $row_dentist['last_name']?>" readonly>
-                                <label for="">Concern:</label>
+                                <label for="">Concern</label>
+                                <select name="concern" id="" class="form-control">
+                                    <option value="">-Select-</option>
+                                    <option value="Oral Prophylaxis">Oral Prophylaxis</option>
+                                    <option value="Composite Restoration">Composite Restoration</option>
+                                    <option value="Cosmetic Dentistry (Direct Composite Veneers)">Cosmetic Dentistry (Direct Composite Veneers)</option>
+                                    <option value="Dental Extraction / Surgery">Dental Extraction / Surgery</option>
+                                    <option value="Wisdom tooth">Wisdom tooth</option>
+                                    <option value="Prosthodontics">Prosthodontics</option>
+                                    <option value="Fixed (crown & bridge)">Fixed (crown & bridge)</option>
+                                    <option value="Removable dentures">Removable dentures</option>
+                                    <option value="US Plastic">US Plastic</option>
+                                    <option value="Porcelain">Porcelain</option>
+                                    <option value="Flexible">Flexible</option>
+                                    <option value="Orthodontics (Braces)">Orthodontics (Braces)</option>
+                                </select>
+                                <!-- <label for="">Concern:</label>
                                 <input type="text" class="form-control" name="concern" required>
-                                <br>
+                                <br> -->
                                 <br>
                                 <div class="text-end w-100">
                                     <a href="appointments.php" class="btn btn-danger">Cancel</a>

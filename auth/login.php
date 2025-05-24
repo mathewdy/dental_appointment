@@ -126,7 +126,7 @@ if (isset($_POST['login'])) {
                     $update_otp_run = mysqli_query($conn,$update_otp);
             
                     if($update_otp_run){
-                        send_otp($email,$otp);
+                        // will remove send_otp($email,$otp);
                         //echo "otp sent";
                         $_SESSION['email'] = $email ;
                         echo "<script> alert('Please Check Your Email Address for OTP') </script>";
