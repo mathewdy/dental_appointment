@@ -120,12 +120,12 @@ function send_otp($email,$otp){
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';        // e.g., smtp.gmail.com
         $mail->SMTPAuth = true;
-        $mail->Username = 'matthewdalisay2001@gmail.com';
-        $mail->Password = 'mhqsbraxqhjzlelg';
+        $mail->Username = 'fojasdentalclinic@gmail.com';
+        $mail->Password = 'clzodzskinrbfnsh';
         $mail->SMTPSecure = 'tls';               // or 'ssl'
         $mail->Port = 587;                       // use 465 for SSL
         //Recipients
-        $mail->setFrom('matthewdalisay2001@gmail.com', 'Dental Clinic');
+        $mail->setFrom('fojasdentalclinic@gmail.com', 'Dental Clinic');
         $mail->addAddress($email);     //Add a recipient
         //Content
         $mail->isHTML(true);                                  //Set email format to HTML
