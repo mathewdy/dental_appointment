@@ -41,11 +41,17 @@ include('../connection/connection.php');
                                 </div>
                                 <div class="col-lg-12 mb-4">
                                     <label for="">New Password:</label>
-                                    <input type="password" class="form-control" name="password_1" placeholder="Enter New Password" required>
+                                    <div class="input-group mb-3">
+                                        <input type="password" class="form-control pw" name="password_1" aria-describedby="basic-addon2" id="pw-1">
+                                        <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw-1"><i class="fas fa-eye"></i></span>
+                                    </div>
                                 </div>
                                 <div class="col-lg-12 mb-4">
                                     <label for="">Confirm Password:</label>
-                                    <input type="password" class="form-control" name="password_2" placeholder="Enter Confirm Password" required>
+                                    <div class="input-group mb-3">
+                                        <input type="password" class="form-control pw" name="password_2" aria-describedby="basic-addon2" id="pw-2">
+                                        <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw-2"><i class="fas fa-eye"></i></span>
+                                    </div>
                                 </div>
                                 <div class="col-lg-12 text-center mb-5">
                                     <input type="hidden" name="token" value="<?php if(isset($_GET['token'])){echo $_GET['token'];} ?>">

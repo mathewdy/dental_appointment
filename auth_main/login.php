@@ -34,7 +34,10 @@ include('../connection/connection.php');
                                     </div>
                                     <div class="col-lg-12 mb-5">
                                         <label for="">Password </label>
-                                        <input type="password" class="form-control" name="password" placeholder="Password">
+                                        <div class="input-group mb-3">
+                                            <input type="password" class="form-control pw" name="password" aria-describedby="basic-addon2" id="pw">
+                                            <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw"><i class="fas fa-eye"></i></span>
+                                        </div>
                                         <span class="d-flex justify-content-end">
                                             <a href="forgot-password.php" class="text-dark">Forgot Password?</a>
                                         </span>
