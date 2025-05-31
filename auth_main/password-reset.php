@@ -49,7 +49,7 @@ include('../connection/connection.php');
                                 <div class="col-lg-12 mb-4">
                                     <label for="">Confirm Password:</label>
                                     <div class="input-group mb-3">
-                                        <input type="password" class="form-control pw" name="password" aria-describedby="basic-addon2" id="pw_2">
+                                        <input type="password" class="form-control pw" name="password_2" aria-describedby="basic-addon2" id="pw_2">
                                         <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw_2"><i class="fas fa-eye"></i></span>
                                     </div>
                                 </div>
