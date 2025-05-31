@@ -25,7 +25,6 @@ ob_start();
                                     <div class="col-lg-12 align-items-center text-center">
                                         <img src="../assets/img/logo-with-name.png" alt="logo" height="150">
                                         <h1 class="display-7 fw-bold">We take care of your teeth</h1>
-                                        <a href="#" class="btn text-white border-light btn-round">About</a>
                                     </div>
                                 </div>
                                 
@@ -63,11 +62,17 @@ ob_start();
                                     </div>
                                     <div class="col-lg-12 mb-4">
                                         <label for="">Password</label>
-                                        <input type="password" class="form-control" name="password" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control pw" name="password" aria-describedby="basic-addon2" id="pw" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
+                                            <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw"><i class="fas fa-eye"></i></span>
+                                        </div>
                                     </div>
                                     <div class="col-lg-12 mb-4">
                                         <label for="">Confirm Password</label>
-                                        <input type="password" class="form-control" name="password_2" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control pw" name="password_2" aria-describedby="basic-addon2" id="pw-2" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
+                                            <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw-2"><i class="fas fa-eye"></i></span>
+                                        </div>
                                     </div>
                                     <div class="col-lg-12 mb-4 text-center">
                                         <input type="submit" class="btn btn-black op-8 w-100" name="register_patient" value="Register">
