@@ -57,6 +57,7 @@ include('../../includes/security.php');
                             <th>Dentist</th>
                             <th>Concern</th>
                             <th>Doctor's Remarks</th>
+                            <th>Status</th>
                         </tr>  
                       </thead>
                       <tbody>
@@ -77,6 +78,19 @@ include('../../includes/security.php');
                                       <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
                                   <td><?php echo $row_appointment['concern']?></td>
                                   <td><?php echo $row_appointment['remarks']?></td>
+                                  <td>
+                                    <?php 
+                                      if($row_appointment['confirmed'] === '1'){
+                                        echo "Completed";
+                                      }elseif($row_appointment['confirmed'] === '2'){
+                                        echo "Cancelled";
+                                      }elseif($row_appointment['confirmed'] === '3') {
+                                        echo "Pending";
+                                      }else{
+                                        echo "Pending";
+                                      }
+                                    ?>
+                                  </td>
                                   </tr>
                                   <?php
                               }

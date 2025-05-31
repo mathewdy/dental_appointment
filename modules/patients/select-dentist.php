@@ -91,6 +91,7 @@ include('../../includes/security.php');
                                     <option value="Porcelain">Porcelain</option>
                                     <option value="Flexible">Flexible</option>
                                     <option value="Orthodontics (Braces)">Orthodontics (Braces)</option>
+                                    <option value="Others">Others</option>
                                 </select>
                                 <!-- <label for="">Concern:</label>
                                 <input type="text" class="form-control" name="concern" required>
@@ -153,14 +154,16 @@ if(isset($_POST['save'])){
     $check_appointment = "SELECT appointment_date , user_id_patient FROM appointments WHERE appointment_date =  '$appointment_date' AND user_id_patient =  '$user_id_patient'";
     $run_check_appointment = mysqli_query($conn,$check_appointment);
     if(mysqli_num_rows($run_check_appointment) > 0){
-        echo "already added in this particular date";
+        echo "<script>window.alert('Already have an Appointment')</script>";
+        echo "<script>window.location.href='appointments.php'</script>";
     }else{
         $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_date,date_created,date_updated) VALUES ('$user_id','$user_id_patient','$appointment_id','$concern', '0', '$appointment_date','$date', '$date')";
         $run_appointment = mysqli_query($conn,$query_appointment);
         if($run_appointment) {
             header("Location: appointments.php");
         }else{
-            echo "not added";
+            echo "<script>window.alert('Error')</script>";
+            echo "<script>window.location.href='appointments.php'</script>";
         }
     }
 }
