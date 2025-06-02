@@ -66,11 +66,11 @@ include('../connection/connection.php');
                                 <div class="row px-4">
                                     <div class="col-lg-12 mb-5">
                                         <label for="">Email</label>
-                                        <input type="email" class="form-control" name="email" placeholder="Email">
+                                        <input type="email" class="form-control" name="email" placeholder="Enter your email">
                                     </div>
                                     <div class="col-lg-12 mb-5">
                                         <div class="input-group mb-3">
-                                            <input type="password" class="form-control pw" name="password" aria-describedby="basic-addon2" id="pw">
+                                            <input type="password" class="form-control pw" name="password" aria-describedby="basic-addon2" id="pw" placeholder="•••••••">
                                             <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw"><i class="fas fa-eye"></i></span>
                                         </div>
                                     </div>
