@@ -62,7 +62,7 @@ include('../../includes/security.php');
                       </thead>
                       <tbody>
                         <?php
-                          $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed, appointments.remarks
+                          $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed, appointments.remarks , appointments.appointment_time
                           FROM appointments
                           LEFT JOIN users
                           ON
@@ -74,7 +74,7 @@ include('../../includes/security.php');
                               foreach($run_appointments as $row_appointment){
                                   ?>
                                   <tr>
-                                      <td><?php echo $row_appointment['appointment_date']. " " . date("g:i A",strtotime($row_appointment['start_time'])). "-". date("g:i A",strtotime($row_appointment['end_time']))?></td>
+                                      <td><?php echo $row_appointment['appointment_date']. " " . $row_appointment['appointment_time']?></td>
                                       <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
                                   <td><?php echo $row_appointment['concern']?></td>
                                   <td><?php echo $row_appointment['remarks']?></td>

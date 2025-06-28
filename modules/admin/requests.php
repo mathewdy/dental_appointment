@@ -60,13 +60,14 @@ include('../../includes/security.php');
                             <tr>
                                 <th>Name of Patient</th>
                                 <th>Date & Time</th>
+                                <th>Doctor</th>
                                 <th>Concern</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed
+                                $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed, appointments.appointment_time
                                 FROM appointments
                                 LEFT JOIN users
                                 ON
@@ -79,7 +80,7 @@ include('../../includes/security.php');
                                         ?>
                                         <tr>
                                             <td><?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
-                                            <td><?php echo $row_appointment['appointment_date']. " " . date("g:i A",strtotime($row_appointment['start_time'])). "-". date("g:i A",strtotime($row_appointment['end_time']))?></td>
+                                            <td><?php echo $row_appointment['appointment_date']. " ". $row_appointment['appointment_time']?></td>
                                             <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
                                             <td><?php echo $row_appointment['concern']?></td>
                                             <td>
@@ -87,7 +88,7 @@ include('../../includes/security.php');
                                                     $handler = match($row_appointment['confirmed']){
                                                         '1' => '<span class="badge bg-success">Confirmed</span>',
                                                         '2' => '<span class="badge bg-danger">Cancelled</span>',
-                                                        default => '<span class="badge bg-info">Unverified</span>'
+                                                        default => '<span class="badge bg-warning">Pending</span>'
                                                     };
                                                     echo $handler;
                                                 ?>

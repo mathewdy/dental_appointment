@@ -81,6 +81,30 @@ include('../../includes/security.php');
                             <form action="" method="POST">
                                 <label>Select Appointment Date:</label>
                                 <input type="text" class="appointment_date form-control mb-4" name="appointment_date">
+                                <label for="">Set Time:</label>
+                                <select name="appointment_time" class="form-control mb-4" required>
+                                    <option value="">-- Select Time Slot --</option>
+                                    <?php
+                                        $start_time = $row_dentist['start_time']; 
+                                        $end_time = $row_dentist['end_time'];     
+
+                                        $start = strtotime($start_time);
+                                        $end = strtotime($end_time);
+
+                                        while ($start < $end) {
+                                            $slot_start = date("h:i A", $start);
+                                            $slot_end_time = strtotime("+1 hour", $start);
+
+                                            if ($slot_end_time > $end) {
+                                                break;
+                                            }
+                                            $slot_end = date("h:i A", $slot_end_time);
+                                            $display = "$slot_start to $slot_end";
+                                            echo "<option value='$display'>$display</option>";
+                                            $start = $slot_end_time; 
+                                        }
+                                    ?>
+                                </select>
                                 <label for="">Doctor:</label>
                                 <input type="text" class="form-control mb-4" value="<?= 'Dr. ' . $row_dentist['first_name']. " " . $row_dentist['last_name']?>" readonly>
                                 <label for="">Concern</label>
@@ -156,6 +180,7 @@ if(isset($_POST['save'])){
     $user_id_patient = $_GET['user_id_patient'];
     $appointment_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3) ;
     $concern = $_POST['concern'];
+    $appointment_time = $_POST['appointment_time'];
     $appointment_date = $_POST['appointment_date'];
 
 
@@ -165,7 +190,7 @@ if(isset($_POST['save'])){
         echo "<script>window.alert('Already have an Appointment')</script>";
         echo "<script>window.location.href='appointments.php'</script>";
     }else{
-        $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_date,date_created,date_updated,remarks,walk_in) VALUES ('$user_id_dentist','$user_id_patient','$appointment_id','$concern', '0', '$appointment_date','$date', '$date', NULL, '1')";
+        $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_time,appointment_date,date_created,date_updated,remarks,walk_in) VALUES ('$user_id_dentist','$user_id_patient','$appointment_id','$concern', '0', '$appointment_time','$appointment_date','$date', '$date', NULL, '1')";
         $run_appointment = mysqli_query($conn,$query_appointment);
         if($run_appointment) {
             header("Location: appointments.php");
