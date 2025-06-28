@@ -65,7 +65,7 @@ include('../../includes/security.php');
                     </thead>
                     <tbody>
                         <?php 
-                            $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed
+                            $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed, appointments.appointment_time
                             FROM appointments
                             LEFT JOIN users
                             ON
@@ -77,26 +77,29 @@ include('../../includes/security.php');
                                 foreach($run_appointments as $row_appointment){
                                     ?>
                                     <tr>
-                                        <td><?php echo $row_appointment['appointment_date']. " " . date("g:i A",strtotime($row_appointment['start_time'])). "-". date("g:i A",strtotime($row_appointment['end_time']))?></td>
+                                        <td><?php echo $row_appointment['appointment_date']. " " . $row_appointment['appointment_time']?></td>
                                         <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
                                     <td><?php echo $row_appointment['concern']?></td>
                                     <td>
                                         <?php
-                                        $handler = match($row_appointment['confirmed']){
-                                            '1' => '<span class="badge bg-success">Confirmed</span>',
-                                            '2' => '<span class="badge bg-danger">Cancelled</span>',
-                                            default => '
-                                                <form action="declined.php" method="POST">
-                                                <input type="submit" class="btn btn-danger btn-sm" name="decline" value="Cancel">
-                                                <input type="hidden" name="appointment_date" value="' . $row_appointment['appointment_date']. '">
-                                            </form>
-                                            '
-                                        };
-                                        echo $handler;
-                                        ?>
-                                            
+                                            $handler = match($row_appointment['confirmed']) {
+                                                '1' => '<span class="badge bg-success">Confirmed</span>',
+                                                '2' => '<span class="badge bg-danger">Cancelled</span>',
+                                                default => '
+                                                    <form action="declined.php" method="POST" onsubmit="return confirmCancel()">
+                                                        <input type="hidden" name="appointment_date" value="' . htmlspecialchars($row_appointment['appointment_date']) . '">
+                                                        <input type="submit" class="btn btn-danger btn-sm" name="decline" value="Cancel">
+                                                    </form>
+                                                    <script>
+                                                        function confirmCancel() {
+                                                            return confirm("Are you sure you want to cancel?");
+                                                        }
+                                                    </script>
+                                                ',
+                                            };
+                                            echo $handler;
+                                            ?>
                                         </td>
-                                    
                                     </tr>
                                     <?php
                                 }
