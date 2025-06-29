@@ -183,20 +183,27 @@ if(isset($_POST['save'])){
     $appointment_time = $_POST['appointment_time'];
     $appointment_date = $_POST['appointment_date'];
 
+    $check_time_appointment = "SELECT appointment_time FROM appointments WHERE appointment_time = '$appointment_time' ";
+    $run_appointment_time = mysqli_query($conn,$check_time_appointment);
 
-    $check_appointment = "SELECT appointment_date, user_id_patient FROM appointments WHERE appointment_date =  '$appointment_date' AND user_id_patient = '$user_id_patient'";
-    $run_check_appointment = mysqli_query($conn,$check_appointment);
-    if(mysqli_num_rows($run_check_appointment) > 0){
-        echo "<script>window.alert('Already have an Appointment')</script>";
+    if(mysqli_num_rows($run_appointment_time) > 0){
+        echo "<script>window.alert('Appointment time already booked')</script>";
         echo "<script>window.location.href='appointments.php'</script>";
     }else{
-        $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_time,appointment_date,date_created,date_updated,remarks,walk_in) VALUES ('$user_id_dentist','$user_id_patient','$appointment_id','$concern', '0', '$appointment_time','$appointment_date','$date', '$date', NULL, '1')";
-        $run_appointment = mysqli_query($conn,$query_appointment);
-        if($run_appointment) {
-            header("Location: appointments.php");
-            
+        $check_appointment = "SELECT appointment_date, user_id_patient FROM appointments WHERE appointment_date =  '$appointment_date' AND user_id_patient = '$user_id_patient'";
+        $run_check_appointment = mysqli_query($conn,$check_appointment);
+        if(mysqli_num_rows($run_check_appointment) > 0){
+            echo "<script>window.alert('Already have an Appointment')</script>";
+            echo "<script>window.location.href='appointments.php'</script>";
         }else{
-            echo "not added";
+            $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_time,appointment_date,date_created,date_updated,remarks,walk_in) VALUES ('$user_id_dentist','$user_id_patient','$appointment_id','$concern', '0', '$appointment_time','$appointment_date','$date', '$date', NULL, '1')";
+            $run_appointment = mysqli_query($conn,$query_appointment);
+            if($run_appointment) {
+                header("Location: appointments.php");
+                
+            }else{
+                echo "not added";
+            }
         }
     }
 
