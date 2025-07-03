@@ -78,9 +78,19 @@ include('../../includes/security.php');
 
                             ?>
 
+                            <?php
+
+                            
+                            $query_services = "SELECT * FROM services";
+                            $run_services = mysqli_query($conn,$query_services);
+                            $row_services = mysqli_fetch_assoc($run_services);
+
+
+                            ?>
+
                             <form action="" method="POST">
                                 <label>Select Appointment Date:</label>
-                                <input type="text" class="appointment_date form-control mb-4" name="appointment_date">
+                                <input type="text" class="appointment_date form-control mb-4" name="appointment_date" required>
                                 <label for="">Set Time:</label>
                                 <select name="appointment_time" class="form-control mb-4" required>
                                     <option value="">-- Select Time Slot --</option>
@@ -108,26 +118,14 @@ include('../../includes/security.php');
                                 <label for="">Doctor:</label>
                                 <input type="text" class="form-control mb-4" value="<?= 'Dr. ' . $row_dentist['first_name']. " " . $row_dentist['last_name']?>" readonly>
                                 <label for="">Concern</label>
-                                <select name="concern" id="" class="form-control">
+                                <select name="concern" id="" class="form-control" required>
                                     <option value="">-Select-</option>
-                                    <option value="Oral Prophylaxis">Oral Prophylaxis</option>
-                                    <option value="Composite Restoration">Composite Restoration</option>
-                                    <option value="Cosmetic Dentistry (Direct Composite Veneers)">Cosmetic Dentistry (Direct Composite Veneers)</option>
-                                    <option value="Dental Extraction / Surgery">Dental Extraction / Surgery</option>
-                                    <option value="Wisdom tooth">Wisdom tooth</option>
-                                    <option value="Prosthodontics">Prosthodontics</option>
-                                    <option value="Fixed (crown & bridge)">Fixed (crown & bridge)</option>
-                                    <option value="Removable dentures">Removable dentures</option>
-                                    <option value="US Plastic">US Plastic</option>
-                                    <option value="Porcelain">Porcelain</option>
-                                    <option value="Flexible">Flexible</option>
-                                    <option value="Orthodontics (Braces)">Orthodontics (Braces)</option>
-
+                                    <?php
+                                    while ($row_services = mysqli_fetch_assoc($run_services)) {
+                                        echo '<option value="' . $row_services['name'] . '">' . $row_services['name'] . '</option>';
+                                    }
+                                    ?>
                                 </select>
-                                <!-- <label for="">Concern:</label>
-                                <input type="text" class="form-control" name="concern" required> -->
-                                <br>
-                                <br>
                                 <div class="text-end w-100">
                                     <a href="set-doctor.php?user_id_patient=<?= $_GET['user_id_patient'] ?>" class="btn btn-danger">Cancel</a>
                                     <input type="submit" class="btn btn-primary" name="save" value="Save">
@@ -198,6 +196,7 @@ if(isset($_POST['save'])){
         }else{
             $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_time,appointment_date,date_created,date_updated,remarks,walk_in) VALUES ('$user_id_dentist','$user_id_patient','$appointment_id','$concern', '0', '$appointment_time','$appointment_date','$date', '$date', NULL, '1')";
             $run_appointment = mysqli_query($conn,$query_appointment);
+            //add din ako dito ng payments
             if($run_appointment) {
                 header("Location: appointments.php");
                 

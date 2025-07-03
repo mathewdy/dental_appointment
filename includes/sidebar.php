@@ -82,6 +82,12 @@ echo '
                             <p>Patients</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="payments.php">
+                            <i class="fas fa-user-alt"></i>
+                            <p>Payments</p>
+                        </a>
+                    </li>
                     ';
             }
             if($role == 3){
