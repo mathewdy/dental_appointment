@@ -196,7 +196,7 @@ if(isset($_POST['save'])){
         }else{
             $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_time,appointment_date,date_created,date_updated,remarks,walk_in) VALUES ('$user_id_dentist','$user_id_patient','$appointment_id','$concern', '0', '$appointment_time','$appointment_date','$date', '$date', NULL, '1')";
             $run_appointment = mysqli_query($conn,$query_appointment);
-            //add din ako dito ng payments
+            
             if($run_appointment) {
                 header("Location: appointments.php");
                 

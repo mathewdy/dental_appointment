@@ -20,7 +20,7 @@ include('../../includes/security.php');
 <body>
 
     <a href="dashboard.php">Back</a>
-    <h1>Services</h1>
+    <!-- <h1>Services</h1>
 
     <table>
 
@@ -53,7 +53,7 @@ include('../../includes/security.php');
 
     ?>
 
-    </table>
+    </table> -->
 
     <h2>Payments of Patient</h2>
 
@@ -65,7 +65,10 @@ include('../../includes/security.php');
 
         <?php
 
-            $query_patients = "SELECT * FROM users WHERE role_id = '1'";
+            $query_patients = " SELECT DISTINCT users.user_id, users.first_name, users.last_name
+            FROM users 
+            INNER JOIN appointments ON users.user_id = appointments.user_id_patient 
+            WHERE appointments.confirmed = '1' AND users.role_id = '1'";
             $run_patients = mysqli_query($conn,$query_patients);
 
             if(mysqli_num_rows($run_patients) > 0){
@@ -75,7 +78,7 @@ include('../../includes/security.php');
                         <tr>
                             <td><?php echo $row_patients['first_name']. " " . $row_patients['last_name']?></td>
                             <td>
-                                <a href="edit-patient-payments.php?user_id=<?php echo $row_patients['user_id']?>">Edit</a>
+                                <a href="view-patient-payments.php?user_id=<?php echo $row_patients['user_id']?>">View</a>
                             </td>
                         </tr>
 

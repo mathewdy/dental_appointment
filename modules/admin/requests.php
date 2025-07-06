@@ -56,6 +56,8 @@ include('../../includes/security.php');
                 <div class="card p-5">
                     <div class="table-responsive">
                     <table class="display table table-border table-hover" id="dataTable">
+                       
+
                         <thead>
                             <tr>
                                 <th>Name of Patient</th>
@@ -63,11 +65,12 @@ include('../../includes/security.php');
                                 <th>Doctor</th>
                                 <th>Concern</th>
                                 <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
-                                $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed, appointments.appointment_time
+                                $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed, appointments.appointment_time, appointments.appointment_id
                                 FROM appointments
                                 LEFT JOIN users
                                 ON
@@ -93,6 +96,12 @@ include('../../includes/security.php');
                                                     echo $handler;
                                                 ?>
                                             </td>
+                                            <td>
+                                                <form action="" method="POST" onsubmit="return confirm('Confirmed? Yes or No');">
+                                                    <input type="submit" name="update_status" value="Update Status">
+                                                    <input type="hidden" name="appointment_id" value="<?php echo $row_appointment['appointment_id']?>">
+                                                </form>
+                                            </td>
                                         </tr>
                                         <?php
                                     }
@@ -108,7 +117,25 @@ include('../../includes/security.php');
     </div>
 </div>
 </div>
-<a href="appointments.php">Appointment</a>
 <?php include "../../includes/scripts.php"; ?>
 </body>
 </html>
+
+<?php
+
+if(isset($_POST['update_status'])){
+    date_default_timezone_set("Asia/Manila");
+    $date = date('y-m-d');
+
+    $appointment_id = $_POST['appointment_id'];
+    $update_query = "UPDATE appointments SET confirmed = '1', date_updated = '$date' WHERE appointment_id = '$appointment_id' ";
+    $run_query = mysqli_query($conn,$update_query);
+
+    if($run_query){
+        echo "<script>window.location.href='requests.php'</script>";
+    }else{
+        echo "error";
+    }
+}
+
+?>
