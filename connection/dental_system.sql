@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2025 at 04:21 PM
+-- Generation Time: Jul 06, 2025 at 01:03 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,8 +47,9 @@ CREATE TABLE `appointments` (
 --
 
 INSERT INTO `appointments` (`id`, `user_id`, `user_id_patient`, `appointment_id`, `concern`, `confirmed`, `appointment_time`, `appointment_date`, `date_created`, `date_updated`, `remarks`, `walk_in`) VALUES
-(53, 20258165, 20251724, 20257136, 'Wisdom tooth', 0, '10:14 AM to 11:14 AM', '07/04/2025', '2025-07-03', '2025-07-03', NULL, 1),
-(54, 20258165, 20251724, 20254525, 'Composite Restoration', 0, '11:14 AM to 12:14 PM', '07/05/2025', '2025-07-03', '2025-07-03', NULL, 1);
+(53, 20258165, 20251724, 20257136, 'Wisdom tooth', 1, '10:14 AM to 11:14 AM', '07/04/2025', '2025-07-03', '2025-07-05', NULL, 1),
+(54, 20258165, 20251724, 20254525, 'Composite Restoration', 1, '11:14 AM to 12:14 PM', '07/05/2025', '2025-07-03', '2025-07-05', NULL, 1),
+(55, 20258165, 20257193, 20254804, 'US Plastic', 1, '01:14 PM to 02:14 PM', '07/26/2025', '2025-07-05', '2025-07-05', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -61,11 +62,42 @@ CREATE TABLE `payments` (
   `payment_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `services` varchar(200) NOT NULL,
-  `payment` int(11) NOT NULL,
+  `initial_balance` int(11) DEFAULT NULL,
   `remaining_balance` varchar(110) NOT NULL,
+  `is_deducted` int(11) DEFAULT NULL,
   `date_created` date NOT NULL,
   `date_updated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payments`
+--
+
+INSERT INTO `payments` (`id`, `payment_id`, `user_id`, `services`, `initial_balance`, `remaining_balance`, `is_deducted`, `date_created`, `date_updated`) VALUES
+(9, 20252858, 20251724, 'Composite Restoration', 5000, '5000', NULL, '2025-07-06', '2025-07-06'),
+(10, 202545134, 20251724, 'Wisdom tooth', 5000, '4000', 1, '2025-07-06', '2025-07-06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payment_history`
+--
+
+CREATE TABLE `payment_history` (
+  `id` int(11) NOT NULL,
+  `payment_id` int(11) NOT NULL,
+  `payment_received` int(11) NOT NULL,
+  `payment_method` varchar(110) DEFAULT NULL,
+  `date_created` date NOT NULL,
+  `date_updated` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `payment_history`
+--
+
+INSERT INTO `payment_history` (`id`, `payment_id`, `payment_received`, `payment_method`, `date_created`, `date_updated`) VALUES
+(3, 202545134, 1000, NULL, '2025-07-06', '2025-07-06');
 
 -- --------------------------------------------------------
 
@@ -172,7 +204,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `user_id`, `role_id`, `first_name`, `middle_name`, `last_name`, `mobile_number`, `email`, `password`, `date_of_birth`, `date_created`, `date_updated`, `token`, `address`, `otp`) VALUES
 (37, 20256914, 1, 'Keelie', 'Buffy', 'Sydney', 'Oscar', 'zemuf@mailinator.com', '$2y$10$zFQeA8DJGs5Qj/4Hzq/HsuLFqXajHmtI5KfefCY9Q2.g2jCW62hya', '2009-09-28', '2025-05-12', '2025-05-12', NULL, '', '24965'),
-(38, 20258485, 2, 'Fitzgerald', 'Octavia', 'Robert', 'Moana', 'vemimo@mailinator.com', '$2y$10$OEN8VNt7hw84.sEu6byjuOQBwE6BtefEYcc2gbjDBJ4Ppk.lInR3i', '1995-11-11', '2025-05-12', '2025-05-12', NULL, NULL, '85962'),
+(38, 20258485, 2, 'Fitzgerald', 'Octavia', 'Robert', 'Moana', 'vemimo@mailinator.com', '$2y$10$OEN8VNt7hw84.sEu6byjuOQBwE6BtefEYcc2gbjDBJ4Ppk.lInR3i', '1995-11-11', '2025-05-12', '2025-05-12', NULL, NULL, '34018'),
 (39, 20258165, 3, 'Mona', 'Stacey', 'Jelani', 'Prescott', 'rozypepadi@mailinator.com', '$2y$10$8wsRTbgsFSZnp2MriojtRukWabtm2n2Qomi6g8I/e7R1pOzry8aDG', '1978-10-24', '2025-05-12', '2025-05-12', NULL, NULL, '74102'),
 (40, 20255794, 3, 'Stephanie', 'Mallory', 'Lacy', 'Austin', 'tybemodily@mailinator.com', '$2y$10$naWPr0AYeF/yCsGodcNXiuYkmRKmcamS.e/6INj4pxPlpKx6TjMEK', '1970-05-09', '2025-05-12', '2025-05-12', NULL, NULL, '90186'),
 (41, 20253698, 1, 'Macey', 'Graham', 'Felix', 'Xantha', '', '$2y$10$bZ4UQutLSdh76oJj0K.6QuveMofnbZISNMbWPnErVJMN.RRj.j/T6', '2018-02-26', '2025-05-14', '2025-05-14', NULL, NULL, NULL),
@@ -201,7 +233,15 @@ ALTER TABLE `appointments`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `payment_id` (`payment_id`);
+
+--
+-- Indexes for table `payment_history`
+--
+ALTER TABLE `payment_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `payment_id` (`payment_id`);
 
 --
 -- Indexes for table `roles`
@@ -239,13 +279,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `payment_history`
+--
+ALTER TABLE `payment_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -287,6 +333,12 @@ ALTER TABLE `appointments`
 --
 ALTER TABLE `payments`
   ADD CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `payment_history`
+--
+ALTER TABLE `payment_history`
+  ADD CONSTRAINT `payment_history_ibfk_1` FOREIGN KEY (`payment_id`) REFERENCES `payments` (`payment_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `schedule`
