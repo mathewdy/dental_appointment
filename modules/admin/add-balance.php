@@ -66,7 +66,12 @@ if(isset($_POST['add_balance'])){
     $run_insert_payment = mysqli_query($conn,$query_insert_payment);
 
     if($run_insert_payment){
-        echo "added balance";
+            echo "Added Balance";
+            echo "<script>
+                    window.alert('Added Balance');
+                    window.location.href='history-patient-payments.php?user_id=$user_id&concern=$services';
+                  </script>";
+       
     }else{
         echo "error";
     }

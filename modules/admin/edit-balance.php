@@ -35,6 +35,8 @@ include('../../includes/security.php');
                     <label for="">Balance:</label>
                     <input type="text" value="<?php echo $balance ['remaining_balance']?>" readonly>
                     <input type="number" name="edit_balance">
+                    <input type="hidden" name="services" value="<?php echo $balance['services']?>">
+                    <input type="hidden" name="user_id" value="<?php echo $balance['user_id']?>">
                     <input type="submit" name="update_balance" value="Update">
 
                     </form>
@@ -52,12 +54,18 @@ include('../../includes/security.php');
 if(isset($_POST['update_balance'])){
     $payment_id = $_GET['payment_id'];
     $edit_balance = $_POST['edit_balance'];
+    $user_id = $_POST['user_id'];
+    $services = $_POST['services'];
 
     $query_update_balance = "UPDATE payments SET initial_balance = '$edit_balance' , remaining_balance = '$edit_balance' WHERE payment_id = '$payment_id'";
     $run_update_balance = mysqli_query($conn,$query_update_balance);
 
     if($run_update_balance){
         echo "Updated Balance";
+            echo "<script>
+                    window.alert('Updated Balance');
+                    window.location.href='history-patient-payments.php?user_id=$user_id&concern=$services';
+                  </script>";
     }else{
         echo "Error" ; 
     }

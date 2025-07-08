@@ -46,6 +46,7 @@ include('../../includes/security.php');
                             <input type="text" name="remaining_balance" value="<?php echo $row_payment['remaining_balance']?>">
                             <label for="">Add payment</label>
                             <input type="number" name="payment">
+                            <a href="">Online</a>
                             <input type="submit" name="add_payment" value="Add Payment">
                         </form>
 
@@ -69,6 +70,8 @@ if(isset($_POST['add_payment'])){
     $remaining_balance = $_POST['remaining_balance'];
     $payment = $_POST['payment'];
     $payment_id = $_GET['payment_id'];
+    $user_id = $_GET['user_id'];
+    $concern = $_GET['service'];
 
     $updated_balance = $remaining_balance - $payment;
 
@@ -78,12 +81,16 @@ if(isset($_POST['add_payment'])){
     if($run_update_balance){
         // need to integrate
         echo "updated balance";
-        $query_insert_payment = "INSERT INTO payment_history (payment_id,payment_received,payment_method,date_created,date_updated) VALUES ('$payment_id','$payment',NULL, '$date', '$date')";
+        $query_insert_payment = "INSERT INTO payment_history (payment_id,payment_received,payment_method,date_created,date_updated) VALUES ('$payment_id','$payment','Cash', '$date', '$date')";
         $run_insert_payment = mysqli_query($conn,$query_insert_payment);
 
-        if($run_insert_payment){
+        if($run_insert_payment) {
             echo "payment inserted";
-        }else{
+            echo "<script>
+                    window.alert('Payment Successful');
+                    window.location.href='view-all-patients-payments.php?payment_id=$payment_id&user_id=$user_id&service=$concern';
+                  </script>";
+        } else {
             echo "error payment inserted" . "<br>";
         }
     }else{

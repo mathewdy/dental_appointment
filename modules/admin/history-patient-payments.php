@@ -65,7 +65,10 @@ if(isset($_GET['user_id'])&& isset($_GET['concern'])){
                                         ?>
                                             <td>
                                                 <a href="edit-balance.php?payment_id=<?php echo $row_info['payment_id']?>">Edit Balance</a>
-                                                <a href="delete-balance.php?payment_id=<?php echo $row_info['payment_id']?>&user_id=<?php echo $user_id?>&concern=<?php echo $concern?>">Delete</a>
+                                                <a href="delete-balance.php?payment_id=<?php echo $row_info['payment_id']?>&user_id=<?php echo $user_id?>&concern=<?php echo $concern?>" 
+                                                onclick="return confirm('Are you sure you want to delete this?')">
+                                                Delete
+                                                </a>
                                             </td>
                                         <?php
                                     }
@@ -131,6 +134,7 @@ if(isset($_GET['user_id'])&& isset($_GET['concern'])){
                                 </td>
                                 <td>
                                     <a href="update-payment.php?payment_id=<?php echo $row_info['payment_id']?>&user_id=<?php echo $user_id?>&service=<?php echo $concern?>">Update Payment</a>
+                                    <a href="view-all-patients-payments.php?payment_id=<?php echo $row_info['payment_id']?>&user_id=<?php echo $user_id?>&service=<?php echo $concern?>">View All Payments</a>
                                 </td>
                             </tr>
 
@@ -148,5 +152,7 @@ if(isset($_GET['user_id'])&& isset($_GET['concern'])){
 
         ?>
     </table>
+
+   
 </body>
 </html>
