@@ -177,29 +177,38 @@ if(isset($_POST['save'])){
 
     $appointment_date  = $_POST['appointment_date'];
 
-    $check_time_appointment = "SELECT appointment_time, appointment_date, user_id FROM appointments WHERE appointment_time = '$appointment_time' AND appointment_date = '$appointment_date' AND user_id = '$dentist'";
+    $current_date = date('Y-m-d');
+    if (strtotime($appointment_date) < strtotime($current_date)) {
+        echo "<script>alert('Cannot set appointments in the past.');</script>";
+        echo "<script>window.location.href='appointments.php';</script>";
+        exit();
+    }else{
+        $check_time_appointment = "SELECT appointment_time, appointment_date, user_id FROM appointments WHERE appointment_time = '$appointment_time' AND appointment_date = '$appointment_date' AND user_id = '$dentist'";
     $run_appointment_time = mysqli_query($conn,$check_time_appointment);
 
-    if(mysqli_num_rows($run_appointment_time) > 0){
-        echo "<script>window.alert('Appointment time already booked')</script>";
-        echo "<script>window.location.href='appointments.php'</script>";
-    }else{
-        $check_appointment = "SELECT appointment_date , user_id_patient FROM appointments WHERE appointment_date =  '$appointment_date' AND user_id_patient =  '$user_id_patient'";
-        $run_check_appointment = mysqli_query($conn,$check_appointment);
-        if(mysqli_num_rows($run_check_appointment) > 0){
-            echo "<script>window.alert('You  already have an appointment')</script>";
+        if(mysqli_num_rows($run_appointment_time) > 0){
+            echo "<script>window.alert('Appointment time already booked')</script>";
             echo "<script>window.location.href='appointments.php'</script>";
         }else{
-            $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_time,appointment_date,date_created,date_updated) VALUES ('$user_id','$user_id_patient','$appointment_id','$concern', '0','$appointment_time', '$appointment_date','$date', '$date')";
-            $run_appointment = mysqli_query($conn,$query_appointment);
-            if($run_appointment) {
-                header("Location: appointments.php");
-            }else{
-                echo "<script>window.alert('Error')</script>";
+            $check_appointment = "SELECT appointment_date , user_id_patient FROM appointments WHERE appointment_date =  '$appointment_date' AND user_id_patient =  '$user_id_patient'";
+            $run_check_appointment = mysqli_query($conn,$check_appointment);
+            if(mysqli_num_rows($run_check_appointment) > 0){
+                echo "<script>window.alert('You  already have an appointment')</script>";
                 echo "<script>window.location.href='appointments.php'</script>";
+            }else{
+                $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_time,appointment_date,date_created,date_updated) VALUES ('$user_id','$user_id_patient','$appointment_id','$concern', '0','$appointment_time', '$appointment_date','$date', '$date')";
+                $run_appointment = mysqli_query($conn,$query_appointment);
+                if($run_appointment) {
+                    header("Location: appointments.php");
+                }else{
+                    echo "<script>window.alert('Error')</script>";
+                    echo "<script>window.location.href='appointments.php'</script>";
+                }
             }
         }
     }
+
+    
 
     
 }
