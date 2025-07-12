@@ -86,7 +86,11 @@ include('../../includes/security.php');
                                         <td><?php echo $row_dentist['mobile_number']?></td>
                                         <td>
                                             <a href="edit-dentist.php?user_id=<?php echo$row_dentist['user_id']?>" class="btn btn-sm btn-info">Edit</a>
-                                            <a href="delete-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" class="btn btn-sm btn-danger">Delete</a>
+                                            <a href="delete-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" 
+                                            class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Are you sure you want to delete this dentist?');">
+                                            Delete
+                                            </a>
                                         </td>
                                     </tr>
 
