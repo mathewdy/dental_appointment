@@ -34,40 +34,79 @@ include('../../includes/security.php');
             </div>
 
           <?php
+              date_default_timezone_set('Asia/Manila');
 
-          $query_date_today = "SELECT COUNT(*) AS total_appointments,
-          SUM(CASE WHEN confirmed = 1 THEN 1 ELSE 0 END) AS total_completed,
-          SUM(CASE WHEN walk_in = 1 THEN 1 ELSE 0 END) AS total_walkins,
-          SUM(CASE WHEN confirmed = 2 THEN 1 ELSE 0 END) AS total_cancellations
-          FROM appointments
-          WHERE STR_TO_DATE(appointment_date, '%m/%d/%Y') = CURDATE();";
-          $run_date_today = mysqli_query($conn,$query_date_today);
+              // Get today's date, current week, and current month
+              $today = date('Y-m-d');
+              $currentWeek = date('W');
+              $currentMonth = date('m');
+              $currentYear = date('Y');
 
-          if(mysqli_num_rows($run_date_today) > 0){
-            foreach($run_date_today as $row_date_today){
+              // DAILY REPORT
+              $query_daily = "
+                  SELECT u.first_name, u.last_name, a.concern, a.appointment_date, a.appointment_time
+                  FROM appointments a
+                  LEFT JOIN users u ON a.user_id_patient = u.user_id
+                  WHERE STR_TO_DATE(a.appointment_date, '%m/%d/%Y') = '$today'
+              ";
+
+              // WEEKLY REPORT
+              $query_weekly = "
+                    SELECT u.first_name, u.last_name, a.concern, a.appointment_date, a.appointment_time
+                    FROM appointments a
+                    LEFT JOIN users u ON a.user_id_patient = u.user_id
+                    WHERE WEEK(STR_TO_DATE(a.appointment_date, '%m/%d/%Y'), 1) = '$currentWeek'
+                    AND YEAR(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentYear'
+                ";
+
+
+              // MONTHLY REPORT
+             $query_monthly = "
+                  SELECT u.first_name, u.last_name, a.concern, a.appointment_date, a.appointment_time
+                  FROM appointments a
+                  LEFT JOIN users u ON a.user_id_patient = u.user_id
+                  WHERE MONTH(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentMonth'
+                  AND YEAR(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentYear'
+              ";
+
+              // Function to display result
+              function displayReport($result, $title) {
+                  echo "<h3>$title</h3>";
+                  if (mysqli_num_rows($result) > 0) {
+                      echo "<table border='1' cellpadding='5' cellspacing='0'>";
+                      echo "<tr>
+                              <th>Date</th>
+                              <th>Time</th>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Concern</th>
+                            </tr>";
+                      while ($row = mysqli_fetch_assoc($result)) {
+                          echo "<tr>
+                                  <td>{$row['appointment_date']}</td>
+                                  <td>{$row['appointment_time']}</td>
+                                  <td>{$row['first_name']}</td>
+                                  <td>{$row['last_name']}</td>
+                                  <td>{$row['concern']}</td>
+                                </tr>";
+                      }
+                      echo "</table><br>";
+                  } else {
+                      echo "<p>No data found for $title.</p><br>";
+                  }
+              }
+
+              // Run and display reports
+              $run_daily = mysqli_query($conn, $query_daily);
+              $run_weekly = mysqli_query($conn, $query_weekly);
+              $run_monthly = mysqli_query($conn, $query_monthly);
+
+              displayReport($run_daily, "Daily Appointments (" . date('F j, Y') . ")");
+              displayReport($run_weekly, "Weekly Appointments (Week $currentWeek)");
+              displayReport($run_monthly, "Monthly Appointments (" . date('F Y') . ")");
               ?>
 
-              <h1>For today!</h1>
-
-              <h1>Total Appointments Scheduled: <?php echo $row_date_today['total_appointments']?></h1>
-              <h1>Total Appointments Completed: <?php echo $row_date_today['total_completed']?></h1>
-              <h1>Walk-in Appointments: <?php echo $row_date_today['total_walkins']?></h1>
-              <h1>Cancellations: <?php echo $row_date_today['total_cancellations']?></h1>
-
-              <?php
-            }
-          }
-
-
-          ?>
-
-          
-
-            <form action="" method="POST">
-              <input type="date" name="start_date">
-              <input type="date" name="end_date">
-              <input type="submit" name="filter" value="Filter">
-            </form>
+           
           </div>
         </div>
       </div>
@@ -75,34 +114,3 @@ include('../../includes/security.php');
     <?php include "../../includes/scripts.php"; ?>
 </body>
 </html>
-
-<?php
-if (isset($_POST['start_date']) && isset($_POST['end_date'])) {
-  $start_date = $_POST['start_date'];
-  $end_date = $_POST['end_date'];
-
-  $filter_dates = "SELECT COUNT(*) AS total_appointments,
-                    SUM(CASE WHEN confirmed = 1 THEN 1 ELSE 0 END) AS total_completed,
-                    SUM(CASE WHEN walk_in = 1 THEN 1 ELSE 0 END) AS total_walkins,
-                    SUM(CASE WHEN confirmed = 2 THEN 1 ELSE 0 END) AS total_cancellations
-                FROM appointments
-                WHERE STR_TO_DATE(appointment_date, '%m/%d/%Y') 
-                      BETWEEN STR_TO_DATE('$start_date', '%Y-%m-%d') 
-                      AND STR_TO_DATE('$end_date', '%Y-%m-%d')";
-  $run_filter_dates = mysqli_query($conn, $filter_dates);
-
-  if ($run_filter_dates) {
-    $row_dates = mysqli_fetch_assoc($run_filter_dates);
-    ?>
-      <h2>Total Appointments: <?php echo $row_dates['total_appointments']; ?></h2>
-      <h2>Total Completed: <?php echo $row_dates['total_completed']; ?></h2>
-      <h2>Total Walk-ins: <?php echo $row_dates['total_walkins']; ?></h2>
-      <h2>Total Cancellations: <?php echo $row_dates['total_cancellations']; ?></h2>
-    <?php
-  } else {
-    echo "<h3>Query failed: " . mysqli_error($conn) . "</h3>";
-  }
-}
-
-
-?>
