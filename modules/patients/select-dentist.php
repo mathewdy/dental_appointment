@@ -99,7 +99,7 @@ include('../../includes/security.php');
                                     ?>
                                 </select>
                                 <label for="">Doctor:</label>
-                                <input type="text" class="form-control mb-4" value="<?= 'Dr. ' . $row_dentist['first_name']. " " . $row_dentist['last_name']?>" readonly>
+                                <input type="text" name="dentist" class="form-control mb-4" value="<?= 'Dr. ' . $row_dentist['first_name']. " " . $row_dentist['last_name']?> " readonly>
                                 <label for="">Concern</label>
                                 <select name="concern" id="" class="form-control">
                                     <option value="">-Select-</option>
@@ -173,10 +173,11 @@ if(isset($_POST['save'])){
     $user_id_patient = $_SESSION['user_id'];
     $concern = $_POST['concern'];
     $appointment_time = $_POST['appointment_time'];
+    $dentist = $_POST['dentist'];
 
     $appointment_date  = $_POST['appointment_date'];
 
-    $check_time_appointment = "SELECT appointment_time FROM appointments WHERE appointment_time = '$appointment_time' ";
+    $check_time_appointment = "SELECT appointment_time, appointment_date, user_id FROM appointments WHERE appointment_time = '$appointment_time' AND appointment_date = '$appointment_date' AND user_id = '$dentist'";
     $run_appointment_time = mysqli_query($conn,$check_time_appointment);
 
     if(mysqli_num_rows($run_appointment_time) > 0){
