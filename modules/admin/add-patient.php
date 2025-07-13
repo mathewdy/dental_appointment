@@ -80,8 +80,8 @@ $first_name = $_SESSION['first_name'];
                                 <input type="password" class="form-control" name="password">
                             </div>
                             <div class="col-lg-12 text-end">
-                                <a href="patients.php" class="btn btn-danger">Cancel</a>
-                                <input type="submit" class="btn btn-primary" name="register_patient" value="Save">
+                                <a href="patients.php" class="btn btn-sm btn-danger">Cancel</a>
+                                <input type="submit" class="btn btn-sm btn-primary" name="register_patient" value="Save">
                             </div>
                         </div>
                     </form>

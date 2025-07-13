@@ -42,7 +42,7 @@ include('../../includes/security.php');
                             </li>
                         </ul>
                     </span>    
-                    <a href="add-dentist.php" class="btn btn-dark op-7">Add New Dentist</a>
+                    <a href="add-dentist.php" class="btn btn-sm btn-dark op-7">Add New Dentist</a>
                 </span>
             </div>
             <div class="page-category">

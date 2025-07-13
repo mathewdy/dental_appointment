@@ -49,7 +49,7 @@ $first_name = $_SESSION['first_name'];
                         </ul>
                     </span>    
 
-                    <a href="requests.php" class="btn btn-dark op-7">View All Requests</a>
+                    <a href="requests.php" class="btn btn-sm btn-dark op-7">View All Requests</a>
                 </span>
             </div>
             <div class="page-category">

@@ -87,7 +87,7 @@ include('../../includes/security.php');
                                             <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
                                             <td><?php echo $row_appointment['concern']?></td>
                                             <td>
-                                                 <?php
+                                                <?php
                                                     $handler = match($row_appointment['confirmed']){
                                                         '1' => '<span class="badge bg-success">Confirmed</span>',
                                                         '2' => '<span class="badge bg-danger">Cancelled</span>',
@@ -97,10 +97,23 @@ include('../../includes/security.php');
                                                 ?>
                                             </td>
                                             <td>
-                                                <form action="" method="POST" onsubmit="return confirm('Confirmed? Yes or No');">
-                                                    <input type="submit" name="update_status" value="Update Status">
-                                                    <input type="hidden" name="appointment_id" value="<?php echo $row_appointment['appointment_id']?>">
-                                                </form>
+                                                <?php 
+                                                    if(!$row_appointment['confirmed']){
+                                                        ?>
+                                                        <form action="" method="POST" onsubmit="return confirm('Confirmed? Yes or No');">
+                                                            <input type="submit" name="update_status" value="Update Status" class="btn btn-sm btn-primary">
+                                                            <input type="hidden" name="appointment_id" value="<?php echo $row_appointment['appointment_id']?>">
+                                                        </form>
+                                                        <?php
+                                                    }else{
+                                                        ?>
+                                                        <span class="d-flex align-items-center justify-content-center">
+                                                            <p class="text-muted p-0 m-0">Update Status </p>
+                                                        </span>
+                                                        <?php
+                                                    }
+                                                ?>  
+                                               
                                             </td>
                                         </tr>
                                         <?php

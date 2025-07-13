@@ -46,7 +46,7 @@ include('../../includes/security.php');
                             </li>
                         </ul>
                     </span>    
-                    <a href="add-patient.php" class="btn btn-dark op-7">Add New Patient</a>
+                    <a href="add-patient.php" class="btn btn-sm btn-dark op-7">Add New Patient</a>
                 </span>
             </div>
             <div class="page-category">
@@ -58,7 +58,7 @@ include('../../includes/security.php');
                                 <th>Name</th>
                                 <th>Mobile Number</th>
                                 <th>Email</th>
-                                <th style="width: 25%;">Actions</th>
+                                <th style="width: 10%;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -78,10 +78,23 @@ include('../../includes/security.php');
                                         <td><?php echo $row_patients['first_name'] . " " . $row_patients['last_name']?></td>
                                         <td><?php echo $row_patients['mobile_number']?></td>
                                         <td><?php echo $row_patients['email']?></td>
-                                        <td>
-                                            <a href="edit-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="btn btn-sm btn-info">Edit</a>
-                                            <a href="delete-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="btn btn-sm btn-danger">Delete</a>
-                                            <a href="set-doctor.php?user_id_patient=<?php echo $row_patients['user_id']?>" class="btn btn-sm btn-primary">Set Appointment</a>
+                                        <td class="text-center">
+                                            <div class="dropdown">
+                                                <a class="btn btn-sm btn-outline-primary rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </a>
+                                                <ul class="dropdown-menu"> 
+                                                    <li>
+                                                        <a href="set-doctor.php?user_id_patient=<?php echo $row_patients['user_id']?>" class="dropdown-item">Set Appointment</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="edit-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="dropdown-item">Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="delete-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="dropdown-item">Delete</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                             
                                         </td>
                                     </tr>

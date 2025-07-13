@@ -23,6 +23,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             })
         }
+    },
+    validDateRange: {
+        start: '2025-07-14'
     }
 });
 calendar.render();

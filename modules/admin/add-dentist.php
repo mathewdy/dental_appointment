@@ -107,8 +107,8 @@ $first_name = $_SESSION['first_name']
                                 <input type="time" class="form-control" name="end_time" id="end_time" min="10:00" max="17:00">
                             </div>
                             <div class="col-lg-12 text-end">
-                                <a href="view-dentists.php" class="btn btn-danger">Cancel</a>
-                                <input type="submit" class="btn btn-primary" name="add_dentist" value="Create">
+                                <a href="view-dentists.php" class="btn btn-sm btn-danger">Cancel</a>
+                                <input type="submit" class="btn btn-sm btn-primary" name="add_dentist" value="Create">
 
                             </div>
                         </div>                        

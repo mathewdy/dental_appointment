@@ -4,7 +4,7 @@ $role = $_SESSION['role_id'];
 echo '
 <div class="main-header">
   <div class="main-header-logo">
-    <div class="logo-header" data-background-color="dark">
+    <div class="logo-header" data-background-color="dark2">
       <a href="index.html" class="logo">
         <img
           src="assets/img/kaiadmin/logo_light.svg"
@@ -34,7 +34,7 @@ echo '
       <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
         <li class="nav-item topbar-icon dropdown hidden-caret ">
           <a
-            class="nav-link dropdown-toggle disabled"
+            class="nav-link dropdown-toggle "
             href="#"
             id="notifDropdown"
             role="button"
@@ -130,7 +130,7 @@ echo '
             </span>
             
           </a>
-          <ul class="dropdown-menu dropdown-user animated fadeIn">
+          <ul class="dropdown-menu w-50 dropdown-user animated fadeIn">
             <div class="dropdown-user-scroll scrollbar-outer">
               <li>';
               if($role == 1){
