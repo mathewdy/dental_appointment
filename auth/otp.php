@@ -1,24 +1,25 @@
 <?php
 
-include('../connection/connection.php');
-session_start();
-ob_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 $email = $_SESSION['email'];
 ?>
 
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../includes/styles.php' ?>
-    <title>Document</title>
-</head>
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
 <body>
-<div class="container" style="height: 55em;">
+<div class="container-xl" style="height: 55em;">
         <div class="row d-flex justify-content-center align-items-center p-5" style="height: 100%;">
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="card w-100 border-none rounded-0">
                     <div class="row" style="height: 100%;">
                         <div class="col-lg-12 p-5 d-flex flex-column justify-content-center text-center">
@@ -30,8 +31,11 @@ $email = $_SESSION['email'];
                                 <p>A verification code has been sent to your email.</p>
                             </span>
                             <form action="" method="POST">
-                                <input type="number" class="form-control mb-5"name="otp_number">
-                                <input type="submit" class="btn btn-black op-8 w-100 mb-2" name="verify" value="Verify">
+                                <div class="d-flex flex-column gap-4">
+                                    <input type="number" class="form-control" name="otp_number" maxLength="1">
+                                    <input type="submit" class="btn btn-black op-8 w-100 mb-2" name="verify" value="Verify">
+                                </div>
+                                
                                 <a href="login.php" class="text-black op-9">Go Back</a>
                             </form>
                         </div>
@@ -40,7 +44,6 @@ $email = $_SESSION['email'];
         </div>
     </div>
     <?php include "../includes/scripts.php"; ?>
-</html>
 
 <?php
 if(isset($_POST['verify'])){

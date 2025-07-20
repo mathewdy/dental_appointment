@@ -1,8 +1,6 @@
 <?php
-
-include('../../connection/connection.php');
-session_start();
-ob_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 //errors
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -10,16 +8,15 @@ error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
 include('../../includes/security.php');
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../../includes/styles.php' ?>
-    <title>Document</title>
-</head>
-<body>
+<style>
+    .dataTables_paginate .paginate_button{
+        border-radius: 0 !important;         /* Rounded corners */
+        border: 2px solid black !important;
+    }
+    a.page_link {
+        border-radius: 12px !important;
+    }
+</style>
 
     <div class="wrapper">
         <?php include '../../includes/sidebar.php'; ?>
@@ -78,9 +75,9 @@ include('../../includes/security.php');
                                         <td><?php echo $row_patients['first_name'] . " " . $row_patients['last_name']?></td>
                                         <td><?php echo $row_patients['mobile_number']?></td>
                                         <td><?php echo $row_patients['email']?></td>
-                                        <td class="text-center">
+                                        <td class="d-flex justify-content-center">
                                             <div class="dropdown">
-                                                <a class="btn btn-sm btn-outline-primary rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <a class="btn btn-sm btn-outline-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 12px;" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </a>
                                                 <ul class="dropdown-menu"> 
@@ -173,6 +170,3 @@ include('../../includes/security.php');
         </div> -->
     </div>
     <?php include "../../includes/scripts.php"; ?>
-
-</body>
-</html>

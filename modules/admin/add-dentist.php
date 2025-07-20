@@ -1,21 +1,11 @@
 <?php
-include('../../connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 
-session_start();
-ob_start();
 $first_name = $_SESSION['first_name']
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../../includes/styles.php' ?>
-    <title>Document</title>
-</head>
-<body>
 
     <div class="wrapper">
         <?php include '../../includes/sidebar.php'; ?>
@@ -51,60 +41,158 @@ $first_name = $_SESSION['first_name']
                 </span>
             </div>
             <div class="page-category">
-                <div class="card p-5">
                     <form action="add-dentist.php" method="POST">
                         <div class="row">
                             <div class="col-lg-12">
-                                <h3>Basic Information</h3>
-                            </div>
-                            <div class="col-lg-4 mb-4">
-                                <label for="">First Name</label>
-                                <input type="text" class="form-control" name="first_name">
-                            </div>
-                            <div class="col-lg-4 mb-4">
-                                <label for="">Middle Name</label>
-                                <input type="text" class="form-control" name="middle_name">
-                            </div>
-                            <div class="col-lg-4 mb-4">
-                                <label for="">Last Name</label>
-                                <input type="text" class="form-control" name="last_name">
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <label for="">Mobile Number </label>
-                                <input type="text" class="form-control" name="mobile_number">
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <label for="">Date of Birth</label>
-                                <input type="date" class="form-control" name="date_of_birth">
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <label for="">Email</label>
-                                <input type="email" class="form-control" name="email">
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <label for="">Password</label>
-                                <input type="password" class="form-control" name="password">
-                            </div>
-                            <div class="col-lg-12">
-                                <h3>Schedule Information</h3>
+                                <div class="card p-4 shadow-none form-card rounded-1">
+                                    <div class="card-header">
+                                        <h3>Basic Information</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row gap-4">
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="first_name">First Name</label>
+                                                    </div>
+                                                    <div class="col-lg-10">
+                                                        <input type="text" class="form-control" name="first_name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="">Middle Name</label>
+                                                    </div>
+                                                    <div class="col-lg-10">
+                                                        <input type="text" class="form-control" name="middle_name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="">Last Name</label>
+                                                    </div>
+                                                    <div class="col-lg-10">
+                                                        <input type="text" class="form-control" name="last_name">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="">Mobile Number </label>
+                                                    </div>
+                                                    <div class="col-lg-10">
+                                                        <input type="text" class="form-control" name="mobile_number">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="">Date of Birth</label>
+                                                    </div>
+                                                    <div class="col-lg-10">
+                                                        <input type="date" class="form-control" name="date_of_birth">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-12 mb-4">
-                                <label for="">Schedule</label><br>
-                                <input type="checkbox" name="schedule[]" value="Monday"> Monday <br>
-                                <input type="checkbox" name="schedule[]" value="Tuesday"> Tuesday <br>
-                                <input type="checkbox" name="schedule[]" value="Wednesday"> Wednesday <br>
-                                <input type="checkbox" name="schedule[]" value="Thursday"> Thursday <br>
-                                <input type="checkbox" name="schedule[]" value="Friday"> Friday <br>
-                                <input type="checkbox" name="schedule[]" value="Saturday"> Saturday <br>
+                                <div class="card p-4 shadow-none form-card rounded-1">
+                                    <div class="card-header">
+                                        <h3>Schedule Information</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row gap-4">
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="">Start Time</label>
+                                                    </div>
+                                                    <div class="col-lg-10">
+                                                        <input type="time" class="form-control" name="start_time" id="start_time" min="10:00" max="17:00">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="">End Time</label>
+                                                        
+                                                    </div>
+                                                    <div class="col-lg-10">
+                                                        <input type="time" class="form-control" name="end_time" id="end_time" min="10:00" max="17:00">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-start w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="">Working Days:</label>
+                                                    </div>
+                                                    <div class="col-lg-10">
+                                                        <span class="d-flex align-items-center gap-2">
+                                                            <input type="checkbox" name="schedule[]" value="Monday"> Monday
+                                                        </span>
+                                                        <span class="d-flex align-items-center gap-2">
+                                                            <input type="checkbox" name="schedule[]" value="Tuesday"> Tuesday 
+                                                        </span>
+                                                        <span class="d-flex align-items-center gap-2">
+                                                            <input type="checkbox" name="schedule[]" value="Wednesday"> Wednesday
+                                                        </span>
+                                                        <span class="d-flex align-items-center gap-2">
+                                                            <input type="checkbox" name="schedule[]" value="Thursday"> Thursday 
+                                                        </span>
+                                                        <span class="d-flex align-items-center gap-2">
+                                                            <input type="checkbox" name="schedule[]" value="Friday"> Friday 
+                                                        </span>
+                                                        <span class="d-flex align-items-center gap-2">
+                                                            <input type="checkbox" name="schedule[]" value="Saturday"> Saturday 
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-6">
-                                <label for="">Start Time</label>
-                                <input type="time" class="form-control" name="start_time" id="start_time" min="10:00" max="17:00">
-                                
-                            </div>
-                            <div class="col-lg-6 mb-5">
-                                <label for="">End Time</label>
-                                <input type="time" class="form-control" name="end_time" id="end_time" min="10:00" max="17:00">
+                            <div class="col-lg-12 mb-4">
+                                <div class="card p-4 shadow-none form-card rounded-1">
+                                    <div class="card-header">
+                                        <h3>Account</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row gap-4">
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="">Email</label>
+                                                    </div>
+                                                    <div class="col-lg-10">
+                                                        <input type="email" class="form-control" name="email">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="">Password</label>
+                                                    </div>
+                                                    <div class="col-lg-10">
+                                                        <input type="password" class="form-control" name="password">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-12 text-end">
                                 <a href="view-dentists.php" class="btn btn-sm btn-danger">Cancel</a>
@@ -114,21 +202,12 @@ $first_name = $_SESSION['first_name']
                         </div>                        
                     </form>
                 </div>
-            </div>
           </div>
         </div>
       </div>
     </div>
     <?php include "../../includes/scripts.php"; ?>
 
-</body>
-</html>
-
-
-    <h1>Add Dentist</h1>
-   
-
-</body>
 <script>
 document.querySelector('form').addEventListener('submit', function(e) {
     const start = document.getElementById('start_time').value;
@@ -165,7 +244,6 @@ document.querySelector('form').addEventListener('submit', function(e) {
 });
 
 </script>
-</html>
 
 <?php
 if(isset($_POST['add_dentist'])){

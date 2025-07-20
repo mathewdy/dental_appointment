@@ -1,7 +1,7 @@
 <?php
-include('../../connection/connection.php');
-ob_start();
-session_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -9,15 +9,6 @@ $first_name = $_SESSION['first_name'];
 include('../../includes/security.php');
 ?>
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
 
     <?php
     if (isset($_GET['payment_id']) && isset($_GET['service']) && isset($_GET['user_id'])) {
@@ -72,6 +63,4 @@ include('../../includes/security.php');
 
 
     </table>
-
-</body>
-</html>
+<?php include "../../includes/scripts.php"; ?>
