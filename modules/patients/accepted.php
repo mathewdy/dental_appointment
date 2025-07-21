@@ -10,7 +10,7 @@ if(isset($_POST['accept'])){
     $run_update_appointment = mysqli_query($conn,$update_appointment);
 
     if($run_update_appointment){
-        echo "updated accpeted";
+        echo "updated accepted";
         echo "<script>window.alert('Confirmed')</script>";
         echo "<script>window.location.href='appointments.php'</script>";
     }else{

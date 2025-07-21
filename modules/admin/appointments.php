@@ -1,20 +1,11 @@
 <?php
-session_start();
-ob_start();
-include('../../connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 $first_name = $_SESSION['first_name'];
 
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../../includes/styles.php' ?>
-    <title>Document</title>
-</head>
 <style>
     .fc-button-primary{
         background: #50B6BB !important
@@ -23,7 +14,6 @@ $first_name = $_SESSION['first_name'];
         background: #45969B;
     }
 </style>
-<body>
     <div class="wrapper">
       <?php include '../../includes/sidebar.php'; ?>
       <div class="main-panel">
@@ -49,7 +39,7 @@ $first_name = $_SESSION['first_name'];
                         </ul>
                     </span>    
 
-                    <a href="requests.php" class="btn btn-dark op-7">View All Requests</a>
+                    <a href="requests.php" class="btn btn-sm btn-dark op-7">View All Requests</a>
                 </span>
             </div>
             <div class="page-category">
@@ -78,7 +68,4 @@ $first_name = $_SESSION['first_name'];
             </div>
         </div>
     </div>
-  <?php include "../../includes/scripts.php"; ?>
-  <!-- <script src="../../assets/js/events.js"></script> -->
-</body>
-</html>
+<?php include "../../includes/scripts.php"; ?>s

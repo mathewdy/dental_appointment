@@ -1,7 +1,6 @@
 <?php
-include('../../connection/connection.php');
-ob_start();
-session_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -9,14 +8,6 @@ $first_name = $_SESSION['first_name'];
 include('../../includes/security.php');
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
     <h1>Edit Balance</h1>
 
     <?php
@@ -44,13 +35,9 @@ include('../../includes/security.php');
             }
         }
     }
-  
+include "../../includes/scripts.php"; 
 
-    ?>
-</body>
-</html>
 
-<?php
 if(isset($_POST['update_balance'])){
     $payment_id = $_GET['payment_id'];
     $edit_balance = $_POST['edit_balance'];
@@ -65,7 +52,7 @@ if(isset($_POST['update_balance'])){
             echo "<script>
                     window.alert('Updated Balance');
                     window.location.href='history-patient-payments.php?user_id=$user_id&concern=$services';
-                  </script>";
+                </script>";
     }else{
         echo "Error" ; 
     }

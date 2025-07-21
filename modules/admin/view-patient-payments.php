@@ -1,7 +1,7 @@
 <?php
-include('../../connection/connection.php');
-ob_start();
-session_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -9,72 +9,99 @@ $first_name = $_SESSION['first_name'];
 include('../../includes/security.php');
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+    <div class="wrapper">
+        <?php include '../../includes/sidebar.php'; ?>
+
+      <div class="main-panel">
+        <?php include '../../includes/topbar.php'; ?>
+        <div class="container">
+          <div class="page-inner">
+            <div class="page-header">
+              <span class="d-flex justify-content-between align-items-center w-100">
+                    <span class="d-flex">
+                        <h4 class="page-title">Payments</h4>
+                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                            <li class="nav-home">
+                            <a href="dashboard.php">
+                                <i class="icon-home"></i>
+                            </a>
+                            </li>
+                            <li class="separator">
+                                <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                                <a href="payments.php">Payments</a>
+                            </li>
+                            <li class="separator">
+                                <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                                <a href="payments.php">View</a>
+                            </li>
+                        </ul>
+                    </span>    
+                    <a href="add-dentist.php" class="btn btn-sm btn-dark op-7">Add New Dentist</a>
+                </span>
+            </div>
     
 
-    <a href="payments.php">Back</a>
+    <!-- <table class="display table table-bordered" id="dataTable">
+        <thead>
+            <tr>
+                <th>Services</th>
+                <th>Initial Price</th>
+                <th>Maximum Price</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
 
-    <table>
+                $query_services = "SELECT * FROM services";
+                $run_services = mysqli_query($conn,$query_services);
 
-    <tr>
-        <th>Services</th>
-        <th>Initial Price</th>
-        <th>Maximum Price</th>
-    </tr>
-        
-    <?php
+                if(mysqli_num_rows($run_services) > 0){
+                    foreach($run_services as $row_services_2){
+                        ?>
 
-        $query_services = "SELECT * FROM services";
-        $run_services = mysqli_query($conn,$query_services);
+                            <tr>
+                                <td><?php echo $row_services_2['name']?></td>
+                                <td><?php echo $row_services_2['price']?></td>
+                                <td><?php echo $row_services_2['price_2']?></td>
+                            </tr>
+                        
+                            
 
-        if(mysqli_num_rows($run_services) > 0){
-            foreach($run_services as $row_services_2){
-                ?>
-
-                    <tr>
-                        <td><?php echo $row_services_2['name']?></td>
-                        <td><?php echo $row_services_2['price']?></td>
-                        <td><?php echo $row_services_2['price_2']?></td>
-                    </tr>
-                   
-                    
-
-                <?php
-            }
-        }
-
-    ?>
-
-    </table>
-
-    <?php
-
-        if(isset($_GET['user_id'])){
-            $user_id = $_GET['user_id'];
-            $query_patient_name = "SELECT * FROM users WHERE user_id = '$user_id'";
-            $run_patient_name = mysqli_query($conn,$query_patient_name);
-            if(mysqli_num_rows($run_patient_name) > 0){
-                foreach($run_patient_name as $row_patient_name){
-                    ?>
-
-                        <label for="">Name:</label>
-                        <p><?php echo $row_patient_name['first_name'] . " " . $row_patient_name['last_name']?></p>
-                        <br>
-
-                    <?php
+                        <?php
+                    }
                 }
-            }
-            
-        }
 
-    ?>
+            ?>
+        </tbody>
+    
+
+    </table> -->
+    <ul class="list-group">
+        <?php
+            if(isset($_GET['user_id'])){
+                $user_id = $_GET['user_id'];
+                $query_patient_name = "SELECT * FROM users WHERE user_id = '$user_id'";
+                $run_patient_name = mysqli_query($conn,$query_patient_name);
+                if(mysqli_num_rows($run_patient_name) > 0){
+                    foreach($run_patient_name as $row_patient_name){
+                        ?>
+                        <li class="list-group-item">
+                            <label for="">Name:</label>
+                            <p class="m-0 p-0"><?php echo $row_patient_name['first_name'] . " " . $row_patient_name['last_name']?></p>
+                        </li>
+                        <?php
+                    }
+                }
+                
+            }
+
+        ?>
+    </ul>
+  
      <!--- gagawa ako ng conditional statements kapag walang laman ang balance, lalabas ay add payment.
         pero pag may laman, update payment na lang
 
@@ -152,13 +179,12 @@ include('../../includes/security.php');
         }
 
     ?>
-
-
-</body>
-</html>
-
-<?php
-
+    </div>
+        </div>
+      </div>
+    </div>
+<?php 
+include "../../includes/scripts.php"; 
 // if(isset($_POST['add_payment'])) {
 //     $user_id = $_GET['user_id'];
 //     $service = $_POST['service_name'];

@@ -1,0 +1,6 @@
+.form-card { 
+  border-top: 2px dotted #bebebe !important; 
+  border-bottom: 2px dotted #bebebe !important;
+  border-left: 1px solid #bebebe !important;
+  border-right: 1px solid #bebebe !important;
+}

@@ -1,22 +1,11 @@
 <?php
-include('../../connection/connection.php');
-
-session_start();
-ob_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 $first_name = $_SESSION['first_name'];
 
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../../includes/styles.php' ?>
-    <title>Document</title>
-</head>
-<body>
 
     <div class="wrapper">
         <?php 
@@ -116,8 +105,8 @@ $first_name = $_SESSION['first_name'];
                                         <input type="time" class="form-control" name="end_time" id="end_time" min="10:00" max="17:00" value="<?= $row_dentist['end_time']?>">
                                     </div>
                                     <div class="col-lg-12 text-end">
-                                        <a href="view-dentists.php" class="btn btn-danger">Cancel</a>
-                                        <input type="submit" class="btn btn-primary" name="update_dentist" value="Save">
+                                        <a href="view-dentists.php" class="btn btn-sm btn-danger">Cancel</a>
+                                        <input type="submit" class="btn btn-sm btn-primary" name="update_dentist" value="Save">
 
                                     </div>
                                 </div>                        
@@ -174,8 +163,6 @@ document.querySelector('form').addEventListener('submit', function(e) {
 });
 
 </script>
-</body>
-</html>
 
 <?php
 

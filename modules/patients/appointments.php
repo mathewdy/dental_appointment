@@ -53,8 +53,8 @@ include('../../includes/security.php');
                         </ul>
                     </span>    
                     <span>
-                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#doctorModal">Add Appointment</a>
-                        <a href="requests.php" class="btn btn-dark op-7">View All Requests</a>
+                        <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#doctorModal">Add Appointment</a>
+                        <a href="requests.php" class="btn btn-sm btn-dark op-7">View All Requests</a>
                     </span>
                 </span>
             </div>
@@ -195,8 +195,6 @@ include('../../includes/security.php');
 
 
     
-    <?php include "../../includes/scripts.php"; ?>
-</body>
-</html>
+<?php include "../../includes/scripts.php"; ?>
 
 

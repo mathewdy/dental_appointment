@@ -1,22 +1,13 @@
 <?php
-include('../../connection/connection.php');
-ob_start();
-session_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
 include('../../includes/security.php');
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
 
     <h1>Make a payment</h1>
 
@@ -56,11 +47,8 @@ include('../../includes/security.php');
         }
 
     ?>
-
-</body>
-</html>
-
-<?php
+<?php 
+include "../../includes/scripts.php"; 
 
 if(isset($_POST['add_payment'])){
 

@@ -1,20 +1,10 @@
 <?php
-include('../../connection/connection.php');
-session_start();
-ob_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 $first_name = $_SESSION['first_name'];
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../../includes/styles.php'; ?>
-    <title>Document</title>
-</head>
-<body>
     <div class="wrapper">
       <?php include '../../includes/sidebar.php'; ?>
       <div class="main-panel">
@@ -80,8 +70,8 @@ $first_name = $_SESSION['first_name'];
                                 <input type="password" class="form-control" name="password">
                             </div>
                             <div class="col-lg-12 text-end">
-                                <a href="patients.php" class="btn btn-danger">Cancel</a>
-                                <input type="submit" class="btn btn-primary" name="register_patient" value="Save">
+                                <a href="patients.php" class="btn btn-sm btn-danger">Cancel</a>
+                                <input type="submit" class="btn btn-sm btn-primary" name="register_patient" value="Save">
                             </div>
                         </div>
                     </form>
@@ -93,8 +83,6 @@ $first_name = $_SESSION['first_name'];
     </div>
     <a href="appointments.php">Appointment</a>
     <?php include "../../includes/scripts.php"; ?>
-</body>
-</html>
 
 <?php
 if(isset($_POST['register_patient'])){

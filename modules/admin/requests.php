@@ -1,7 +1,7 @@
 <?php
-include('../../connection/connection.php');
-ob_start();
-session_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+
 $first_name = $_SESSION['first_name'];
 $user_id_patient = $_SESSION['user_id'];
 ini_set('display_errors', 1);
@@ -11,15 +11,6 @@ error_reporting(E_ALL);
 include('../../includes/security.php');
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../../includes/styles.php'; ?>
-    <title>Document</title>
-</head>
-<body>
     <div class="wrapper">
       <?php include '../../includes/sidebar.php'; ?>
       <div class="main-panel">
@@ -87,7 +78,7 @@ include('../../includes/security.php');
                                             <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
                                             <td><?php echo $row_appointment['concern']?></td>
                                             <td>
-                                                 <?php
+                                                <?php
                                                     $handler = match($row_appointment['confirmed']){
                                                         '1' => '<span class="badge bg-success">Confirmed</span>',
                                                         '2' => '<span class="badge bg-danger">Cancelled</span>',
@@ -97,10 +88,23 @@ include('../../includes/security.php');
                                                 ?>
                                             </td>
                                             <td>
-                                                <form action="" method="POST" onsubmit="return confirm('Confirmed? Yes or No');">
-                                                    <input type="submit" name="update_status" value="Update Status">
-                                                    <input type="hidden" name="appointment_id" value="<?php echo $row_appointment['appointment_id']?>">
-                                                </form>
+                                                <?php 
+                                                    if(!$row_appointment['confirmed']){
+                                                        ?>
+                                                        <form action="" method="POST" onsubmit="return confirm('Confirmed? Yes or No');">
+                                                            <input type="submit" name="update_status" value="Update Status" class="btn btn-sm btn-primary">
+                                                            <input type="hidden" name="appointment_id" value="<?php echo $row_appointment['appointment_id']?>">
+                                                        </form>
+                                                        <?php
+                                                    }else{
+                                                        ?>
+                                                        <span class="d-flex align-items-center justify-content-center">
+                                                            <p class="text-muted p-0 m-0">Update Status </p>
+                                                        </span>
+                                                        <?php
+                                                    }
+                                                ?>  
+                                               
                                             </td>
                                         </tr>
                                         <?php
@@ -117,11 +121,9 @@ include('../../includes/security.php');
     </div>
 </div>
 </div>
-<?php include "../../includes/scripts.php"; ?>
-</body>
-</html>
+<?php 
+include "../../includes/scripts.php"; 
 
-<?php
 
 if(isset($_POST['update_status'])){
     date_default_timezone_set("Asia/Manila");
