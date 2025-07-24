@@ -46,7 +46,7 @@ ob_start();
                                     </div>
                                     <div class="col-lg-6 mb-5">
                                         <label for="">Mobile Number</label>
-                                        <input type="text" class="form-control" name="mobile_number">
+                                        <input type="number" class="form-control" name="mobile_number">
                                     </div>
                                     <div class="col-lg-6 mb-5">
                                         <label for="">Email</label>

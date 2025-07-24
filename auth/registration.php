@@ -50,7 +50,7 @@ ob_start();
                                     </div>
                                     <div class="col-lg-12 mb-4">
                                         <label for="">Mobile Number </label>
-                                        <input type="text" class="form-control" name="mobile_number">
+                                        <input type="number" class="form-control" name="mobile_number">
                                     </div>
                                     <div class="col-lg-12 mb-4">
                                         <label for="">Date of Birth</label>
