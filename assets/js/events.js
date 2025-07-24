@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
     themeSystem: "standard",
-    events: "../../includes/events.php",
+    events: "../../includes/events/events.php",
     dateClick: function(info) {
         const clickedDate = info.dateStr;        
         const eventsOnDate = calendar.getEvents().filter(event=>
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
             var prompt = new bootstrap.Modal(document.getElementById("appointmentInfo"))
             prompt.show()
             $.ajax({
-                url: "../../includes/event-info.php",
+                url: "../../includes/events/event-info.php",
                 type: "POST",
                 data: {date : clickedDate},
                 success: function(res){

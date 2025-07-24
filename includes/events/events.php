@@ -1,17 +1,14 @@
 <?php
 session_start();
-require_once('../connection/connection.php');
+require_once('../../connection/connection.php');
+require_once('event-clause.php');
+require_once('event-builder.php');
 header('Content-Type: application/json');
 
-$userId = $_SESSION['user_id'];
+$id = $_SESSION['user_id'];
 $role = $_SESSION['role_id'];
-$possibleClause = $role != 2 ? "WHERE appointments.user_id = '$userId'" : '';  
-$query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed
-FROM appointments
-LEFT JOIN users
-ON appointments.user_id = users.user_id
-LEFT JOIN schedule 
-ON appointments.user_id = schedule.user_id" . $possibleClause;
+
+$query_appointments = queryEventBuilder($role, $id);
 $run_appointments = mysqli_query($conn,$query_appointments);
 if(mysqli_num_rows($run_appointments) > 0){
     foreach($run_appointments as $row_appointment){
