@@ -54,11 +54,17 @@ ob_start();
                                     </div>
                                     <div class="col-lg-6 mb-5">
                                         <label for="">Password </label>
-                                        <input type="password" class="form-control" name="password" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
+                                        <div class="input-group mb-3">
+                                            <input type="password" class="form-control pw" name="password" aria-describedby="basic-addon2" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="•••••••" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
+                                            <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw"><i class="fas fa-eye"></i></span>
+                                        </div>
                                     </div>
                                     <div class="col-lg-6 mb-5">
                                         <label for="">Confirm Password </label>
-                                        <input type="password" class="form-control" name="password_2" placeholder="Password" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
+                                        <div class="input-group mb-3">
+                                            <input type="password" class="form-control pw" name="password_2" aria-describedby="basic-addon2" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="•••••••" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
+                                            <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw"><i class="fas fa-eye"></i></span>
+                                        </div>
                                     </div>
                                     <div class="col-lg-12 text-center">
                                         <input type="submit" class="btn btn-black op-8 w-100 mb-2" name="register_admin" value="Register">
