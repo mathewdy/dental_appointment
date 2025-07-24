@@ -1,19 +1,8 @@
 <?php
-include('../connection/connection.php');
-session_start();
-ob_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+
 ?>
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include "../includes/styles.php"; ?>
-    <title>Document</title>
-</head>
-<body>
     <div class="container" style="height: 50em;">
         <div class="row d-flex justify-content-center align-items-center p-5" style="height: 100%;">
             <div class="col-12">
@@ -89,11 +78,9 @@ ob_start();
             </div>
         </div>
     </div>
-    <?php include "../includes/scripts.php"; ?>
-</body>
-</html>
+<?php 
+include "../includes/scripts.php"; 
 
-<?php
 if(isset($_POST['register_patient'])){
 
     $user_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3) ;
