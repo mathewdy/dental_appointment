@@ -34,9 +34,9 @@ include('../../includes/security.php');
                     ?>
 
                         <form action="" method="POST">
-                            <input type="text" name="remaining_balance" value="<?php echo $row_payment['remaining_balance']?>">
+                            <input type="text" name="remaining_balance" value="<?php echo $row_payment['remaining_balance']?>" readonly>
                             <label for="">Add payment</label>
-                            <input type="number" name="payment">
+                            <input type="number" name="payment" required>
                             <input type="submit" name="add_payment_paymogo" value="Add Paymogo Payment">
                             <input type="submit" name="add_payment" value="Add Cash Payment">
                         </form>
@@ -93,7 +93,7 @@ if(isset($_POST['add_payment_paymogo'])){
 date_default_timezone_set("Asia/Manila");
 $date = date('y-m-d');
 // Replace with your PayMongo Secret Key
-$secretKey = "sk_test_rqGiiRTuF8LjgyLuRQzbqPgW";
+$secretKey = "sk_test_r8kyhfXQVLSNGMYfNtZQHVp3";
 
 // Collect form data
 $user_id = $_GET['user_id'];

@@ -86,7 +86,7 @@ $first_name = $_SESSION['first_name']
                                                         <label for="">Mobile Number </label>
                                                     </div>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control" name="mobile_number">
+                                                        <input type="number" class="form-control" name="mobile_number">
                                                     </div>
                                                 </div>
                                             </div>
