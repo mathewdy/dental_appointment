@@ -1,22 +1,21 @@
 <?php
 
-include('../connection/connection.php');
-session_start();
-ob_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 $email = $_SESSION['email'];
 $role_id = $_SESSION['role_id'];
 ?>
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../includes/styles.php' ?>
-    <title>Document</title>
-</head>
-<body>
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
 <div class="container" style="height: 55em;">
         <div class="row d-flex justify-content-center align-items-center p-5" style="height: 100%;">
             <div class="col-6">
@@ -40,9 +39,9 @@ $role_id = $_SESSION['role_id'];
             </div>
         </div>
     </div>
-    <?php include "../includes/scripts.php"; ?>
-</html>
-<?php
+<?php 
+include "../includes/scripts.php";
+
 if(isset($_POST['verify'])){
     $otp_number = $_POST['otp_number'];
     
