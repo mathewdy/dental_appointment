@@ -10,14 +10,26 @@ $role = $_SESSION['role_id'];
 function timeAgo($datetime) {
     $time = strtotime($datetime);
     $diff = time() - $time;
-    
-    if ($diff < 60) return 'Just Now';
-    if ($diff < 3600) return round($diff / 60) . ' minutes ago';
-    if ($diff < 86400) return round($diff / 3600) . ' hours ago';
-    if ($diff < 604800) return round($diff / 86400) . ' days ago';
-    if ($diff < 2629440) return round($diff / 604800) . ' weeks ago';
-    if ($diff < 31553280) return round($diff / 2629440) . ' months ago';
-    return round($diff / 31553280) . ' years ago';
+
+    $units = [
+        'year' => 31553280,
+        'month' => 2629440,
+        'week' => 604800,
+        'day' => 86400,
+        'hour' => 3600,
+        'minute' => 60,
+        'second' => 1
+    ];
+
+    foreach ($units as $unit => $value) {
+        if ($diff >= $value) {
+            $count = floor($diff / $value);
+            $unitName = ($count > 1) ? $unit . 's' : $unit;
+            return "$count $unitName ago";
+        }
+    }
+
+    return 'Just Now';
 }
 
 $notifItem = [];

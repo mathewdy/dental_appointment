@@ -23,12 +23,14 @@ $.ajax({
                     `);
                 });
                 
-                // if(notificationGroup.read === 0){
+                if (totalCount > 0) {
                     $('#notifDropdown').append(`
-                        <span class="notification bg-danger" style="width: 8px !important;"></span>
-                    `)
-                // }
-                
+                        <span class="notification bg-danger">${totalCount}</span>
+                    `);
+                }
+                // $('#notifDropdown').append(`
+                //     <span class="notification bg-danger" style="width: 8px !important;">${totalCount}</span>
+                // `)
             });
             
         } else {
