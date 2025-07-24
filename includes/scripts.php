@@ -23,6 +23,7 @@ if(!empty($userId)){
   <script src="' . BASE_PATH . '/assets/js/datatable-init.js"></script>
   <script src="' . BASE_PATH . '/libs/fullcalendar/index.global.js"></script>
   <script src="' . BASE_PATH . '/assets/js/events.js"></script>
+  <script src="' . BASE_PATH . '/assets/js/modal-event.js"></script>
   <script src="' . BASE_PATH . '/assets/js/notification.js"></script>
   ';
 }
