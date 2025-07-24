@@ -80,83 +80,47 @@ include('../../includes/security.php');
                                     foreach($run_appointments as $row_appointment){
                                         ?>
                                         <tr>
-                                            <td><?php echo $row_appointment['first_name']. " " . $row_appointment['last_name']?></td>
-                                            <td><?php echo $row_appointment['appointment_date']. " " . date("g:i A",strtotime($row_appointment['start_time'])). "-". date("g:i A",strtotime($row_appointment['end_time']))?></td>
-                                            <td><?php echo $row_appointment['concern']?></td>
-                                            <td>
+																					<td><?php echo $row_appointment['first_name']. " " . $row_appointment['last_name']?></td>
+																					<td><?php echo $row_appointment['appointment_date']. " " . date("g:i A",strtotime($row_appointment['start_time'])). "-". date("g:i A",strtotime($row_appointment['end_time']))?></td>
+																					<td><?php echo $row_appointment['concern']?></td>
+																					<td>
 
+																					<?php
+																						$status = (int)$row_appointment['confirmed'];
+																						if ($status === 0) {
+																								echo "N/A";
+																						}elseif ($status === 1){
+																								?>
+																								<p><?php echo $row_appointment['remarks']?></p>
+																								<?php
+																						}elseif($status === 2){
+																								echo "Cancelled";
+																						}
+																					?>
+																					</td>
+																					<td>
                                             <?php
-                                            $status = (int)$row_appointment['confirmed'];
-                                            if ($status === 0) {
-                                                echo "N/A";
-                                                ?>
-                                                    <!-- <input type="text" name="remarks"> -->
-                                                <?php
-                                            }elseif ($status === 1){
-                                                ?>
-                                                <p><?php echo $row_appointment['remarks']?></p>
-                                                <?php
+																							$status = (int)$row_appointment['confirmed'];
+																							if ($status === 1) {
+																									echo '<span class="badge bg-success">Confirmed</span>';                                                  
+																							}
+																							elseif ($status === 2) {
+																									echo '<span class="badge bg-danger">Cancelled</span>';  
+																							}elseif ($status === 0) {
+																									?>
+																							
+																											<!-- <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
+																											<input type="hidden" name="user_id_patient" value="<?php echo $row_appointment['user_id_patient']?>"> -->
+																											<!-- <input type="submit" name="accept" value="Confirm"> -->
+																											<button class="btn btn-sm btn-primary" data-id="<?= $row_appointment['user_id_patient']?>"
+																											data-date="<?= $row_appointment['appointment_date']?>" id="confirmBtn">Confirm</button>
 
-                                            }elseif($status === 2){
-                                                echo "Cancelled";
-                                            }
-                                                
-                                            ?>
-                                            
-                                            
+																									
+																									<?php
+																							}
+																							?>
                                             </td>
-                                            <td>
-
-                                            <?php
-                                                $status = (int)$row_appointment['confirmed'];
-                                                if ($status === 1) {
-                                                    echo '<span class="badge bg-success">Confirmed</span>';                                                  
-                                                }
-                                                elseif ($status === 2) {
-                                                    echo '<span class="badge bg-danger">Cancelled</span>';  
-                                                }elseif ($status === 0) {
-                                                    ?>
-                                                
-                                                        <!-- <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
-                                                        <input type="hidden" name="user_id_patient" value="<?php echo $row_appointment['user_id_patient']?>"> -->
-                                                        <!-- <input type="submit" name="accept" value="Confirm"> -->
-                                                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#doctorRemarks">Confirm</button>
-
-                                                    
-                                                    <?php
-                                                }
-                                                ?>
-                                                    <div class="modal fade" id="doctorRemarks" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">Doctor Remarks</h5>
-                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form action="confirm.php" method="POST">
-                                                                        <div class="row">
-                                                                            <div class="col-lg-12 mb-5 mt-3">
-                                                                                <label for="">Remarks <small>(optional)</small></label>
-                                                                                <textarea class="form-control" name="remarks" id="comment" rows="5"></textarea>
-                                                                                <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
-                                                                                <input type="hidden" name="user_id_patient" value="<?php echo $row_appointment['user_id_patient']?>">
-                                                                            </div>
-                                                                            <div class="col-lg-12 text-end">
-                                                                                <button type="button" class="btn btn-danger btn-md" data-bs-dismiss="modal">Close</button>
-                                                                                <input type="submit" class="btn btn-primary btn-md" name="accept" value="Confirm">
-                                                                            </div>
-                                                                        </div>
-                                                                       
-                                                                    </form>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                            </td>
-                                        
                                         </tr>
-
                                         <?php
                                     }
                                 }
@@ -169,6 +133,30 @@ include('../../includes/security.php');
     </div>
 </div>
 </div>
+<div class="modal fade" id="doctorRemarks" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+			<div class="modal-content">
+					<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLabel">Doctor Remarks</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+							<form action="confirm.php" method="POST">
+									<div class="row">
+										<div class="col-lg-12 mb-5 mt-3">
+												<label for="">Remarks <small>(optional)</small></label>
+												<textarea class="form-control" name="remarks" id="comment" rows="5"></textarea>
+												<input type="hidden" id="appointment" name="appointment_date">
+												<input type="hidden" id="patient_id" name="user_id_patient">
+										</div>
+										<div class="col-lg-12 text-end">
+												<button type="button" class="btn btn-danger btn-md" data-bs-dismiss="modal">Close</button>
+												<input type="submit" class="btn btn-primary btn-md" name="accept" value="Confirm">
+										</div>
+									</div>
+							</form>
+					</div>
+			</div>
+	</div>
+</div>
 <?php include "../../includes/scripts.php"; ?>
-</body>
-</html>

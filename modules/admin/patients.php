@@ -8,15 +8,6 @@ error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
 include('../../includes/security.php');
 ?>
-<style>
-    .dataTables_paginate .paginate_button{
-        border-radius: 0 !important;         /* Rounded corners */
-        border: 2px solid black !important;
-    }
-    a.page_link {
-        border-radius: 12px !important;
-    }
-</style>
 
     <div class="wrapper">
         <?php include '../../includes/sidebar.php'; ?>

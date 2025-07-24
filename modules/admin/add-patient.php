@@ -37,52 +37,117 @@ $first_name = $_SESSION['first_name'];
                     </span>    
                 </span>
             </div>
-            <div class="page-category">
-                <div class="card p-5">
-                    <form action="" method="POST">
-                        <div class="row">
-                            <div class="col-lg-4 mb-4">
-                                <label for="">First Name</label>
-                                <input type="text" class="form-control" name="first_name">
-                            </div>
-                            <div class="col-lg-4 mb-4">
-                                <label for="">Middle Name</label>
-                                <input type="text" class="form-control" name="middle_name">
-                            </div>
-                            <div class="col-lg-4 mb-4">
-                                <label for="">Last Name</label>
-                                <input type="text" class="form-control" name="last_name">
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <label for="">Mobile Number </label>
-                                <input type="number" class="form-control" name="mobile_number">
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <label for="">Date of Birth</label>
-                                <input type="date" class="form-control" name="date_of_birth">
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <label for="">Email</label>
-                                <input type="email" class="form-control" name="email">
-                            </div>
-                            <div class="col-lg-6 mb-4">
-                                <label for="">Password</label>
-                                <input type="password" class="form-control" name="password">
-                            </div>
-                            <div class="col-lg-12 text-end">
-                                <a href="patients.php" class="btn btn-sm btn-danger">Cancel</a>
-                                <input type="submit" class="btn btn-sm btn-primary" name="register_patient" value="Save">
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <a href="appointments.php">Appointment</a>
-    <?php include "../../includes/scripts.php"; ?>
+					<div class="page-category">
+						<form action="" method="POST">
+							<div class="row gap-2">
+									<div class="col-lg-12">
+											<div class="card p-4 shadow-none form-card rounded-1">
+													<div class="card-header">
+															<h3>Basic Information</h3>
+													</div>
+													<div class="card-body">
+															<div class="row gap-4">
+																	<div class="col-lg-12">
+																			<div class="row d-flex align-items-center w-100">
+																					<div class="col-lg-2">
+																							<label for="first_name">First Name</label>
+																					</div>
+																					<div class="col-lg-10">
+																							<input type="text" class="form-control" name="first_name">
+																					</div>
+																			</div>
+																	</div>
+																	<div class="col-lg-12">
+																			<div class="row d-flex align-items-center w-100">
+																					<div class="col-lg-2">
+																							<label for="">Middle Name</label>
+																					</div>
+																					<div class="col-lg-10">
+																							<input type="text" class="form-control" name="middle_name">
+																					</div>
+																			</div>
+																	</div>
+																	<div class="col-lg-12">
+																			<div class="row d-flex align-items-center w-100">
+																					<div class="col-lg-2">
+																							<label for="">Last Name</label>
+																					</div>
+																					<div class="col-lg-10">
+																							<input type="text" class="form-control" name="last_name">
+																					</div>
+																			</div>
+																	</div>
+																	<div class="col-lg-12">
+																			<div class="row d-flex align-items-center w-100">
+																					<div class="col-lg-2">
+																							<label for="">Mobile Number </label>
+																					</div>
+																					<div class="col-lg-10">
+																							<input type="text" class="form-control" name="mobile_number">
+																					</div>
+																			</div>
+																	</div>
+																	<div class="col-lg-12">
+																			<div class="row d-flex align-items-center w-100">
+																					<div class="col-lg-2">
+																							<label for="">Date of Birth</label>
+																					</div>
+																					<div class="col-lg-10">
+																							<input type="date" class="form-control" name="date_of_birth">
+																					</div>
+																			</div>
+																	</div>
+															</div>
+													</div>
+											</div>
+									</div>
+									<div class="col-lg-12">
+										<div class="card p-4 shadow-none form-card rounded-1">
+												<div class="card-header">
+													<h3>Account</h3>
+												</div>
+												<div class="card-body">
+													<div class="row gap-4">
+														<div class="col-lg-12">
+															<div class="row d-flex align-items-center w-100">
+																<div class="col-lg-2">
+																	<label for="">Email</label>
+																</div>
+																<div class="col-lg-10">
+																	<input type="email" class="form-control" name="email">
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12">
+															<div class="row d-flex align-items-center w-100">
+																<div class="col-lg-2">
+																	<label for="">Password</label>
+																</div>
+																<div class="col-lg-10">
+																	<div class="input-group mb-3">
+																		<input type="password" class="form-control pw" name="password" aria-describedby="basic-addon2" id="pw" placeholder="•••••••">
+																		<span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw"><i class="fas fa-eye"></i></span>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+										</div>
+								</div>
+							</div>
+							<div class="col-lg-12 text-end">
+									<a href="patients.php" class="btn btn-sm btn-danger">Cancel</a>
+									<input type="submit" class="btn btn-sm btn-primary" name="register_patient" value="Save">
+							</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+<?php include "../../includes/scripts.php"; ?>
 
 <?php
 if(isset($_POST['register_patient'])){
