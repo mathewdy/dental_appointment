@@ -1,19 +1,7 @@
 <?php
-ob_start();
-session_start();
-date_default_timezone_set('Asia/Manila');
-include('../connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../includes/styles.php' ?>
-    <title>Document</title>
-</head>
-<body>
 <div class="container" style="height: 55em;">
         <div class="row d-flex justify-content-center align-items-center p-5" style="height: 100%;">
             <div class="col-6">
@@ -53,10 +41,8 @@ include('../connection/connection.php');
             </div>
         </div>
     </div>
-    <?php include "../includes/scripts.php"; ?>
-</html>
-
-<?php
+<?php 
+include "../includes/scripts.php"; 
 
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
