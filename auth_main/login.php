@@ -42,7 +42,8 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
         </div>
     </div>
 <?php 
-include "../includes/scripts.php"; 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+
 
 if (isset($_POST['login'])) {
     $email = $_POST['email'];

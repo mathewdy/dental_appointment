@@ -11,5 +11,6 @@ function initPasswordToggles() {
 
     $password.attr('type', isPassword ? 'text' : 'password');
     $icon.toggleClass('fa-eye fa-eye-slash');
+
   });
 }
