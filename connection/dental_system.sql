@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2025 at 03:23 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Aug 07, 2025 at 09:53 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -52,7 +52,8 @@ INSERT INTO `appointments` (`id`, `user_id`, `user_id_patient`, `appointment_id`
 (55, 20258165, 20257193, 20254804, 'US Plastic', 1, '01:14 PM to 02:14 PM', '07/26/2025', '2025-07-05', '2025-07-05', 'Sample ikalawa', 1),
 (57, 20258165, 20256914, 20257824, 'Oral Prophylaxis', 1, '10:14 AM to 11:14 AM', '07/19/2025', '2025-07-19', '2025-07-19', 'asdas', NULL),
 (58, 20258165, 20255885, 20256487, 'Oral Prophylaxis', 1, '10:14 AM to 11:14 AM', '07/25/2025', '2025-07-24', '2025-07-24', 'Nice man', NULL),
-(59, 20258165, 20256914, 20257157, '', 0, '10:14 AM to 11:14 AM', '08/08/2025', '2025-08-07', '2025-08-07', NULL, NULL);
+(61, 20255794, 20256914, 20254928, 'Composite Restoration', 2, '10:55 AM to 11:55 AM', '11/08/2025', '2025-08-07', '2025-08-07', NULL, NULL),
+(62, 20255794, 20256914, 20259499, 'Composite Restoration', 2, '11:00 AM to 12:00 PM', '08/07/2025', '2025-08-07', '2025-08-07', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -77,7 +78,9 @@ CREATE TABLE `notification` (
 INSERT INTO `notification` (`id`, `user_id`, `message`, `hasRead`, `type`, `createdAt`, `createdBy`) VALUES
 (1, 20258165, 'New Appointment Request', 0, 'Appointment', '2025-07-19 00:17:35', 20256914),
 (2, 20258165, 'New Appointment Request', 0, 'Appointment', '2025-07-23 00:35:57', 20255885),
-(3, 20258165, 'New Appointment Request', 0, 'Appointment', '0000-00-00 00:00:00', 20256914);
+(3, 20258165, 'New Appointment Request', 0, 'Appointment', '0000-00-00 00:00:00', 20256914),
+(4, 20255794, 'New Appointment Request', 0, 'Appointment', '2025-08-07 00:00:00', 20256914),
+(5, 20255794, 'New Appointment Request', 0, 'Appointment', '2025-08-07 00:00:00', 20256914);
 
 -- --------------------------------------------------------
 
@@ -103,7 +106,7 @@ CREATE TABLE `payments` (
 
 INSERT INTO `payments` (`id`, `payment_id`, `user_id`, `services`, `initial_balance`, `remaining_balance`, `is_deducted`, `date_created`, `date_updated`) VALUES
 (9, 20252858, 20251724, 'Composite Restoration', 5000, '0', 1, '2025-07-06', '2025-08-07'),
-(10, 202545134, 20251724, 'Wisdom tooth', 5000, '4000', 1, '2025-07-06', '2025-07-06');
+(10, 202545134, 20251724, 'Wisdom tooth', 5000, '4000', 1, '2025-07-06', '2025-08-07');
 
 -- --------------------------------------------------------
 
@@ -127,7 +130,8 @@ CREATE TABLE `payment_history` (
 INSERT INTO `payment_history` (`id`, `payment_id`, `payment_received`, `payment_method`, `date_created`, `date_updated`) VALUES
 (3, 202545134, 1000, 'cash', '2025-07-06', '2025-07-06'),
 (4, 20252858, 452, 'Cash', '2025-08-07', '2025-08-07'),
-(5, 20252858, 4548, 'Cash', '2025-08-07', '2025-08-07');
+(5, 20252858, 4548, 'Cash', '2025-08-07', '2025-08-07'),
+(6, 202545134, 4001, 'Cash', '2025-08-07', '2025-08-07');
 
 -- --------------------------------------------------------
 
@@ -171,7 +175,7 @@ CREATE TABLE `schedule` (
 
 INSERT INTO `schedule` (`id`, `user_id`, `day`, `start_time`, `end_time`, `date_created`, `date_updated`) VALUES
 (22, 20258165, 'Monday, Friday, Saturday', '10:14', '16:51', '2025-05-12', '2025-05-12'),
-(23, 20255794, 'Saturday', '10:55', '16:19', '2025-05-12', '2025-05-12');
+(23, 20255794, 'Monday, Tuesday, Wednesday, Thursday, Friday, Saturday', '11:00', '17:00', '2025-05-12', '2025-05-12');
 
 -- --------------------------------------------------------
 
@@ -233,10 +237,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `user_id`, `role_id`, `first_name`, `middle_name`, `last_name`, `mobile_number`, `email`, `password`, `date_of_birth`, `date_created`, `date_updated`, `token`, `address`, `otp`) VALUES
-(37, 20256914, 1, 'Keelie', 'Buffy', 'Sydney', 'Oscar', 'zemuf@mailinator.com', '$2y$10$zFQeA8DJGs5Qj/4Hzq/HsuLFqXajHmtI5KfefCY9Q2.g2jCW62hya', '2009-09-28', '2025-05-12', '2025-05-12', NULL, '', '58247'),
-(38, 20258485, 2, 'Fitzgerald', 'Octavia', 'Robert', 'Moana', 'vemimo@mailinator.com', '$2y$10$OEN8VNt7hw84.sEu6byjuOQBwE6BtefEYcc2gbjDBJ4Ppk.lInR3i', '1995-11-11', '2025-05-12', '2025-05-12', NULL, NULL, '73905'),
+(37, 20256914, 1, 'Keelie', 'Buffy', 'Sydney', 'Oscar', 'zemuf@mailinator.com', '$2y$10$zFQeA8DJGs5Qj/4Hzq/HsuLFqXajHmtI5KfefCY9Q2.g2jCW62hya', '2009-09-28', '2025-05-12', '2025-05-12', NULL, '', '29756'),
+(38, 20258485, 2, 'Fitzgerald', 'Octavia', 'Robert', 'Moana', 'vemimo@mailinator.com', '$2y$10$OEN8VNt7hw84.sEu6byjuOQBwE6BtefEYcc2gbjDBJ4Ppk.lInR3i', '1995-11-11', '2025-05-12', '2025-05-12', NULL, NULL, '60239'),
 (39, 20258165, 3, 'Mona', 'Stacey', 'Jelani', 'Prescott', 'rozypepadi@mailinator.com', '$2y$10$8wsRTbgsFSZnp2MriojtRukWabtm2n2Qomi6g8I/e7R1pOzry8aDG', '1978-10-24', '2025-05-12', '2025-05-12', NULL, NULL, '26490'),
-(40, 20255794, 3, 'Stephanie', 'Mallory', 'Lacy', 'Austin', 'tybemodily@mailinator.com', '$2y$10$naWPr0AYeF/yCsGodcNXiuYkmRKmcamS.e/6INj4pxPlpKx6TjMEK', '1970-05-09', '2025-05-12', '2025-05-12', NULL, NULL, '90186'),
+(40, 20255794, 3, 'Stephanie', 'Mallory', 'Lacy', 'Austin', 'tybemodily@mailinator.com', '$2y$10$naWPr0AYeF/yCsGodcNXiuYkmRKmcamS.e/6INj4pxPlpKx6TjMEK', '1970-05-09', '2025-05-12', '2025-08-07', NULL, NULL, '90186'),
 (41, 20253698, 1, 'Macey', 'Graham', 'Felix', 'Xantha', '', '$2y$10$bZ4UQutLSdh76oJj0K.6QuveMofnbZISNMbWPnErVJMN.RRj.j/T6', '2018-02-26', '2025-05-14', '2025-05-14', NULL, NULL, NULL),
 (42, 20257193, 1, 'Colette', 'Cyrus', 'Celeste', 'Tanisha', 'zubuqyb@mailinator.com', '$2y$10$fTMa8Mnju2nyflQVfoFB4.qdfOuc3o.jWHJaKV5flpjT45JSm0SWm', '2008-07-21', '2025-05-14', '2025-05-14', NULL, NULL, '90473'),
 (43, 20257931, 1, 'Dara', 'Holly', 'Iona', 'Cassidy', 'rexahiqif@mailinator.com', '$2y$10$kTj7ySsKQ1lBvY8mwrMkg.55CgBt91BVFpwgztTVNUKv9OuptcW3.', '1997-03-11', '2025-05-14', '2025-05-14', NULL, NULL, NULL),
@@ -316,13 +320,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT for table `notification`
 --
 ALTER TABLE `notification`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -334,7 +338,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT for table `payment_history`
 --
 ALTER TABLE `payment_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `roles`

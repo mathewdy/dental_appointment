@@ -200,7 +200,7 @@ if(isset($_POST['save'])){
                                         VALUES ('$user_id','$user_id_patient','$appointment_id','$concern', '0','$appointment_time', '$appointment_date','$date', '$date')";
                 $run_appointment = mysqli_query($conn,$query_appointment);
                 $insert_notification ="INSERT INTO `notification` (user_id, `message`, hasRead, `type`, createdAt, createdBy)
-                                        VALUES ($user_id, 'New Appointment Request', 0, 'Appointment', $date, $user_id_patient)";
+                                        VALUES ('$user_id', 'New Appointment Request', 0, 'Appointment', '$date', '$user_id_patient')";
                 $run_notif = mysqli_query($conn, $insert_notification);
                 if($run_appointment) {
                     header("Location: appointments.php");

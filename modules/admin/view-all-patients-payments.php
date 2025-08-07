@@ -56,6 +56,26 @@ include('../../includes/security.php');
                             </span>    
                         </span>
                     </div>
+                    <?php
+                        if(isset($_GET['user_id'])){
+                            $user_id = $_GET['user_id'];
+                            $query_patient_name = "SELECT * FROM users WHERE user_id = '$user_id'";
+                            $run_patient_name = mysqli_query($conn,$query_patient_name);
+                            if(mysqli_num_rows($run_patient_name) > 0){
+                                foreach($run_patient_name as $row_patient_name){
+                                    ?>
+                                        <span>
+                                            <label for="">Patient Name:</label>
+                                            <h1 class="m-0 p-0"><?php echo $row_patient_name['first_name'] . " " . $row_patient_name['last_name']?></h1>
+                                        </span>		
+                                        
+                                    <?php
+                                }
+                            }
+                            
+                        }
+
+                    ?>
                     <div class="page-category">
                         <div class="row">
                             <div class="col-lg-12">

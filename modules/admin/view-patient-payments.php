@@ -87,10 +87,10 @@ include('../../includes/security.php');
                 if(mysqli_num_rows($run_patient_name) > 0){
                     foreach($run_patient_name as $row_patient_name){
                         ?>
-												<span>
-													<label for="">Patient Name:</label>
-													<h1 class="m-0 p-0"><?php echo $row_patient_name['first_name'] . " " . $row_patient_name['last_name']?></h1>
-												</span>		
+                            <span>
+                                <label for="">Patient Name:</label>
+                                <h1 class="m-0 p-0"><?php echo $row_patient_name['first_name'] . " " . $row_patient_name['last_name']?></h1>
+                            </span>		
                             
                         <?php
                     }
