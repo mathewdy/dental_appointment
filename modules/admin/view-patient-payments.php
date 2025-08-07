@@ -40,7 +40,6 @@ include('../../includes/security.php');
                             </li>
                         </ul>
                     </span>    
-                    <a href="add-dentist.php" class="btn btn-sm btn-dark op-7">Add New Dentist</a>
                 </span>
             </div>
     
@@ -80,7 +79,6 @@ include('../../includes/security.php');
     
 
     </table> -->
-    <ul class="list-group">
         <?php
             if(isset($_GET['user_id'])){
                 $user_id = $_GET['user_id'];
@@ -89,10 +87,11 @@ include('../../includes/security.php');
                 if(mysqli_num_rows($run_patient_name) > 0){
                     foreach($run_patient_name as $row_patient_name){
                         ?>
-                        <li class="list-group-item">
-                            <label for="">Name:</label>
-                            <p class="m-0 p-0"><?php echo $row_patient_name['first_name'] . " " . $row_patient_name['last_name']?></p>
-                        </li>
+												<span>
+													<label for="">Patient Name:</label>
+													<h1 class="m-0 p-0"><?php echo $row_patient_name['first_name'] . " " . $row_patient_name['last_name']?></h1>
+												</span>		
+                            
                         <?php
                     }
                 }
@@ -100,7 +99,7 @@ include('../../includes/security.php');
             }
 
         ?>
-    </ul>
+    <!-- </ul> -->
   
      <!--- gagawa ako ng conditional statements kapag walang laman ang balance, lalabas ay add payment.
         pero pag may laman, update payment na lang
@@ -147,35 +146,48 @@ include('../../includes/security.php');
                         <?php  
             //     }
             // }
+            ?>
+            <div class="card p-4">
+							<div class="table-responsive">
+								<table class="display table" id="dataTable">
+									<thead>
+											<tr>
+													<th>Services / Concern:</th>
+													<th style="width:10%;">Actions</th>
+											</tr>
+									</thead>
+									<tbody>
+										<?php
+										$query_patients_appointments = "SELECT users.user_id,users.first_name,users.last_name,appointments.concern,appointments.confirmed
+										FROM users 
+										LEFT JOIN appointments
+										ON users.user_id = appointments.user_id_patient 
+										WHERE appointments.confirmed = '1' AND users.role_id = '1' AND users.user_id = '$user_id'";
+										$run_patients_appointments = mysqli_query($conn,$query_patients_appointments);
 
-            $query_patients_appointments = "SELECT users.user_id,users.first_name,users.last_name,appointments.concern,appointments.confirmed
-            FROM users 
-            LEFT JOIN appointments
-            ON users.user_id = appointments.user_id_patient 
-            WHERE appointments.confirmed = '1' AND users.role_id = '1' AND users.user_id = '$user_id'";
-            $run_patients_appointments = mysqli_query($conn,$query_patients_appointments);
-
-            if(mysqli_num_rows($run_patients_appointments) > 0){
-                foreach($run_patients_appointments as $row_patients_appointments){
-                    ?>
-
-                        <label for="">Services / Concern:</label>
-                        <p><?php echo $row_patients_appointments['concern']?></p>
-                        <br>
-
-                        <a href="history-patient-payments.php?user_id=<?php echo $row_patients_appointments['user_id']?>&concern=<?php echo $row_patients_appointments['concern']?>">View</a>
-
-                    <?php
-                }
-            }
-
-
-
-           
-            //next step, create ako ng add balance tapos, add payment.
+										if(mysqli_num_rows($run_patients_appointments) > 0){
+												foreach($run_patients_appointments as $row_patients_appointments){
+														?>
+														<tr>
+															<td>
+																<p><?php echo $row_patients_appointments['concern']?></p>
+															</td>
+															<td>
+																<a href="history-patient-payments.php?user_id=<?php echo $row_patients_appointments['user_id']?>&concern=<?php echo $row_patients_appointments['concern']?>">View</a>
+															</td>
+														</tr>
+														<?php
+												}
+										}
+										?>
+									</tbody>
+								</table>
+							</div>
+						</div>
+			<?php
+			 //next step, create ako ng add balance tapos, add payment.
             // tas more on deduction na to and update na ito ng payment.
             //integration of PayMaya
-
         }
 
     ?>
@@ -184,7 +196,8 @@ include('../../includes/security.php');
       </div>
     </div>
 <?php 
-include "../../includes/scripts.php"; 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+
 // if(isset($_POST['add_payment'])) {
 //     $user_id = $_GET['user_id'];
 //     $service = $_POST['service_name'];

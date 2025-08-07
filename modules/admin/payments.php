@@ -103,6 +103,6 @@ $first_name = $_SESSION['first_name'];
         </div>
     </div>    
 
-<?php include "../../includes/scripts.php"; ?>
-</body>
-</html>
+<?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+?>
