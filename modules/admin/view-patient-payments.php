@@ -167,6 +167,7 @@ include('../../includes/security.php');
 												payments.initial_balance, 
 												payments.remaining_balance,
 												payments.services,
+												payments.is_deducted,
 												users.user_id AS user_id,
 												users.first_name,
 												users.last_name,
@@ -200,11 +201,30 @@ include('../../includes/security.php');
 																				<i class="fas fa-ellipsis-v"></i>
 																		</a>
 																		<ul class="dropdown-menu"> 
+																			<?php
+																				if (($row_patients_appointments['initial_balance'] == '') || ($row_patients_appointments['initial_balance'] === 0)) {
+																				?>
+																				<li>
+																					<a class="dropdown-item" href="add-balance.php?user_id=<?= $user_id?>&concern=<?= $row_patients_appointments['services']?>">Add Balance</a>
+																				</li>
+																				<?php
+																				}
+																				if($row_patients_appointments['is_deducted'] == 1) {
+																				?>
+																				<li>
+																					<a class="dropdown-item" href="update-payment.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&service=<?= $row_patients_appointments['services']?>">Update Payment</a>
+																				</li>
+																				<li>
+																					<a class="dropdown-item" href="delete-balance.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&concern=<?= $row_patients_appointments['services']?>" 
+																						onclick="return confirm('Are you sure you want to delete this?')">
+																						Delete
+																						</a>
+																				</li>
+																				<?php 
+																				}
+																			?>
 																			<li>
-																					<a class="dropdown-item" href="update-payment.php?payment_id=<?php echo $row_patients_appointments['payment_id']?>&user_id=<?php echo $user_id?>&service=<?= $row_patients_appointments['services']?>">Update Payment</a>
-																			</li>
-																			<li>
-																				<a class="dropdown-item" href="view-all-patients-payments.php?payment_id=<?php echo $row_patients_appointments['payment_id']?>&user_id=<?php echo $user_id?>&service=<?= $row_patients_appointments['services']?>">Payment History</a>
+																				<a class="dropdown-item" href="view-all-patients-payments.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&service=<?= $row_patients_appointments['services']?>">Payment History</a>
 																			</li>
 																		</ul>
 																</div>
