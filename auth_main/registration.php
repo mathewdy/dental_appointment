@@ -52,8 +52,8 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
                                     <div class="col-lg-6 mb-5">
                                         <label for="">Confirm Password </label>
                                         <div class="input-group mb-3">
-                                            <input type="password" class="form-control pw" name="password_2" aria-describedby="basic-addon2" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="•••••••" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
-                                            <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw"><i class="fas fa-eye"></i></span>
+                                            <input type="password" class="form-control pw" id="pw2" name="password_2" aria-describedby="basic-addon2" pattern="(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="•••••••" title="Password must be at least 8 characters and contain both uppercase and lowercase letters" required>
+                                            <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw2"><i class="fas fa-eye"></i></span>
                                         </div>
                                     </div>
                                     <div class="col-lg-12 text-center">
