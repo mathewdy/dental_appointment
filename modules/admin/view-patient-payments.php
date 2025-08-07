@@ -153,16 +153,33 @@ include('../../includes/security.php');
 									<thead>
 											<tr>
 													<th>Services / Concern:</th>
+													<th>Initial Balance</th>
+													<th>Remaining Balance</th>
 													<th style="width:10%;">Actions</th>
 											</tr>
 									</thead>
 									<tbody>
 										<?php
-										$query_patients_appointments = "SELECT users.user_id,users.first_name,users.last_name,appointments.concern,appointments.confirmed
-										FROM users 
-										LEFT JOIN appointments
-										ON users.user_id = appointments.user_id_patient 
-										WHERE appointments.confirmed = '1' AND users.role_id = '1' AND users.user_id = '$user_id'";
+										$query_patients_appointments = "SELECT 
+												payments.id, 
+												payments.user_id AS payment_user_id,
+												payments.payment_id,
+												payments.initial_balance, 
+												payments.remaining_balance,
+												payments.services,
+												users.user_id AS user_id,
+												users.first_name,
+												users.last_name,
+												appointments.user_id_patient,
+												appointments.confirmed
+										FROM `payments`
+										LEFT JOIN users ON users.user_id = payments.user_id
+										LEFT JOIN appointments ON appointments.user_id_patient = payments.user_id
+										WHERE appointments.confirmed = '1' AND users.role_id = '1' AND users.user_id = '$user_id'
+										GROUP BY payments.id
+
+										"
+										;
 										$run_patients_appointments = mysqli_query($conn,$query_patients_appointments);
 
 										if(mysqli_num_rows($run_patients_appointments) > 0){
@@ -170,10 +187,27 @@ include('../../includes/security.php');
 														?>
 														<tr>
 															<td>
-																<p><?php echo $row_patients_appointments['concern']?></p>
+																<p><?php echo $row_patients_appointments['services']?></p>
 															</td>
+															<td><?= $row_patients_appointments['initial_balance'] ?></td>
 															<td>
-																<a href="history-patient-payments.php?user_id=<?php echo $row_patients_appointments['user_id']?>&concern=<?php echo $row_patients_appointments['concern']?>">View</a>
+																<?= $row_patients_appointments['remaining_balance'] ?>
+															</td>
+															<td class="d-flex justify-content-center">
+																<div class="dropdown">	
+																		<a class="btn btn-sm btn-outline-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 12px;" data-bs-toggle="dropdown" aria-expanded="false">
+
+																				<i class="fas fa-ellipsis-v"></i>
+																		</a>
+																		<ul class="dropdown-menu"> 
+																			<li>
+																					<a class="dropdown-item" href="update-payment.php?payment_id=<?php echo $row_patients_appointments['payment_id']?>&user_id=<?php echo $user_id?>&service=<?= $row_patients_appointments['services']?>">Update Payment</a>
+																			</li>
+																			<li>
+																				<a class="dropdown-item" href="view-all-patients-payments.php?payment_id=<?php echo $row_patients_appointments['payment_id']?>&user_id=<?php echo $user_id?>&service=<?= $row_patients_appointments['services']?>">Payment History</a>
+																			</li>
+																		</ul>
+																</div>
 															</td>
 														</tr>
 														<?php

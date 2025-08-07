@@ -7,46 +7,135 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
 include('../../includes/security.php');
-?>
+
+if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
+  $user_id = $_GET['user_id'];
+  $concern = $_GET['service'];
+
+  ?>
+          
+  <?php
+
+  $payment_id = $_GET['payment_id'];
+  $user_id = $_GET['user_id'];
+  $concern = $_GET['service'];
+
+  $query_payment = "SELECT * FROM payments WHERE user_id = '$user_id' AND services = '$concern' AND payment_id = '$payment_id'";
+  $run_payment = mysqli_query($conn,$query_payment);
+
+  if(mysqli_num_rows($run_payment) > 0){
+      foreach($run_payment as $row_payment){
+          ?>
+    <div class="wrapper">
+        <?php include '../../includes/sidebar.php'; ?>
+
+        <div class="main-panel">
+            <?php include '../../includes/topbar.php'; ?>
+            <div class="container">
+                <div class="page-inner">
+                    <div class="page-header">
+                        <span class="d-flex justify-content-between align-items-center w-100">
+                            <span class="d-flex">
+                                <h4 class="page-title">Payments</h4>
+                                <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                                    <li class="nav-home">
+                                    <a href="dashboard.php">
+                                        <i class="icon-home"></i>
+                                    </a>
+                                    </li>
+                                    <li class="separator">
+                                        <i class="icon-arrow-right"></i>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#">Payments</a>
+                                    </li>
+                                    <li class="separator">
+                                        <i class="icon-arrow-right"></i>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="view-patient-payments.php?user_id=<?php echo $user_id?>&concern=<?php echo $concern?>">View</a>
+                                    </li>
+                                    <li class="separator">
+                                        <i class="icon-arrow-right"></i>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#">New Payment</a>
+                                    </li>
+                                </ul>
+                            </span>    
+                        </span>
+                    </div>
+                    <div class="page-category">
+                        <div class="row">
+                            <div class="col-lg-12 mb-4">
+                            
+
+                                    <form action="" method="POST">
+                                      <div class="card p-4 shadow-none form-card rounded-1">
+                                        <div class="card-header">
+                                            <h3>Make a payment</h3>
+                                        </div>
+                                        <div class="card-body">
+                                          <div class="row gap-4">
+                                            <div class="col-lg-12">
+                                              <div class="row d-flex align-items-center w-100">
+                                                <div class="col-lg-2">
+                                                  <label for="">Remaining Balance</label>
+                                                </div>
+                                                <div class="col-lg-10">
+                                                  <input type="text" class="form-control" name="remaining_balance" value="<?php echo $row_payment['remaining_balance']?>" readonly>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                              <div class="row d-flex align-items-center w-100">
+                                                <div class="col-lg-2">
+                                                  <label for="">Add Payment</label>
+                                                </div>
+                                                <div class="col-lg-10">
+                                                  <input type="number" class="form-control" name="payment" required>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-lg-12 text-end">
+                                              <a href="view-patient-payments.php?user_id=<?php echo $user_id?>&concern=<?php echo $concern?>" class="btn btn-sm btn-danger">Cancel</a>
+                                              <?php
+                                                if($row_payment['remaining_balance'] <= 0) {
+                                                  ?>
+                                                  <input type="submit" class="btn btn-sm btn-primary disabled" name="add_payment" value="Add Cash Payment">
+                                                  <input type="submit" class="btn btn-sm btn-success disabled" name="add_payment_paymogo" value="Add Paymogo Payment">
+                                                  <?php
+                                                }else{
+                                                  ?>
+                                                  <input type="submit" class="btn btn-sm btn-primary" name="add_payment" value="Add Cash Payment">
+                                                  <input type="submit" class="btn btn-sm btn-success" name="add_payment_paymogo" value="Add Paymogo Payment">
+                                                  <?php
+                                                }
+                                              ?>
+
+                                            </div>
+                                    </form>
+
+                                    <?php
+                                                }
+                                            }
+                                        }
+
+                                    ?>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
 
     <h1>Make a payment</h1>
 
-    <?php
-
-        if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
-            $user_id = $_GET['user_id'];
-            $concern = $_GET['service'];
-
-            ?>
-                    
-                <a href="history-patient-payments.php?user_id=<?php echo $user_id?>&concern=<?php echo $concern?>">Back</a>
-            <?php
-
-            $payment_id = $_GET['payment_id'];
-            $user_id = $_GET['user_id'];
-            $concern = $_GET['service'];
-
-            $query_payment = "SELECT * FROM payments WHERE user_id = '$user_id' AND services = '$concern' AND payment_id = '$payment_id'";
-            $run_payment = mysqli_query($conn,$query_payment);
-
-            if(mysqli_num_rows($run_payment) > 0){
-                foreach($run_payment as $row_payment){
-                    ?>
-
-                        <form action="" method="POST">
-                            <input type="text" name="remaining_balance" value="<?php echo $row_payment['remaining_balance']?>" readonly>
-                            <label for="">Add payment</label>
-                            <input type="number" name="payment" required>
-                            <input type="submit" name="add_payment_paymogo" value="Add Paymogo Payment">
-                            <input type="submit" name="add_payment" value="Add Cash Payment">
-                        </form>
-
-                    <?php
-                }
-            }
-        }
-
-    ?>
+ 
 <?php 
 include "../../includes/scripts.php"; 
 
