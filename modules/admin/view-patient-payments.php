@@ -166,19 +166,18 @@ include('../../includes/security.php');
 												payments.payment_id,
 												payments.initial_balance, 
 												payments.remaining_balance,
-												payments.services,
 												payments.is_deducted,
 												users.user_id AS user_id,
 												users.first_name,
 												users.last_name,
 												appointments.user_id_patient,
+                        appointments.concern,
 												appointments.confirmed
-										FROM `payments`
-										LEFT JOIN users ON users.user_id = payments.user_id
-										LEFT JOIN appointments ON appointments.user_id_patient = payments.user_id
+										FROM `appointments`
+										LEFT JOIN users ON appointments.user_id_patient = users.user_id
+										LEFT JOIN payments ON appointments.user_id_patient = payments.user_id
 										WHERE appointments.confirmed = '1' AND users.role_id = '1' AND users.user_id = '$user_id'
 										GROUP BY payments.id
-
 										"
 										;
 										$run_patients_appointments = mysqli_query($conn,$query_patients_appointments);
@@ -190,9 +189,9 @@ include('../../includes/security.php');
 															<td>
 																<?= $row_patients_appointments['services']?>
 															</td>
-															<td><?= $row_patients_appointments['initial_balance'] ?></td>
+															<td><?= '₱'.$row_patients_appointments['initial_balance'] ?></td>
 															<td>
-																<?= $row_patients_appointments['remaining_balance'] ?>
+																<?= '₱'.$row_patients_appointments['remaining_balance'] ?>
 															</td>
 															<td class="d-flex justify-content-center" >
 																<div class="dropdown">	
@@ -200,9 +199,6 @@ include('../../includes/security.php');
 																				<i class="fas fa-ellipsis-v"></i>
 																		</a>
 																		<ul class="dropdown-menu"> 
-																			<?php
-																				if (($row_patients_appointments['initial_balance'] == '') || ($row_patients_appointments['initial_balance'] == 0)) {
-																				?>
 																				<li>
 																					<a class="dropdown-item add-balance" 
                                           href="#"
@@ -214,7 +210,6 @@ include('../../includes/security.php');
                                           </a>
 																				</li>
 																				<?php
-																				}
 																				if($row_patients_appointments['is_deducted'] == 1) {
 																				?>
 																				<li>
