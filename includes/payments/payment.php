@@ -6,10 +6,25 @@ if (isset($_POST['id']) && is_numeric($_POST['id'])) {
   $user_id = $_POST['id'];
   $concern = $_POST['concern'];
 
-  $query = "SELECT *
-    FROM payments
-    WHERE user_id = '$user_id' AND services  = '$concern'
-    GROUP BY services
+  $query = "SELECT 
+												payments.id, 
+												payments.user_id AS payment_user_id,
+												payments.payment_id,
+												payments.initial_balance, 
+												payments.remaining_balance,
+												payments.is_deducted,
+												users.user_id AS user_id,
+												users.first_name,
+												users.last_name,
+                        appointments.appointment_id,
+												appointments.user_id_patient,
+                        appointments.concern,
+												appointments.confirmed
+										FROM `appointments`
+										LEFT JOIN users ON appointments.user_id_patient = users.user_id
+										LEFT JOIN payments ON appointments.user_id_patient = payments.user_id
+										WHERE appointments.concern = '$concern' AND users.user_id = '$user_id'
+										GROUP BY appointments.appointment_id
   ";
   $run = mysqli_query($conn, $query);
 
@@ -19,7 +34,7 @@ if (isset($_POST['id']) && is_numeric($_POST['id'])) {
     <div class="col-lg-12">
       <label for="">Remaining Balance:</label>
       <input type="number" class="form-control" name="remaining_balance">
-      <input type="hidden" class="form-control" name="concern" value="<?= $row['services']?>">
+      <input type="hidden" class="form-control" name="concern" value="<?= $row['concern']?>">
       <input type="hidden" class="form-control" name="user_id" value="<?= $user_id ?>">
     </div>
     <?php
