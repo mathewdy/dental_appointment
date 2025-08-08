@@ -7,7 +7,7 @@ $.ajax({
             let totalCount = 0;
 
             $.each(res, function(index, notificationGroup) {
-                totalCount += notificationGroup.count;  
+                totalCount += notificationGroup.count[0];  
 
                 $.each(notificationGroup.data, function(i, notification) {
                     $('#notif').append(`

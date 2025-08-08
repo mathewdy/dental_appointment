@@ -25,6 +25,8 @@ if(!empty($userId)){
   <script src="' . BASE_PATH . '/assets/js/events.js"></script>
   <script src="' . BASE_PATH . '/assets/js/modal-event.js"></script>
   <script src="' . BASE_PATH . '/assets/js/notification.js"></script>
+  <script src="' . BASE_PATH . '/assets/js/add-balance.js"></script>
+  <script src="' . BASE_PATH . '/assets/js/payment-history.js"></script>
   ';
 }
 

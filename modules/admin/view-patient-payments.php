@@ -188,43 +188,59 @@ include('../../includes/security.php');
 														?>
 														<tr>
 															<td>
-																<p><?php echo $row_patients_appointments['services']?></p>
+																<?= $row_patients_appointments['services']?>
 															</td>
 															<td><?= $row_patients_appointments['initial_balance'] ?></td>
 															<td>
 																<?= $row_patients_appointments['remaining_balance'] ?>
 															</td>
-															<td class="d-flex justify-content-center">
+															<td class="d-flex justify-content-center" >
 																<div class="dropdown">	
 																		<a class="btn btn-sm btn-outline-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 12px;" data-bs-toggle="dropdown" aria-expanded="false">
-
 																				<i class="fas fa-ellipsis-v"></i>
 																		</a>
 																		<ul class="dropdown-menu"> 
 																			<?php
-																				if (($row_patients_appointments['initial_balance'] == '') || ($row_patients_appointments['initial_balance'] === 0)) {
+																				if (($row_patients_appointments['initial_balance'] == '') || ($row_patients_appointments['initial_balance'] == 0)) {
 																				?>
 																				<li>
-																					<a class="dropdown-item" href="add-balance.php?user_id=<?= $user_id?>&concern=<?= $row_patients_appointments['services']?>">Add Balance</a>
+																					<a class="dropdown-item add-balance" 
+                                          href="#"
+                                          data-bs-toggle="modal" data-bs-target="#addBalanceDialog"
+                                          data-id="<?= $user_id ?>"
+                                          data-concern="<?= $row_patients_appointments['services']?>"
+                                          >
+                                            Add Balance
+                                          </a>
 																				</li>
 																				<?php
 																				}
 																				if($row_patients_appointments['is_deducted'] == 1) {
 																				?>
 																				<li>
-																					<a class="dropdown-item" href="update-payment.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&service=<?= $row_patients_appointments['services']?>">Update Payment</a>
+																					<a class="dropdown-item" 
+                                          href="update-payment.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&service=<?= $row_patients_appointments['services']?>"
+                                          >
+                                            Update Payment
+                                          </a>
 																				</li>
 																				<li>
 																					<a class="dropdown-item" href="delete-balance.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&concern=<?= $row_patients_appointments['services']?>" 
 																						onclick="return confirm('Are you sure you want to delete this?')">
-																						Delete
-																						</a>
+																						Delete Balance
+																					</a>
 																				</li>
 																				<?php 
 																				}
 																			?>
 																			<li>
-																				<a class="dropdown-item" href="view-all-patients-payments.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&service=<?= $row_patients_appointments['services']?>">Payment History</a>
+																				<a class="dropdown-item payment-history" 
+                                          href="#"
+                                          data-bs-toggle="modal" data-bs-target="#paymentHistoryDialog"
+                                          data-id="<?= $row_patients_appointments['payment_id']?>"
+                                        >
+                                          Payment History
+                                        </a>
 																			</li>
 																		</ul>
 																</div>
@@ -245,10 +261,54 @@ include('../../includes/security.php');
         }
 
     ?>
-    </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="modal fade" id="addBalanceDialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Balance</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="add-balance.php" method="POST">
+          <div class="modal-body">
+            <div class="row addForm">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-md btn-primary" name="add_balance" value="Add">                      
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="paymentHistoryDialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" >
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Payment History</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="display table">
+                  <thead>
+                      <tr>
+                          <th>Received</th>
+                          <th>Method</th>
+                          <th>Date Created</th>
+                      </tr>
+                  </thead>
+                  <tbody class="payment-list">
+                  </tbody>
+              </table>
+            </div>
+        </div>
+    </div>
+  </div>
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
 
