@@ -170,6 +170,7 @@ include('../../includes/security.php');
 												users.user_id AS user_id,
 												users.first_name,
 												users.last_name,
+                        appointments.appointment_id,
 												appointments.user_id_patient,
                         appointments.concern,
 												appointments.confirmed
@@ -177,7 +178,7 @@ include('../../includes/security.php');
 										LEFT JOIN users ON appointments.user_id_patient = users.user_id
 										LEFT JOIN payments ON appointments.user_id_patient = payments.user_id
 										WHERE appointments.confirmed = '1' AND users.role_id = '1' AND users.user_id = '$user_id'
-										GROUP BY payments.id
+										GROUP BY appointments.appointment_id
 										"
 										;
 										$run_patients_appointments = mysqli_query($conn,$query_patients_appointments);
@@ -187,11 +188,11 @@ include('../../includes/security.php');
 														?>
 														<tr>
 															<td>
-																<?= $row_patients_appointments['services']?>
+																<?= $row_patients_appointments['concern']?>
 															</td>
-															<td><?= '₱'.$row_patients_appointments['initial_balance'] ?></td>
+															<td><?= $row_patients_appointments['initial_balance'] ? '₱'.$row_patients_appointments['initial_balance'] : '₱ '. 0 ?></td>
 															<td>
-																<?= '₱'.$row_patients_appointments['remaining_balance'] ?>
+																<?= $row_patients_appointments['remaining_balance'] ?  '₱'.$row_patients_appointments['initial_balance'] : '₱ '. 0 ?>
 															</td>
 															<td class="d-flex justify-content-center" >
 																<div class="dropdown">	
@@ -204,7 +205,7 @@ include('../../includes/security.php');
                                           href="#"
                                           data-bs-toggle="modal" data-bs-target="#addBalanceDialog"
                                           data-id="<?= $user_id ?>"
-                                          data-concern="<?= $row_patients_appointments['services']?>"
+                                          data-concern="<?= $row_patients_appointments['concern']?>"
                                           >
                                             Add Balance
                                           </a>
@@ -214,13 +215,13 @@ include('../../includes/security.php');
 																				?>
 																				<li>
 																					<a class="dropdown-item" 
-                                          href="update-payment.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&service=<?= $row_patients_appointments['services']?>"
+                                          href="update-payment.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&service=<?= $row_patients_appointments['concern']?>"
                                           >
                                             Update Payment
                                           </a>
 																				</li>
 																				<li>
-																					<a class="dropdown-item" href="delete-balance.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&concern=<?= $row_patients_appointments['services']?>" 
+																					<a class="dropdown-item" href="delete-balance.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&concern=<?= $row_patients_appointments['concern']?>" 
 																						onclick="return confirm('Are you sure you want to delete this?')">
 																						Delete Balance
 																					</a>
