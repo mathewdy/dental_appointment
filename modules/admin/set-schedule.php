@@ -136,24 +136,22 @@ include('../../includes/security.php');
       </div>
     </div>
     <?php include "../../includes/scripts.php"; ?>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-</script>
-<script>
-    var availableDays = <?php echo json_encode($available_days); ?>;
-</script>
-<script>
-$(function () {
-    const allDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const availableIndexes = availableDays.map(day => allDays.indexOf(day));
-    $(".appointment_date").datepicker({
-        beforeShowDay: function(date) {
-            var dayIndex = date.getDay(); 
-            return [availableIndexes.includes(dayIndex)];
-        },
-        minDate: 0
+    <script>
+        var availableDays = <?php echo json_encode($available_days); ?>;
+    </script>
+    <script>
+    $(function () {
+        const allDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const availableIndexes = availableDays.map(day => allDays.indexOf(day));
+        $(".appointment_date").datepicker({
+            beforeShowDay: function(date) {
+                var dayIndex = date.getDay(); 
+                return [availableIndexes.includes(dayIndex)];
+            },
+            minDate: 0
+        });
     });
-});
-</script>
+    </script>
 <?php
 
 if(isset($_POST['save'])){
