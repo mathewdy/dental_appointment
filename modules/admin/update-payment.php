@@ -150,14 +150,9 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
             </div>
         </div>
     </div>    
-
-    <h1>Make a payment</h1>
-
- 
 <?php 
 include "../../includes/scripts.php"; 
 
-date_default_timezone_set("Asia/Manila");
 $date = date('Y-m-d');
 
 // --------------------
@@ -194,7 +189,7 @@ if (isset($_POST['add_payment'])) {
         if ($run_insert_payment) {
             echo "<script>
                 alert('Payment Successful');
-                window.location.href='view-all-patients-payments.php?payment_id=$payment_id&user_id=$user_id&service=$concern';
+                window.location.href='view-patient-payments.php?payment_id=$payment_id&user_id=$user_id&service=$concern';
             </script>";
         } else {
             echo "❌ Error inserting payment: " . mysqli_error($conn);
