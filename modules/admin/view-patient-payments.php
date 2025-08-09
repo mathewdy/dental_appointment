@@ -160,27 +160,42 @@ include('../../includes/security.php');
 									</thead>
 									<tbody>
 										<?php
-										$query_patients_appointments = "SELECT 
-												payments.id, 
-												payments.user_id AS payment_user_id,
-												payments.payment_id,
-												payments.initial_balance, 
-												payments.remaining_balance,
-												payments.is_deducted,
-												users.user_id AS user_id,
-												users.first_name,
-												users.last_name,
-                        appointments.appointment_id,
-												appointments.user_id_patient,
-                        appointments.concern,
-												appointments.confirmed
-										FROM `appointments`
-										LEFT JOIN users ON appointments.user_id_patient = users.user_id
-										LEFT JOIN payments ON appointments.user_id_patient = payments.user_id
-										WHERE appointments.confirmed = '1' AND users.role_id = '1' AND users.user_id = '$user_id'
-										GROUP BY appointments.appointment_id
-										"
-										;
+										// $query_patients_appointments = "SELECT 
+										// 		payments.id, 
+										// 		payments.user_id AS payment_user_id,
+										// 		payments.payment_id,
+										// 		payments.initial_balance, 
+										// 		payments.remaining_balance,
+										// 		payments.is_deducted,
+										// 		users.user_id AS user_id,
+										// 		users.first_name,
+										// 		users.last_name,
+                    //     appointments.appointment_id,
+										// 		appointments.user_id_patient,
+                    //     appointments.concern,
+										// 		appointments.confirmed
+										// FROM `payments`
+										// LEFT JOIN users ON payments.user_id = users.user_id
+										// LEFT JOIN appointments ON payments.user_id = appointments.user_id_patient 
+										// WHERE appointments.confirmed = '1' AND users.role_id = '1' AND users.user_id = '$user_id'
+                    // GROUP BY payment_id
+										// "
+										// ;
+                    $query_patients_appointments = "SELECT
+                    appointments.user_id_patient,
+                    appointments.appointment_id AS id,
+                    appointments.concern,
+                    appointments.date_created,
+                    appointments.confirmed,
+                    payments.payment_id,
+                    payments.appointment_id,
+                    payments.initial_balance, 
+                    payments.remaining_balance, 
+                    payments.is_deducted
+                    FROM appointments 
+                    LEFT JOIN payments 
+                    ON appointments.appointment_id = payments.appointment_id
+                    WHERE user_id_patient = '$user_id'";
 										$run_patients_appointments = mysqli_query($conn,$query_patients_appointments);
 
 										if(mysqli_num_rows($run_patients_appointments) > 0){
@@ -192,32 +207,43 @@ include('../../includes/security.php');
 															</td>
 															<td><?= $row_patients_appointments['initial_balance'] ? '₱'.$row_patients_appointments['initial_balance'] : '₱ '. 0 ?></td>
 															<td>
-																<?= $row_patients_appointments['remaining_balance'] ?  '₱'.$row_patients_appointments['initial_balance'] : '₱ '. 0 ?>
+																<?= $row_patients_appointments['remaining_balance'] ?  '₱'.$row_patients_appointments['remaining_balance'] : '₱ '. 0 ?>
 															</td>
 															<td class="d-flex justify-content-center" >
 																<div class="dropdown">	
 																		<a class="btn btn-sm btn-outline-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 12px;" data-bs-toggle="dropdown" aria-expanded="false">
 																				<i class="fas fa-ellipsis-v"></i>
 																		</a>
-																		<ul class="dropdown-menu"> 
-																				<li>
+																		<ul class="dropdown-menu">
+                                        <?php 
+                                        if($row_patients_appointments['payment_id'] == null){
+                                        ?>
+                                        <li>
 																					<a class="dropdown-item add-balance" 
                                           href="#"
                                           data-bs-toggle="modal" data-bs-target="#addBalanceDialog"
-                                          data-id="<?= $user_id ?>"
+                                          data-id="<?= $row_patients_appointments['id'] ?>"
                                           data-concern="<?= $row_patients_appointments['concern']?>"
                                           >
                                             Add Balance
                                           </a>
 																				</li>
-																				<?php
-																				if($row_patients_appointments['is_deducted'] == 1) {
-																				?>
-																				<li>
+                                        <?php
+                                        }else{
+                                        ?>
+                                        <li>
 																					<a class="dropdown-item" 
                                           href="update-payment.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&service=<?= $row_patients_appointments['concern']?>"
                                           >
-                                            Update Payment
+                                            Process Payment
+                                          </a>
+																				</li>
+                                        <li>
+																					<a class="dropdown-item edit-balance" 
+                                          data-bs-toggle="modal" data-bs-target="#editBalanceDialog"
+                                          data-id="<?= $row_patients_appointments['payment_id']?>"
+                                          >
+                                            Edit Balance
                                           </a>
 																				</li>
 																				<li>
@@ -226,18 +252,18 @@ include('../../includes/security.php');
 																						Delete Balance
 																					</a>
 																				</li>
-																				<?php 
-																				}
-																			?>
-																			<li>
-																				<a class="dropdown-item payment-history" 
-                                          href="#"
-                                          data-bs-toggle="modal" data-bs-target="#paymentHistoryDialog"
-                                          data-id="<?= $row_patients_appointments['payment_id']?>"
-                                        >
-                                          Payment History
-                                        </a>
-																			</li>
+                                        <li>
+                                          <a class="dropdown-item payment-history" 
+                                            href="#"
+                                            data-bs-toggle="modal" data-bs-target="#paymentHistoryDialog"
+                                            data-id="<?= $row_patients_appointments['payment_id']?>"
+                                          >
+                                            Payment History
+                                          </a>
+                                        </li>
+                                      <?php
+                                        }
+                                        ?>
 																		</ul>
 																</div>
 															</td>
@@ -281,6 +307,25 @@ include('../../includes/security.php');
       </div>
     </div>
   </div>
+  <div class="modal fade" id="editBalanceDialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Balance</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="edit-balance.php" method="POST">
+          <div class="modal-body">
+            <div class="row editForm">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <input type="submit" class="btn btn-md btn-primary" name="update_balance" value="Update">                      
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 
   <div class="modal fade" id="paymentHistoryDialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" >
     <div class="modal-dialog modal-lg">
@@ -290,17 +335,7 @@ include('../../includes/security.php');
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <table class="display table">
-                  <thead>
-                      <tr>
-                          <th>Received</th>
-                          <th>Method</th>
-                          <th>Date Created</th>
-                      </tr>
-                  </thead>
-                  <tbody class="payment-list">
-                  </tbody>
-              </table>
+              <div class="payment-list"></div>
             </div>
         </div>
     </div>
