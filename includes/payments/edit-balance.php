@@ -7,7 +7,7 @@ if (isset($_POST['id']) && is_numeric($_POST['id'])) {
 
   $query = "SELECT
     appointments.user_id_patient,
-    appointments.appointment_id,
+    appointments.appointment_id AS id,
     appointments.concern,
     appointments.date_created,
     appointments.confirmed,
@@ -38,7 +38,7 @@ if (isset($_POST['id']) && is_numeric($_POST['id'])) {
       <input type="hidden" class="form-control" name="services" value="<?= $row['concern']?>">
       <input type="hidden" class="form-control" name="payment_id" value="<?= $row['payment_id']?>">
       <input type="hidden" class="form-control" name="user_id" value="<?= $row['user_id_patient']?>">
-      <input type="hidden" class="form-control" name="appointment_id" value="<?= $row['appointment_id'] ?>">
+      <input type="hidden" class="form-control" name="appointment_id" value="<?= $row['id'] ?>">
     </div>
     <?php
     }
