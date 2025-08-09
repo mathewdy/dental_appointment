@@ -238,6 +238,9 @@ include('../../includes/security.php');
                                             Process Payment
                                           </a>
 																				</li>
+                                        <?php 
+                                        if($row_patients_appointments['is_deducted'] != 1){
+                                        ?>
                                         <li>
 																					<a class="dropdown-item edit-balance" 
                                           data-bs-toggle="modal" data-bs-target="#editBalanceDialog"
@@ -246,12 +249,15 @@ include('../../includes/security.php');
                                             Edit Balance
                                           </a>
 																				</li>
-																				<li>
+                                        <li>
 																					<a class="dropdown-item" href="delete-balance.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&concern=<?= $row_patients_appointments['concern']?>" 
 																						onclick="return confirm('Are you sure you want to delete this?')">
 																						Delete Balance
 																					</a>
 																				</li>
+                                        <?php
+                                        }
+                                        ?>
                                         <li>
                                           <a class="dropdown-item payment-history" 
                                             href="#"
