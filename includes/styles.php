@@ -24,5 +24,7 @@ active: function () {
 <link rel="stylesheet" href="' . BASE_PATH . '/assets/css/kaiadmin.min.css" />
 <link rel="stylesheet" href="' . BASE_PATH . '/assets/css/demo.css" />
 <link rel="stylesheet" href="' . BASE_PATH . '/assets/css/custom.css" />
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
 '
 ?>
