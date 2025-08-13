@@ -1,12 +1,13 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/notification.php');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
-include('../../includes/security.php');
+$id = $_SESSION['user_id'];
 ?>
 
 
@@ -49,96 +50,139 @@ include('../../includes/security.php');
                 </span>
             </div>
             <div class="page-category">
-                <div class="card p-5">                   
-                        <?php
-                        if(isset($_GET['user_id_patient']) && isset($_GET['user_id_dentist'])){
-                            $user_id_patient = $_GET['user_id_patient'];
-                            $user_id_dentist = $_GET['user_id_dentist'];
+              <?php
+              if(isset($_GET['user_id_patient']) && isset($_GET['user_id_dentist'])){
+                  $user_id_patient = $_GET['user_id_patient'];
+                  $user_id_dentist = $_GET['user_id_dentist'];
 
-                            $query_dentist = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time , schedule.end_time AS end_time
-                            FROM
-                            users 
-                            LEFT JOIN schedule 
-                            ON users.user_id = schedule.user_id 
-                            WHERE users.role_id = '3' AND users.user_id =  '$user_id_dentist'";
-                            $run_dentist = mysqli_query($conn,$query_dentist);
-                            $row_dentist = mysqli_fetch_assoc($run_dentist);
-                            json_encode($available_days = explode(", ", $row_dentist['day']));
+                  $query_dentist = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time , schedule.end_time AS end_time
+                  FROM
+                  users 
+                  LEFT JOIN schedule 
+                  ON users.user_id = schedule.user_id 
+                  WHERE users.role_id = '3' AND users.user_id =  '$user_id_dentist'";
+                  $run_dentist = mysqli_query($conn,$query_dentist);
+                  $row_dentist = mysqli_fetch_assoc($run_dentist);
+                  json_encode($available_days = explode(", ", $row_dentist['day']));
 
+                  $query_services = "SELECT * FROM services";
+                  $run_services = mysqli_query($conn,$query_services);
+                  $row_services = mysqli_fetch_assoc($run_services);
 
-                            ?>
+              ?>
 
-                            <?php
+              <form action="" method="POST">
+                <div class="row">
+                  <div class="col-lg-12 mb-4">
+                    <div class="card p-4 shadow-none form-card rounded-1">
+                      <div class="card-header">
+                          <h3>Appointment Details</h3>
+                      </div>
+                      <div class="card-body">
+                        <div class="row gap-4">
+                          <div class="col-lg-12">
+                            <div class="row d-flex align-items-center w-100">
+                              <div class="col-lg-2">
+                                <label for="">Appointment Date</label>
+                              </div>
+                              <div class="col-lg-10">
+                                <div class="input-group">
+                                  <input type="text" class="appointment_date form-control" name="appointment_date" required>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="row d-flex align-items-center w-100">
+                              <div class="col-lg-2">
+                                <label for="">Set Time</label>
+                              </div>
+                              <div class="col-lg-10">
+                                <select name="appointment_time" class="form-control" required>
+                                  <option value="">-- Select Time Slot --</option>
+                                  <?php
+                                      $start_time = $row_dentist['start_time']; 
+                                      $end_time = $row_dentist['end_time'];     
 
-                            
-                            $query_services = "SELECT * FROM services";
-                            $run_services = mysqli_query($conn,$query_services);
-                            $row_services = mysqli_fetch_assoc($run_services);
+                                      $start = strtotime($start_time);
+                                      $end = strtotime($end_time);
 
+                                      while ($start < $end) {
+                                          $slot_start = date("h:i A", $start);
+                                          $slot_end_time = strtotime("+1 hour", $start);
 
-                            ?>
-
-                            <form action="" method="POST">
-                                <label>Select Appointment Date:</label>
-                                <input type="text" class="appointment_date form-control mb-4" name="appointment_date" required>
-                                <label for="">Set Time:</label>
-                                <select name="appointment_time" class="form-control mb-4" required>
-                                    <option value="">-- Select Time Slot --</option>
-                                    <?php
-                                        $start_time = $row_dentist['start_time']; 
-                                        $end_time = $row_dentist['end_time'];     
-
-                                        $start = strtotime($start_time);
-                                        $end = strtotime($end_time);
-
-                                        while ($start < $end) {
-                                            $slot_start = date("h:i A", $start);
-                                            $slot_end_time = strtotime("+1 hour", $start);
-
-                                            if ($slot_end_time > $end) {
-                                                break;
-                                            }
-                                            $slot_end = date("h:i A", $slot_end_time);
-                                            $display = "$slot_start to $slot_end";
-                                            echo "<option value='$display'>$display</option>";
-                                            $start = $slot_end_time; 
-                                        }
-                                    ?>
+                                          if ($slot_end_time > $end) {
+                                              break;
+                                          }
+                                          $slot_end = date("h:i A", $slot_end_time);
+                                          $display = "$slot_start to $slot_end";
+                                          echo "<option value='$display'>$display</option>";
+                                          $start = $slot_end_time; 
+                                      }
+                                  ?>
                                 </select>
-                                <label for="">Doctor:</label>
-                                <input type="text" class="form-control mb-4" value="<?= 'Dr. ' . $row_dentist['first_name']. " " . $row_dentist['last_name']?>" readonly>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="row d-flex align-items-center w-100">
+                              <div class="col-lg-2">
+                                <label for="">Doctor</label>
+                              </div>
+                              <div class="col-lg-10">
+                                <div class="input-group">
+                                  <input type="text" class="form-control" value="<?= 'Dr. ' . $row_dentist['first_name']. " " . $row_dentist['last_name']?>" readonly>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="row d-flex align-items-center w-100">
+                              <div class="col-lg-2">
                                 <label for="">Concern</label>
-                                <select name="concern" id="" class="form-control" required>
+                              </div>
+                              <div class="col-lg-10">
+                                <div class="input-group mb-3">
+                                  <select name="concern" id="" class="form-control" required>
                                     <option value="">-Select-</option>
                                     <?php
-                                    while ($row_services = mysqli_fetch_assoc($run_services)) {
-                                        echo '<option value="' . $row_services['name'] . '">' . $row_services['name'] . '</option>';
-                                    }
+                                      while ($row_services = mysqli_fetch_assoc($run_services)) {
+                                          echo '<option value="' . $row_services['name'] . '">' . $row_services['name'] . '</option>';
+                                      }
                                     ?>
-                                </select>
-                                <div class="text-end w-100">
-                                    <a href="set-doctor.php?user_id_patient=<?= $_GET['user_id_patient'] ?>" class="btn btn-danger">Cancel</a>
-                                    <input type="submit" class="btn btn-primary" name="save" value="Save">
+                                  </select>
                                 </div>
-                            </form>
-
-                            <?php
-
-
-
-                        }
-
-                        ?>
-                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 text-end">
+                    <a href="set-doctor.php?user_id_patient=<?= $_GET['user_id_patient'] ?>" class="btn btn-sm btn-danger">Cancel</a>
+                    <input type="submit" class="btn btn-sm btn-primary" name="save" value="Save">
+                  </div>
+                </div>                        
+              </form>
+              <?php
+              }
+              ?>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <?php include "../../includes/scripts.php"; ?>
+<?php
+  include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+  $available_days = json_encode($available_days);
+  echo "
     <script>
-        var availableDays = <?php echo json_encode($available_days); ?>;
+        var availableDays =  $available_days
     </script>
+  ";
+?>
+    
     <script>
     $(function () {
         const allDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -156,7 +200,6 @@ include('../../includes/security.php');
 
 if(isset($_POST['save'])){
 
-    date_default_timezone_set("Asia/Manila");
     $date = date('y-m-d');
 
     $user_id_dentist = $_GET['user_id_dentist'];
@@ -181,10 +224,13 @@ if(isset($_POST['save'])){
         }else{
             $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_time,appointment_date,date_created,date_updated,remarks,walk_in) VALUES ('$user_id_dentist','$user_id_patient','$appointment_id','$concern', '0', '$appointment_time','$appointment_date','$date', '$date', NULL, '1')";
             $run_appointment = mysqli_query($conn,$query_appointment);
+
             
             if($run_appointment) {
-                header("Location: appointments.php");
-                
+              createNotification($conn, $user_id_dentist, "New Appointment Schedule", "Appointment", $date, $id);
+              createNotification($conn, $user_id_patient, "New Appointment Schedule", "Appointment", $date, $id);
+
+              header("Location: appointments.php");
             }else{
                 echo "not added";
             }

@@ -1,10 +1,12 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/notification.php');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+$id = $_SESSION['user_id'];
 
 if(isset($_POST['add_balance'])){
 
@@ -20,6 +22,9 @@ if(isset($_POST['add_balance'])){
     $run_insert_payment = mysqli_query($conn,$query_insert_payment);
 
     if($run_insert_payment){
+      createNotification($conn, $user_id, "Initial Balance Added", "Payment", $date, $id);
+      createNotification($conn, $id, "Initial Balance Added", "Payment", $date, $id);
+
 			echo "<script>
 				window.alert('Added Balance');
 				window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services';

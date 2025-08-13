@@ -1,6 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/notification.php');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -187,6 +188,8 @@ if (isset($_POST['add_payment'])) {
         $run_insert_payment = mysqli_query($conn, $query_insert_payment);
 
         if ($run_insert_payment) {
+            createNotification($conn, $user_id, "New Payment Transaction", "Payment", $date, $id);
+            
             echo "<script>
                 alert('Payment Successful');
                 window.location.href='view-patient-payments.php?payment_id=$payment_id&user_id=$user_id&service=$concern';
