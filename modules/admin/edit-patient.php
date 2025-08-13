@@ -178,10 +178,8 @@ include '../../includes/sidebar.php';
     </div>
 </div>
 </div>
-<?php include "../../includes/scripts.php"; ?>
-
-
-<?php
+<?php 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 
 if(isset($_POST['update'])){
 

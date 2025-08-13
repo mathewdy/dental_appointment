@@ -113,4 +113,6 @@ include('../../includes/security.php');
         </div>
       </div>
     </div>
-    <?php include "../../includes/scripts.php"; ?>
+<?php 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+?>

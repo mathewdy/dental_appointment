@@ -143,4 +143,6 @@ if(isset($_GET['user_id'])&& isset($_GET['concern'])){
         ?>
     </table>
 
-<?php include "../../includes/scripts.php"; ?>
+<?php 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+?>

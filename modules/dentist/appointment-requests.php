@@ -1,22 +1,11 @@
 <?php
-include('../../connection/connection.php');
-ob_start();
-session_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+
 $first_name = $_SESSION['first_name'];
 $user_id = $_SESSION['user_id'];
-include('../../includes/security.php');
 
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../../includes/styles.php'; ?>
-    <title>Document</title>
-</head>
-<body>
     <div class="wrapper">
       <?php 
       include '../../includes/sidebar.php'; 
@@ -159,4 +148,6 @@ include('../../includes/security.php');
 			</div>
 	</div>
 </div>
-<?php include "../../includes/scripts.php"; ?>
+<?php 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+?>

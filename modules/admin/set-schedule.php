@@ -175,6 +175,7 @@ $id = $_SESSION['user_id'];
     </div>
 <?php
   include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+  
   $available_days = json_encode($available_days);
   echo "
     <script>

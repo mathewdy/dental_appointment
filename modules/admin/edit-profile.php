@@ -114,11 +114,8 @@ ini_set('display_errors', 1);
         </div>
       </div>
     </div>
-    <?php include "../../includes/scripts.php"; ?>
-</body>
-</html>
-<?php
-
+<?php 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 
 if(isset($_POST['update_profile'])){
     date_default_timezone_set("Asia/Manila");

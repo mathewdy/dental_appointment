@@ -152,7 +152,7 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
         </div>
     </div>    
 <?php 
-include "../../includes/scripts.php"; 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 
 $date = date('Y-m-d');
 

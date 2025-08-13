@@ -2,10 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 $first_name = $_SESSION['first_name'];
-
 ?>
-
-
 <style>
     .fc-button-primary{
         background: #50B6BB !important

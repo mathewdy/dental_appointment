@@ -129,12 +129,16 @@ $first_name = $_SESSION['first_name'];
         </div>
       </div>
     </div>
-    <?php include "../../includes/scripts.php"; ?>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-</script>
-<script>
-    var availableDays = <?php echo json_encode($available_days); ?>;
-</script>
+<?php
+  include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+  
+  $available_days = json_encode($available_days);
+  echo "
+    <script>
+        var availableDays =  $available_days
+    </script>
+  ";
+?>
 <script>
 $(function () {
     const allDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

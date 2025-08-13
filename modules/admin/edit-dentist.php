@@ -126,7 +126,9 @@ $first_name = $_SESSION['first_name'];
         </div>
       </div>
     </div>
-<?php include "../../includes/scripts.php"; ?>
+<?php 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+?>
 <script>
 document.querySelector('form').addEventListener('submit', function(e) {
     const start = document.getElementById('start_time').value;
