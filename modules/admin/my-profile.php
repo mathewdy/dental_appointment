@@ -1,8 +1,10 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
+
 $first_name = $_SESSION['first_name'];
-$email = $_SESSION['email'];
+$user_id = $_SESSION['user_id'];
 $roleId = $_SESSION['role_id'];
 include('../../includes/security.php');
 
@@ -37,10 +39,7 @@ include('../../includes/security.php');
             </div>
             <div class="page-category">
                 <?php
-
-
-                $query_profile = "SELECT * FROM users WHERE email =  '$email' AND role_id = '$roleId'";
-                $run_profile = mysqli_query($conn,$query_profile);
+                $run_profile = getProfile($conn, $user_id, $roleId);
 
                 if(mysqli_num_rows($run_profile) > 0){
                     foreach($run_profile as $row_profile){
@@ -102,11 +101,9 @@ include('../../includes/security.php');
                                 </div>
                             </div>
                         </div>
-
-                        <?php
-                    }
+                  <?php
+                  }
                 }
-
                 ?>
             </div>
           </div>

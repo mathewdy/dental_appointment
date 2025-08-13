@@ -1,6 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
 
 $first_name = $_SESSION['first_name'];
 $email = $_SESSION['email'];
@@ -48,68 +49,105 @@ ini_set('display_errors', 1);
                 </span>
             </div>
             <div class="page-category">
-                <div class="card p-5">
                 <?php
                     if(isset($_GET['user_id'])){
                         $user_id = $_GET['user_id'];
-                        $query_profile = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, users.date_of_birth AS date_of_birth FROM users
-                        WHERE users.role_id = '$roleId' AND users.user_id = '$user_id'";
-                        $run_profile = mysqli_query($conn,$query_profile);
-
+                        $run_profile = getProfile($conn, $user_id, $roleId);
                         if(mysqli_num_rows($run_profile) > 0){
                             foreach($run_profile as $row_profile){
-                                ?>
-
-
-                                    <form action="" method="POST">
-                                        <div class="row">
-                                            <div class="col-lg-6 mb-4">
-                                                <label for="">First Name</label>
-                                                <input type="text" name="first_name" class="form-control" value="<?php echo $row_profile['first_name']?>">
-                                            </div>
-                                            <div class="col-lg-6 mb-4">
-                                                <label for="">Last Name</label>
-                                                <input type="text" name="last_name" class="form-control" value="<?php echo $row_profile['last_name']?>">
-                                            </div>
-                                            <div class="col-lg-12 mb-4">
-                                            <label for="">Mobile Number</label>
-                                            <input type="text" name="mobile_number" class="form-control" value="<?php echo $row_profile['mobile_number']?>">
-                                            </div>
-                                            <div class="col-lg-12 mb-4"> 
-                                                <label for="">Email</label>
-                                                <input type="email" name="email" class="form-control" value="<?php echo $row_profile['email']?>">
-                                            </div>
-                                            <div class="col-lg-12 mb-5">
-                                                <label for="">Date of Birth</label>
-                                                <p><?php echo $row_profile['date_of_birth']?></p>
-                                                <input type="hidden" name="birth_date" value="<?= $row_profile['date_of_birth']?>">
-                                                <input type="date" class="form-control"  name="date_of_birth">
-                                            </div>
-                                            <div class="col-lg-12 text-end">
-                                                <a href="my-profile.php" class="btn btn-danger">Cancel</a>
-                                                <input type="submit" class="btn btn-primary" name="update_profile" value="Update">
-                                            </div>
+                              $dob = date("Y-m-d", strtotime($row_profile['date_of_birth']));
+                              ?>
+                              <form action="" method="POST">
+                                  <div class="row">
+                                    <div class="col-lg-12 mb-4">
+                                      <div class="card p-4 shadow-none form-card rounded-1">
+                                        <div class="card-header">
+                                            <h3>Profile Information</h3>
                                         </div>
-                                        
-                                        <!-- <label for="">Middle Name</label>
-                                        <input type="text" name="middle_name" class="form-control" value="<?php echo $row_profile['middle_name']?>">
-                                         -->
-                                        
-                                       
-
-                                    </form>
-
-
+                                        <div class="card-body">
+                                          <div class="row gap-4">
+                                            <div class="col-lg-12">
+                                              <div class="row d-flex align-items-center w-100">
+                                                <div class="col-lg-2">
+                                                  <label for="">First Name</label>
+                                                </div>
+                                                <div class="col-lg-10">
+                                                  <input type="text" name="first_name" class="form-control" value="<?php echo $row_profile['first_name']?>">
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                              <div class="row d-flex align-items-center w-100">
+                                                <div class="col-lg-2">
+                                                  <label for="">Middle Name</label>
+                                                </div>
+                                                <div class="col-lg-10">
+                                                  <input type="text" name="middle_name" class="form-control" value="<?php echo $row_profile['middle_name']?>">
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                              <div class="row d-flex align-items-center w-100">
+                                                <div class="col-lg-2">
+                                                  <label for="">Last Name</label>
+                                                </div>
+                                                <div class="col-lg-10">
+                                                  <input type="text" name="last_name" class="form-control" value="<?php echo $row_profile['last_name']?>">
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                              <div class="row d-flex align-items-center w-100">
+                                                <div class="col-lg-2">
+                                                  <label for="">Mobile Number</label>
+                                                </div>
+                                                <div class="col-lg-10">
+                                                  <div class="input-group mb-3">
+                                                    <input type="text" name="mobile_number" class="form-control" value="<?php echo $row_profile['mobile_number']?>">
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                              <div class="row d-flex align-items-center w-100">
+                                                <div class="col-lg-2">
+                                                  <label for="">Email</label>
+                                                </div>
+                                                <div class="col-lg-10">
+                                                  <div class="input-group mb-3">
+                                                    <input type="email" name="email" class="form-control" value="<?php echo $row_profile['email']?>">
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                              <div class="row d-flex align-items-center w-100">
+                                                <div class="col-lg-2">
+                                                  <label for="">Date of Birth</label>
+                                                </div>
+                                                <div class="col-lg-10">
+                                                  <div class="input-group mb-3">
+                                                    <input type="date" class="form-control" value="<?= $dob ?>" name="birth_date">
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-12 text-end">
+                                      <a href="my-profile.php" class="btn btn-sm btn-danger">Cancel</a>
+                                      <input type="submit" class="btn btn-sm btn-primary" name="update_profile" value="Update">
+                                    </div>
+                                </div>                        
+                              </form>
                                 <?php
                             }
                         }
                     }
-
-
                     ?>
                 </div>
-   
-            </div>
           </div>
         </div>
       </div>
@@ -122,7 +160,7 @@ if(isset($_POST['update_profile'])){
     $date = date('y-m-d');
     $user_id = $_GET['user_id'];
     $first_name = $_POST['first_name'];
-    // $middle_name = $_POST['middle_name'];
+    $middle_name = $_POST['middle_name'];
     $last_name = $_POST['last_name'];
     $mobile_number = $_POST['mobile_number'];
     $email = $_POST['email'];
@@ -132,11 +170,11 @@ if(isset($_POST['update_profile'])){
         $date_of_birth = $_POST['birth_date'];
     }
 
-    $query_update = "UPDATE users SET first_name = '$first_name', last_name='$last_name',mobile_number = '$mobile_number', email = '$email', date_of_birth =  '$date_of_birth', date_updated = '$date' WHERE user_id = '$user_id'" ;
-    $run_update = mysqli_query($conn,$query_update);
+    $run_update = updateProfile($conn, $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $date, $user_id);
 
     if($run_update){
-        header("Location: my-profile.php");
+        // header("Location: my-profile.php");
+        echo "<script>alert('success')</script>";
 
         
     }else{
