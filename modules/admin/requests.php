@@ -37,7 +37,7 @@ include('../../includes/security.php');
                                 <i class="icon-arrow-right"></i>
                             </li>
                             <li class="nav-item">
-                                <a href="#">Appointment Requests</a>
+                                <a href="#">Requests</a>
                             </li>
                         </ul>
                     </span>    
