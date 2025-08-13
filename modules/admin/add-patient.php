@@ -165,7 +165,8 @@ if(isset($_POST['register_patient'])){
 
     date_default_timezone_set("Asia/Manila");
     $date = date('y-m-d');
-    
+		$dateTime = date('Y-m-d H:i:s');
+
     //errors
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -180,7 +181,6 @@ if(isset($_POST['register_patient'])){
     }else{
         $query_register = "INSERT INTO users (user_id,role_id,first_name,middle_name,last_name,mobile_number,email,password,date_of_birth,date_created,date_updated) VALUES ('$user_id','$role_id', '$first_name','$middle_name','$last_name','$mobile_number','$email','$new_password','$date_of_birth','$date','$date')";
         $run_sql = mysqli_query($conn,$query_register);
-        echo "user_added" ; 
 
         if($run_sql){
             echo "<script>window.location.href='patients.php'</script>";

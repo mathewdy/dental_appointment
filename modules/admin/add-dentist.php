@@ -1,12 +1,11 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/dentists.php');
 
 $first_name = $_SESSION['first_name']
 ?>
-
-
-
 <div class="wrapper">
 	<?php include '../../includes/sidebar.php'; ?>
 		<div class="main-panel">
@@ -251,6 +250,7 @@ document.querySelector('form').addEventListener('submit', function(e) {
 if(isset($_POST['add_dentist'])){
     date_default_timezone_set("Asia/Manila");
     $date = date('y-m-d');
+    $dateTime = date('Y-m-d H:i:s');
 
     $user_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3) ;
     $role_id = 3;
@@ -269,16 +269,15 @@ if(isset($_POST['add_dentist'])){
 
     $days_combined = implode(', ', $schedule);
    
-    $query_check_user = "SELECT * FROM users WHERE email='$email' AND first_name = '$first_name' AND last_name = '$last_name' AND date_of_birth = '$date_of_birth' ";
-    $run_check_user = mysqli_query($conn,$query_check_user);
+    $run_check_user = checkUser($conn, $email, $first_name, $middle_name, $last_name, $date_of_birth);
     
     if(mysqli_num_rows($run_check_user) > 0){
         echo "<script>alert('User Already Added')</script>";
         exit();
     }else{
-        $query_register = "INSERT INTO users (user_id,role_id,first_name,middle_name,last_name,mobile_number,email,password,date_of_birth,date_created,date_updated) VALUES ('$user_id','$role_id', '$first_name','$middle_name','$last_name','$mobile_number','$email','$new_password','$date_of_birth','$date','$date')";
-        $run_sql = mysqli_query($conn,$query_register);
-       
+        $run_sql = createDentist($conn, $user_id, $role_id, $first_name, $middle_name, $last_name, $mobile_number, $email, $password,$date_of_birth, $dateTime);
+
+        $run_insert_Schedule = createDentistSchedule($conn, $user_id, $days_combined, $start_time, $end_time, $dateTime);
 
         if($run_sql){
             echo "user_added" ; 
@@ -286,8 +285,6 @@ if(isset($_POST['add_dentist'])){
             echo "error register". mysqli_error($conn);
         }
 
-        $query_insert_schedule = "INSERT INTO schedule (user_id,day,start_time,end_time,date_created,date_updated)VALUES ('$user_id', '$days_combined', '$start_time','$end_time', '$date', '$date')";
-        $run_insert_Schedule = mysqli_query($conn,$query_insert_schedule);
         echo "added schedule";
     
 
