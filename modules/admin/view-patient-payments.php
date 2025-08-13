@@ -6,7 +6,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
-include('../../includes/security.php');
 ?>
 
     <div class="wrapper">
@@ -18,28 +17,28 @@ include('../../includes/security.php');
           <div class="page-inner">
             <div class="page-header">
               <span class="d-flex justify-content-between align-items-center w-100">
-                    <span class="d-flex">
-                        <h4 class="page-title">Payments</h4>
-                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
-                            <li class="nav-home">
-                            <a href="dashboard.php">
-                                <i class="icon-home"></i>
-                            </a>
-                            </li>
-                            <li class="separator">
-                                <i class="icon-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="payments.php">Payments</a>
-                            </li>
-                            <li class="separator">
-                                <i class="icon-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="payments.php">View</a>
-                            </li>
-                        </ul>
-                    </span>    
+                  <span class="d-flex">
+                    <h4 class="page-title">Payments</h4>
+                    <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                      <li class="nav-home">
+                        <a href="dashboard.php">
+                          <i class="icon-home"></i>
+                        </a>
+                      </li>
+                      <li class="separator">
+                          <i class="icon-arrow-right"></i>
+                      </li>
+                      <li class="nav-item">
+                          <a href="payments.php">Payments</a>
+                      </li>
+                      <li class="separator">
+                          <i class="icon-arrow-right"></i>
+                      </li>
+                      <li class="nav-item">
+                          <a href="payments.php">View</a>
+                      </li>
+                    </ul>
+                  </span>    
                 </span>
             </div>
     
@@ -195,7 +194,7 @@ include('../../includes/security.php');
                     FROM appointments 
                     LEFT JOIN payments 
                     ON appointments.appointment_id = payments.appointment_id
-                    WHERE user_id_patient = '$user_id'";
+                    WHERE user_id_patient = '$user_id' AND confirmed = '1'";
 										$run_patients_appointments = mysqli_query($conn,$query_patients_appointments);
 
 										if(mysqli_num_rows($run_patients_appointments) > 0){

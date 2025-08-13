@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../../connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/connection/connection.php');
 
 if (isset($_POST['id']) && is_numeric($_POST['id'])) {
   $id  = $_POST['id'];

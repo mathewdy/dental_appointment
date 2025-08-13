@@ -1,25 +1,15 @@
 <?php
-include('../../connection/connection.php');
-ob_start();
-session_start();
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/notification.php');
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
-include('../../includes/security.php');
 ?>
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php include '../../includes/styles.php'; ?>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-    <title>Document</title>
-</head>
-<body>
     <div class="wrapper">
       <?php include '../../includes/sidebar.php'; ?>
       <div class="main-panel">

@@ -6,7 +6,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
-include('../../includes/security.php');
 ?>
 
 
@@ -129,4 +128,6 @@ include('../../includes/security.php');
             </div>
         </div>
     </div>    
-<?php include "../../includes/scripts.php"; ?>
+<?php 
+  include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+?>

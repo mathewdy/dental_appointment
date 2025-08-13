@@ -6,7 +6,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
-include('../../includes/security.php');
 ?>
 
 
@@ -19,7 +18,7 @@ include('../../includes/security.php');
             <div class="page-header">
             <span class="d-flex justify-content-between align-items-center w-100">
                     <span class="d-flex">
-                        <h4 class="page-title">Add Appointment</h4>
+                        <h4 class="page-title">Set Doctor</h4>
                         <ul class="breadcrumbs d-flex justify-items-center align-items-center">
                             <li class="nav-home">
                             <a href="dashboard.php">
@@ -101,4 +100,6 @@ include('../../includes/security.php');
         </div>
       </div>
     </div>
-    <?php include "../../includes/scripts.php"; ?>
+<?php 
+  include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+?>

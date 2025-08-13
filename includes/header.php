@@ -2,6 +2,7 @@
 ob_start();
 session_start();
 date_default_timezone_set('Asia/Manila');
+
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/connection/connection.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/config.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/styles.php');

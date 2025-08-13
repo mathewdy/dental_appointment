@@ -1,6 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+
 $first_name = $_SESSION['first_name'];                
 $today = date('m/d/Y'); // Matches your DB format
 $currentWeek = date('W');

@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once('../../connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/connection/connection.php');
+
 
 $id = $_SESSION['user_id'];
 
