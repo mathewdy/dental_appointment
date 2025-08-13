@@ -2,19 +2,21 @@
 
 function queryEventBuilder($role, $id) {
   $eventClause = getClause($role, $id);
-  return "SELECT appointments.user_id , appointments.user_id_patient, appointments.concern, appointments.appointment_date, 
+  $sql = "SELECT appointments.user_id , appointments.user_id_patient, appointments.concern, appointments.appointment_date, 
   users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed
   FROM appointments
   LEFT JOIN users
   ON appointments.user_id = users.user_id
   LEFT JOIN schedule 
   ON appointments.user_id = schedule.user_id " . $eventClause ;
+  
+  return $sql;
 }
 
 function queryEventInfoBuilder($role, $id, $formattedClickedDate) {
   $formattedClickedDate = "'" . $formattedClickedDate . "'";
   $eventInfoClause = getInfoClause($role, $id);
-  return "SELECT appointments.user_id AS dentist_id, 
+  $sql = "SELECT appointments.user_id AS dentist_id, 
     appointments.user_id_patient AS patient_id,
     appointments.concern, 
     appointments.appointment_date, 
@@ -34,5 +36,7 @@ function queryEventInfoBuilder($role, $id, $formattedClickedDate) {
   LEFT JOIN schedule 
   ON appointments.user_id = schedule.user_id
   WHERE appointments.appointment_date = $formattedClickedDate " . $eventInfoClause;
+
+  return $sql;
 }
 ?>
