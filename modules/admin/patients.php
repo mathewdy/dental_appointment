@@ -1,6 +1,8 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/patients.php');
+
 //errors
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -51,13 +53,7 @@ include('../../includes/security.php');
                         </thead>
                         <tbody>
                         <?php
-                            $query_patients = "SELECT users.user_id, users.first_name,users.middle_name,users.last_name,users.mobile_number,users.email,users.password,users.date_of_birth,users.address, appointments.appointment_id,appointments.concern,appointments.confirmed,appointments.appointment_date,appointments.remarks
-                            FROM users
-                            LEFT JOIN appointments
-                            ON users.user_id = appointments.user_id WHERE users.role_id = '1'";
-                    
-                            $run_patients = mysqli_query($conn,$query_patients);
-                    
+                            $run_patients = getAllPatients($conn, "1");
                             if(mysqli_num_rows($run_patients) > 0){
                                 foreach($run_patients as $row_patients){
                                     ?>

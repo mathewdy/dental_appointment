@@ -1,6 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/dentists.php');
 
 $first_name = $_SESSION['first_name'];
 
@@ -49,19 +50,7 @@ $first_name = $_SESSION['first_name'];
                             </thead>
                             <tbody>
                             <?php
-                                //errors
-                                ini_set('display_errors', 1);
-                                ini_set('display_startup_errors', 1);
-                                error_reporting(E_ALL);
-
-                                $query_dentists = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time, schedule.end_time AS end_time
-                                FROM
-                                users 
-                                LEFT JOIN schedule 
-                                ON users.user_id = schedule.user_id 
-                                WHERE users.role_id = '3'";
-                                $run_dentists = mysqli_query($conn,$query_dentists);
-
+                                $run_dentists = getAllDentist($conn, "3");
                                 if(mysqli_num_rows($run_dentists) > 0){
                                     foreach($run_dentists as $row_dentist){
                                         ?>
