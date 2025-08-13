@@ -275,7 +275,7 @@ if(isset($_POST['add_dentist'])){
         echo "<script>alert('User Already Added')</script>";
         exit();
     }else{
-        $run_sql = createDentist($conn, $user_id, $role_id, $first_name, $middle_name, $last_name, $mobile_number, $email, $password,$date_of_birth, $dateTime);
+        $run_sql = createDentist($conn, $user_id, $role_id, $first_name, $middle_name, $last_name, $mobile_number, $email, $new_password,$date_of_birth, $dateTime);
 
         $run_insert_Schedule = createDentistSchedule($conn, $user_id, $days_combined, $start_time, $end_time, $dateTime);
 
