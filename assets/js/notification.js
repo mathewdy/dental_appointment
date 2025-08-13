@@ -10,9 +10,15 @@ $.ajax({
                 totalCount += notificationGroup.count[0];  
 
                 $.each(notificationGroup.data, function(i, notification) {
-                    $('#notif').append(`
-                        <a href="#">
-                            <div class="notif-icon notif-primary">
+                    const colorCode = {
+                        Payment: 'notif-success',
+                        Appointment: 'notif-primary'
+                    }
+                    const bgColor = colorCode[notification.type] || 'notif-secondary';
+
+                    $('#notif').append(`    
+                        <a href="${notification.url}">
+                            <div class="notif-icon ${bgColor}">
                                 <i class="${notification.icon}"></i>
                             </div>
                             <div class="notif-content">
@@ -28,9 +34,6 @@ $.ajax({
                         <span class="notification bg-danger">${totalCount}</span>
                     `);
                 }
-                // $('#notifDropdown').append(`
-                //     <span class="notification bg-danger" style="width: 8px !important;">${totalCount}</span>
-                // `)
             });
             
         } else {
