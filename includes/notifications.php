@@ -40,7 +40,8 @@ $run = mysqli_query($conn, $fetch);
 if(mysqli_num_rows($run) > 0){
 	foreach($run as $row){
 		$handleIconType = match($row['type']) {
-				'Appointment' => 'fa fa-calendar'
+				'Appointment' => 'fa fa-calendar',
+                'Payment'     => 'fa fa-money-bill'
 		};
 		
 		$notifItem[]= [
