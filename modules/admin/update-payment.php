@@ -155,7 +155,7 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 
 $date = date('Y-m-d');
-
+$dateTime = date('Y-m-d H:i:s');
 // --------------------
 // CASH PAYMENT
 // --------------------
@@ -188,7 +188,7 @@ if (isset($_POST['add_payment'])) {
         $run_insert_payment = mysqli_query($conn, $query_insert_payment);
 
         if ($run_insert_payment) {
-            createNotification($conn, $user_id, "New Payment Transaction", "Payment", $date, $id);
+            createNotification($conn, $user_id, "New Payment Transaction", "Payment", $dateTime, $id);
             
             echo "<script>
                 alert('Payment Successful');
