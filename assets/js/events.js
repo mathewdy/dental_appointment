@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 data: {date : clickedDate},
                 success: function(res){
                     document.getElementById("appointment_info").innerHTML = res
-                    // alert(res)
                 }
             })
         }
