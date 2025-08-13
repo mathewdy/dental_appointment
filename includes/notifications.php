@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once('../connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/config.php');
 header('Content-Type: application/json');
 
 $id = $_SESSION['user_id'];
@@ -35,22 +36,27 @@ function timeAgo($datetime) {
 $notifItem = [];
 
 $possibleClause = $role != 2 ? "WHERE user_id = '$id'" : '';  
-$fetch = "SELECT *, (SELECT COUNT(*) FROM `notification` $possibleClause) AS total FROM `notification`" . $possibleClause;
+$fetch = "SELECT *, (SELECT COUNT(*) FROM `notification` $possibleClause) AS total FROM `notification`" . $possibleClause . " ORDER BY id DESC ";
 $run = mysqli_query($conn, $fetch);
 if(mysqli_num_rows($run) > 0){
 	foreach($run as $row){
-		$handleIconType = match($row['type']) {
-				'Appointment' => 'fa fa-calendar',
-                'Payment'     => 'fa fa-money-bill'
+		$iconType = match($row['type']) {
+            'Appointment' => 'fa fa-calendar',
+            'Payment'     => 'fa fa-money-bill'
 		};
-		
+		$link = match($row['type']) {
+            'Appointment' => 'requests.php',
+            'Payment'     => 'payments.php'
+        };
 		$notifItem[]= [
 			'count' => (int)$row['total'],
 			'read'  => $row['hasRead'],
 			'data'  => [
 				[
+                    'type'    => $row['type'],
 					'message' => $row['message'],
-					'icon'    => $handleIconType,
+					'icon'    => $iconType,
+                    'url'     => $link,
 					'time'    => timeAgo($row['createdAt'])
 				]
 			]
