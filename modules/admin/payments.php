@@ -1,9 +1,8 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Payments/payments.php');
+
 $first_name = $_SESSION['first_name'];
 ?>
 
@@ -72,12 +71,7 @@ $first_name = $_SESSION['first_name'];
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $query_patients = " SELECT DISTINCT users.user_id, users.first_name, users.last_name
-                                                    FROM users 
-                                                    INNER JOIN appointments ON users.user_id = appointments.user_id_patient 
-                                                    WHERE appointments.confirmed = '1' AND users.role_id = '1'";
-                                                    $run_patients = mysqli_query($conn,$query_patients);
-
+                                                    $run_patients = getAllPayment($conn);
                                                     if(mysqli_num_rows($run_patients) > 0){
                                                         foreach($run_patients as $row_patients){
                                                             ?>

@@ -1,6 +1,8 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
+
 $first_name = $_SESSION['first_name'];
 ?>
 
@@ -137,8 +139,9 @@ $first_name = $_SESSION['first_name'];
 								</div>
 							</div>
 							<div class="col-lg-12 text-end">
-									<a href="patients.php" class="btn btn-sm btn-danger">Cancel</a>
-									<input type="submit" class="btn btn-sm btn-primary" name="register_patient" value="Save">
+								<a href="patients.php" class="btn btn-sm btn-danger">Cancel</a>
+								<input type="hidden" name="register_patient" value="1">
+								<input type="submit" class="btn btn-sm btn-primary" value="Create">	
 							</div>
 							</div>
 						</form>
@@ -149,9 +152,17 @@ $first_name = $_SESSION['first_name'];
 	</div>
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
-
+?>
+<script>
+$(document).ready(function() {
+    $('form').on('submit', function(e) {
+        e.preventDefault();
+        confirmBeforeSubmit($(this), "Do you want to create this user?")
+    });
+});
+</script>
+<?php
 if(isset($_POST['register_patient'])){
-
     $user_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3) ;
     $role_id = 1;
     $first_name = $_POST['first_name'];
@@ -163,32 +174,18 @@ if(isset($_POST['register_patient'])){
     $password = $_POST['password'];
     $new_password = password_hash($password,PASSWORD_DEFAULT);
 
-    date_default_timezone_set("Asia/Manila");
-    $date = date('y-m-d');
-		$dateTime = date('Y-m-d H:i:s');
-
-    //errors
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
-
-    $query_check_user = "SELECT * FROM users WHERE email='$email'";
-    $run_check_user = mysqli_query($conn,$query_check_user);
-    
+		$run_check_user = checkUser($conn, $email, $first_name, $middle_name, $last_name, $date_of_birth);
     if(mysqli_num_rows($run_check_user) > 0){
-        echo "<script>alert('User Already Added')</script>";
-        exit();
+			echo "<script> error('User already added.', () => window.location.href = 'vpatients.php') </script>";
     }else{
-        $query_register = "INSERT INTO users (user_id,role_id,first_name,middle_name,last_name,mobile_number,email,password,date_of_birth,date_created,date_updated) VALUES ('$user_id','$role_id', '$first_name','$middle_name','$last_name','$mobile_number','$email','$new_password','$date_of_birth','$date','$date')";
-        $run_sql = mysqli_query($conn,$query_register);
+			$run_sql = createUser($conn, $user_id, $role_id, $first_name, $middle_name, $last_name, $mobile_number, $email, $new_password, $date_of_birth);
 
-        if($run_sql){
-            echo "<script>window.location.href='patients.php'</script>";
-        }else{
-            echo "error" . $conn->error;
-        }
+			if($run_sql){
+				echo "<script> success('Patient added successfully.', () => window.location.href = 'patients.php') </script>";
+			}else{
+				echo "<script> error('Something went wrong!', () => window.location.href = 'vpatients.php') </script>";
+			}
     }
-
 }
 ob_end_flush();
 

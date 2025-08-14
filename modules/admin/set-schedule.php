@@ -2,6 +2,9 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/notification.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Appointments/appointments.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/dentists.php');
+
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -55,13 +58,7 @@ $id = $_SESSION['user_id'];
                   $user_id_patient = $_GET['user_id_patient'];
                   $user_id_dentist = $_GET['user_id_dentist'];
 
-                  $query_dentist = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time , schedule.end_time AS end_time
-                  FROM
-                  users 
-                  LEFT JOIN schedule 
-                  ON users.user_id = schedule.user_id 
-                  WHERE users.role_id = '3' AND users.user_id =  '$user_id_dentist'";
-                  $run_dentist = mysqli_query($conn,$query_dentist);
+                  $run_dentist = getDentistById($conn, '3', $user_id_dentist);
                   $row_dentist = mysqli_fetch_assoc($run_dentist);
                   json_encode($available_days = explode(", ", $row_dentist['day']));
 
@@ -161,7 +158,8 @@ $id = $_SESSION['user_id'];
                   </div>
                   <div class="col-lg-12 text-end">
                     <a href="set-doctor.php?user_id_patient=<?= $_GET['user_id_patient'] ?>" class="btn btn-sm btn-danger">Cancel</a>
-                    <input type="submit" class="btn btn-sm btn-primary" name="save" value="Save">
+                    <input type="submit" class="btn btn-sm btn-primary" value="Save">
+                    <input type="hidden" name="save" value="1">
                   </div>
                 </div>                        
               </form>
@@ -184,25 +182,30 @@ $id = $_SESSION['user_id'];
   ";
 ?>
     
-    <script>
-    $(function () {
-        const allDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        const availableIndexes = availableDays.map(day => allDays.indexOf(day));
-        $(".appointment_date").datepicker({
-            beforeShowDay: function(date) {
-                var dayIndex = date.getDay(); 
-                return [availableIndexes.includes(dayIndex)];
-            },
-            minDate: 0
-        });
-    });
-    </script>
+<script>
+  $(function () {
+      const allDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const availableIndexes = availableDays.map(day => allDays.indexOf(day));
+      $(".appointment_date").datepicker({
+          beforeShowDay: function(date) {
+              var dayIndex = date.getDay(); 
+              return [availableIndexes.includes(dayIndex)];
+          },
+          minDate: 0
+      });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+      $('form').on('submit', function(e) {
+          e.preventDefault();
+          confirmBeforeSubmit($(this), "Do you want to add this appointment?")
+      });
+  });
+</script>
 <?php
 
 if(isset($_POST['save'])){
-
-    $date = date('y-m-d');
-
     $user_id_dentist = $_GET['user_id_dentist'];
     $user_id_patient = $_GET['user_id_patient'];
     $appointment_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3) ;
@@ -210,31 +213,22 @@ if(isset($_POST['save'])){
     $appointment_time = $_POST['appointment_time'];
     $appointment_date = $_POST['appointment_date'];
 
-    $check_time_appointment = "SELECT appointment_time, appointment_date, user_id FROM appointments WHERE appointment_time = '$appointment_time' AND appointment_date = '$appointment_date' AND user_id = '$user_id_dentist'";
-    $run_appointment_time = mysqli_query($conn,$check_time_appointment);
-
+    $run_appointment_time = checkAppointment($conn, $appointment_time, $appointment_date, $user_id_dentist);
     if(mysqli_num_rows($run_appointment_time) > 0){
-        echo "<script>window.alert('Appointment time already booked')</script>";
-        echo "<script>window.location.href='appointments.php'</script>";
+      echo "<script> error('Appointment time already booked!', () => window.location.href = 'appointments.php') </script>";
     }else{
-        $check_appointment = "SELECT appointment_date, user_id_patient FROM appointments WHERE appointment_date =  '$appointment_date' AND user_id_patient = '$user_id_patient'";
-        $run_check_appointment = mysqli_query($conn,$check_appointment);
+        $run_check_appointment = checkAppointmentByUser($conn, $appointment_date, $user_id_patient);
         if(mysqli_num_rows($run_check_appointment) > 0){
-            echo "<script>window.alert('Patient already have an Appointment')</script>";
-            echo "<script>window.location.href='appointments.php'</script>";
+          echo "<script> error('Patient already have an Appointment.', () => window.location.href = 'appointments.php') </script>";
         }else{
-            $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_time,appointment_date,date_created,date_updated,remarks,walk_in) VALUES ('$user_id_dentist','$user_id_patient','$appointment_id','$concern', '0', '$appointment_time','$appointment_date','$date', '$date', NULL, '1')";
-            $run_appointment = mysqli_query($conn,$query_appointment);
-
-            
-            if($run_appointment) {
-              createNotification($conn, $user_id_dentist, "New Appointment Schedule", "Appointment", $date, $id);
-              createNotification($conn, $user_id_patient, "New Appointment Schedule", "Appointment", $date, $id);
-
-              header("Location: appointments.php");
-            }else{
-                echo "not added";
-            }
+          $run_appointment = createAppointment($conn, $user_id_dentist, $user_id_patient, $appointment_id, $concern, $appointment_time, $appointment_date);
+          if($run_appointment) {
+            createNotification($conn, $user_id_dentist, "New Appointment Schedule", "Appointment", $id);
+            createNotification($conn, $user_id_patient, "New Appointment Schedule", "Appointment", $id);
+            echo "<script> success('Appointment added successfully.', () => window.location.href = 'appointments.php') </script>";
+          }else{
+            echo "<script> error('Something went wrong!', () => window.location.href = 'appointments.php') </script>";
+          }
         }
     }
 

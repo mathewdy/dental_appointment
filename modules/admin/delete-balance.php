@@ -1,22 +1,19 @@
 <?php
-ob_start();
-session_start();
-date_default_timezone_set('Asia/Manila');
-include('../../connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Payments/payments.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 
 if (isset($_GET['user_id']) && isset($_GET['payment_id']) && isset($_GET['concern'])) {
     $user_id = $_GET['user_id'];
     $payment_id = $_GET['payment_id'];
     $concern = $_GET['concern'];
 
-    $query_delete = "DELETE FROM payments WHERE user_id = '$user_id' AND payment_id = '$payment_id'";
-    $run = mysqli_query($conn, $query_delete);
-
+    $run = deleteBalance($conn, $user_id, $payment_id);
     if ($run) {
-        header("Location: view-patient-payments.php?user_id=$user_id&concern=$concern");
-        exit();
+			echo "<script> success('Deleted successfully.', () => window.location.href = 'view-patient-payments.php?user_id=$user_id&concern=$concern') </script>";
     } else {
-        echo "Error: " . $conn->error;
+			echo "<script> error('Something went wrong!', () => window.location.href = 'view-patient-payments.php?user_id=$user_id&concern=$concern') </script>";
     }
 }
 ?>

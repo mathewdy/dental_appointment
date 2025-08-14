@@ -2,10 +2,8 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/notification.php');
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Payments/payments.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 $id = $_SESSION['user_id'];
 
 if(isset($_POST['add_balance'])){
@@ -18,20 +16,14 @@ if(isset($_POST['add_balance'])){
     $services = $_POST['concern']; //concern & services ay iisa
     $remaining_balance = $_POST['remaining_balance'];
     $appointment_id = $_POST['appointment_id'];
-    $query_insert_payment = "INSERT INTO payments (payment_id,user_id,appointment_id, services,initial_balance,remaining_balance,date_created,date_updated) 
-		VALUES ('$payment_id','$user_id','$appointment_id' ,'$services','$remaining_balance','$remaining_balance','$date', '$date')";
-    $run_insert_payment = mysqli_query($conn,$query_insert_payment);
 
+    $run_insert_payment = addBalance($conn, $payment_id, $user_id, $appointment_id, $services, $remaining_balance,);
     if($run_insert_payment){
       createNotification($conn, $user_id, "Initial Balance Added", "Payment", $dateTime, $id);
       createNotification($conn, $id, "Initial Balance Added", "Payment", $dateTime, $id);
-
-			echo "<script>
-				window.alert('Added Balance');
-				window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services';
-				</script>";
+      echo "<script> success('Balance added successfully.', () => window.location.href = 'view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
     }else{
-        echo "error";
+      echo "<script> error('Something went wrong!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
     }
 
 

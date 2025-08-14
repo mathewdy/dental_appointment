@@ -40,24 +40,27 @@ $fetch = "SELECT *, (SELECT COUNT(*) FROM `notification` $possibleClause) AS tot
 $run = mysqli_query($conn, $fetch);
 if(mysqli_num_rows($run) > 0){
 	foreach($run as $row){
+
 		$iconType = match($row['type']) {
-            'Appointment' => 'fa fa-calendar',
-            'Payment'     => 'fa fa-money-bill'
+      'Appointment' => 'fa fa-calendar',
+      'Payment'     => 'fa fa-money-bill'
 		};
 		$link = match($row['type']) {
-            'Appointment' => 'requests.php',
-            'Payment'     => 'payments.php'
-        };
+        'Appointment' => 'requests.php',
+        'Payment'     => 'payments.php'
+    };
+
 		$notifItem[]= [
 			'count' => (int)$row['total'],
 			'read'  => $row['hasRead'],
 			'data'  => [
 				[
-                    'type'    => $row['type'],
+          'type'    => $row['type'],
 					'message' => $row['message'],
 					'icon'    => $iconType,
-                    'url'     => $link,
-					'time'    => timeAgo($row['createdAt'])
+          'url'     => $link,
+					'time'    => timeAgo($row['createdAt']),
+          'datetime'=> $row['createdAt']
 				]
 			]
 		];

@@ -1,6 +1,8 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/patients.php');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -41,87 +43,135 @@ include '../../includes/sidebar.php';
                                 <i class="icon-arrow-right"></i>
                             </li>
                             <li class="nav-item">
-                                <a href="#">Add Patient</a>
+                                <a href="#">Edit Patient</a>
                             </li>
                         </ul>
                     </span>    
                 </span>
             </div>
             <div class="page-category">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card p-5">
-                            <?php
-                                if(isset($_GET['user_id'])){
-                                    $user_id_patient = $_GET['user_id'];
-                                    $query_patients = "SELECT users.user_id, users.first_name,users.middle_name,users.last_name,users.mobile_number,users.email,users.password,users.date_of_birth,users.address
-                                    FROM users
-                                    WHERE users.role_id = '1' AND users.user_id = '$user_id_patient'";
+              <?php
+              if(isset($_GET['user_id'])){
+                $user_id_patient = $_GET['user_id'];
 
-                                    $run_patients = mysqli_query($conn,$query_patients);
-
-                                    if(mysqli_num_rows($run_patients) > 0){
-                                        foreach($run_patients as $row_patients){
-                                            ?>
-
-                                            <form action="" method="POST">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <h2>Patient's Info</h2>
+                $run_patients = getPatientById($conn, $user_id_patient);
+                if(mysqli_num_rows($run_patients) > 0){
+                    foreach($run_patients as $row_patients){
+                      ?>
+                      <form action="" method="POST">
+                        <div class="row gap-2">
+                            <div class="col-lg-12">
+                                <div class="card p-4 shadow-none form-card rounded-1">
+                                    <div class="card-header">
+                                        <h3>Basic Information</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row gap-4">
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="first_name">First Name</label>
                                                     </div>
-                                                    <div class="col-lg-4 mb-4">
-                                                        <label for="">First Name</label>
+                                                    <div class="col-lg-10">
                                                         <input type="text" class="form-control" name="first_name" value="<?php echo $row_patients['first_name']?>">
                                                     </div>
-                                                    <div class="col-lg-4 mb-4">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
                                                         <label for="">Middle Name</label>
+                                                    </div>
+                                                    <div class="col-lg-10">
                                                         <input type="text" class="form-control" name="middle_name" value="<?php echo $row_patients['middle_name']?>">
                                                     </div>
-                                                    <div class="col-lg-4 mb-4">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
                                                         <label for="">Last Name</label>
+                                                    </div>
+                                                    <div class="col-lg-10">
                                                         <input type="text" class="form-control" name="last_name" value="<?php echo $row_patients['last_name']?>">
                                                     </div>
-                                                    <div class="col-lg-6 mb-4">
-                                                        <label for="">Mobile Number</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
+                                                        <label for="">Mobile Number </label>
+                                                    </div>
+                                                    <div class="col-lg-10">
                                                         <input type="text" class="form-control" name="mobile_number" value="<?php echo $row_patients['mobile_number']?>">
                                                     </div>
-                                                    <div class="col-lg-6 mb-4">
-                                                        <label for="">Email</label>
-                                                        <input type="email" class="form-control" name="email" value="<?php echo $row_patients['email']?>">
-                                                    </div>
-                                                    <div class="col-lg-6 mb-4">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
                                                         <label for="">Date of Birth</label>
+                                                    </div>
+                                                    <div class="col-lg-10">
                                                         <input type="date" class="form-control" name="date_of_birth" value="<?php echo $row_patients['date_of_birth']?>">
                                                     </div>
-                                                    <div class="col-lg-6 mb-4">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="row d-flex align-items-center w-100">
+                                                    <div class="col-lg-2">
                                                         <label for="">Address</label>
-                                                        <input type="text"  class="form-control" name="address" value="<?php echo $row_patients['address']?>">
                                                     </div>
-                                                    <div class="col-lg-12 text-end">
-                                                        <a href="patients.php" class="btn btn-danger">Cancel</a>
-                                                        <input type="submit" class="btn btn-primary" name="update" value="Update">
+                                                    <div class="col-lg-10">
+                                                        <input type="text" class="form-control" name="address" value="<?php echo $row_patients['address']?>">
                                                     </div>
                                                 </div>
-                                            </form>
-                                            <hr class="featurette-divider my-5">
-                                            <form action="send_reset_password.php" method="POST">
-
-                                                <h3>Send Reset Password</h3>
-                                                    
-                                                <input type="submit" class="btn btn-primary" name="send_reset_password" value="Send Email">
-                                                <input type="hidden" name="email" value="<?php echo $row_patients['email']?>">
-
-                                            </form>
-                                            <?php
-                                            
-                                        }
-                                    }
-                                }
-
-                            ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                              <div class="card p-4 shadow-none form-card rounded-1">
+                                  <div class="card-header">
+                                    <h3>Account</h3>
+                                  </div>
+                                  <div class="card-body">
+                                    <div class="row gap-4">
+                                      <div class="col-lg-12">
+                                        <div class="row d-flex align-items-center w-100">
+                                          <div class="col-lg-2">
+                                            <label for="">Email</label>
+                                          </div>
+                                          <div class="col-lg-10">
+                                            <input type="email" class="form-control" name="email" value="<?php echo $row_patients['email']?>">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-lg-12">
+                                        <hr class="featurette-divider">
+                                          <p class="h5">Send Reset Password</p>
+                                          <a href="javascript:void(0)" data-href="send_reset_password.php?email=<?= $row_patients['email']?>" class="btn btn-sm btn-primary send-email">Send Email</a>
+                                      </div>
+                                    </div>
+                                  </div>
+                              </div>
+                          </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12">
+                        <div class="col-lg-12 text-end">
+                          <a href="patients.php" class="btn btn-sm btn-danger">Cancel</a>
+                          <input type="submit" class="btn btn-sm btn-primary" value="Save">	
+                          <input type="hidden" name="update" value="1">
+                        </div>
+                      </div>
+                    </form>
+                  <?php
+                    }
+                  }
+                }
+                ?>
+                                            
+                    <!-- <div class="col-lg-12">
                         <div class="card p-5">
                             <h2>Patient's Appointment</h2>
                             <table>
@@ -170,42 +220,61 @@ include '../../includes/sidebar.php';
                                     ?>
                                 </table>
 
-                        </div>
-                    </div>
-                </div>
+                        </div> -->
             </div>
+          </div>
+        </div>
+      </div>
     </div>
-    </div>
-</div>
+  </div>
 </div>
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+?>
+<script>
+$(document).ready(function() {
+    $('form').on('submit', function(e) {
+        e.preventDefault()
+        confirmBeforeSubmit($(this), "You\'ve made changes. Do you want to save them?")
+    })
 
+    $('.send-email').on('click', function(e) {
+      var url = $(this).data("href")
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to proceed?",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#3085d6'
+    }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = url
+        }
+    });
+    })
+});
+</script>
+<?php
 if(isset($_POST['update'])){
+  date_default_timezone_set("Asia/Manila");
+  $date = date('y-m-d');
+  $first_name = $_POST['first_name'];
+  $middle_name = $_POST['middle_name'];
+  $last_name = $_POST['last_name'];
+  $mobile_number = $_POST['mobile_number'];
+  $email = $_POST['email'];
+  $date_of_birth = $_POST['date_of_birth'];
+  $address = $_POST['address'];
+  $user_id_patient = $_GET['user_id'];
 
-    date_default_timezone_set("Asia/Manila");
-    $date = date('y-m-d');
-    $first_name = $_POST['first_name'];
-    $middle_name = $_POST['middle_name'];
-    $last_name = $_POST['last_name'];
-    $mobile_number = $_POST['mobile_number'];
-    $email = $_POST['email'];
-    $date_of_birth = $_POST['date_of_birth'];
-    $address = $_POST['address'];
-    $user_id_patient = $_GET['user_id'];
-
-    $query_update = "UPDATE users SET first_name = '$first_name', middle_name = '$middle_name',last_name='$last_name',mobile_number = '$mobile_number', email = '$email', date_of_birth =  '$date_of_birth', address = '$address', date_updated = '$date' WHERE user_id = '$user_id_patient'" ;
-    $run_update = mysqli_query($conn,$query_update);
-
-    if($run_update){
-        header("Location: patients.php");
-    }else{
-        echo "error";
-    }
-
-
-
-
+  $run_update = updatePatient($conn, $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $address, $user_id_patient);
+  if($run_update){
+    echo "<script> success('Patient updated successfully.', () => window.location.href = 'patients.php') </script>";
+  }else{
+    echo "<script> error('Something went wrong!', () => window.location.href = 'patients.php') </script>";
+  }
 }
 
 

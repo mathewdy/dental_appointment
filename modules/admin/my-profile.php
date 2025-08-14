@@ -40,7 +40,6 @@ include('../../includes/security.php');
             <div class="page-category">
                 <?php
                 $run_profile = getProfile($conn, $user_id, $roleId);
-
                 if(mysqli_num_rows($run_profile) > 0){
                     foreach($run_profile as $row_profile){
                         $name = $row_profile['first_name'] . " " . $row_profile['last_name'];

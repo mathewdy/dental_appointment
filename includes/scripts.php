@@ -25,11 +25,15 @@ if(!empty($userId)){
   <script src="' . BASE_PATH . '/assets/js/events.js"></script>
   <script src="' . BASE_PATH . '/assets/js/modal-event.js"></script>
   <script src="' . BASE_PATH . '/assets/js/notification.js"></script>
+  <script src="' . BASE_PATH . '/assets/js/notif-table.js"></script>
   <script src="' . BASE_PATH . '/assets/js/add-balance.js"></script>
   <script src="' . BASE_PATH . '/assets/js/edit-balance.js"></script>
   <script src="' . BASE_PATH . '/assets/js/payment-history.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="' . BASE_PATH . '/assets/js/validate-time.js"></script>
+  <script src="' . BASE_PATH . '/assets/js/swal-confirm.js"></script>
+  <script src="' . BASE_PATH . '/assets/js/utils/delete-user.js"></script>
   ';
 }
 

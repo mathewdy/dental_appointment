@@ -1,19 +1,18 @@
 <?php
-ob_start();
-session_start();
-date_default_timezone_set('Asia/Manila');
-include('../../connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+
 if(isset($_GET['user_id'])){
-    $user_id = $_GET['user_id'];
-    $query_delete = "DELETE FROM users WHERE user_id = '$user_id'";
-    $run = mysqli_query($conn,$query_delete);
-
-    if($run){
-        header('location: view-dentists.php');
-    }else{
-        echo "error" . $conn->error;
-    }
-
+	$user_id = $_GET['user_id'];
+	
+	$run = deleteUser($conn, $user_id);
+	if($run){
+		echo "<script> success('Deleted successfully.', () => window.location.href = 'view-dentists.php') </script>";
+	}else{
+		echo "<script> error('Something went wrong!', () => window.location.href = 'view-dentists.php') </script>";
+	}
 }
 
 

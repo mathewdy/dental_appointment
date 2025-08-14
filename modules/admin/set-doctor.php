@@ -1,10 +1,8 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/dentists.php');
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
 ?>
 
@@ -59,13 +57,7 @@ $first_name = $_SESSION['first_name'];
                                     if(isset($_GET['user_id_patient'])){
                                         $user_id_patient = $_GET['user_id_patient'];
 
-                                        $query_dentist = "SELECT users.user_id AS user_id, users.first_name AS first_name, users.middle_name AS middle_name, users.last_name AS last_name, users.mobile_number AS mobile_number, users.email AS email, schedule.user_id AS schedule_user_id, schedule.day AS day , schedule.start_time AS start_time , schedule.end_time AS end_time
-                                        FROM users 
-                                        LEFT JOIN schedule 
-                                        ON users.user_id = schedule.user_id 
-                                        WHERE users.role_id = '3'";
-
-                                        $run_dentist = mysqli_query($conn, $query_dentist);
+                                        $run_dentist = getAllDentist($conn, '3');
                                         $all_dentists = mysqli_fetch_all($run_dentist, MYSQLI_ASSOC);
                                         foreach ($all_dentists as $row_dentist) {
                                         ?>

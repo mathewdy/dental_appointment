@@ -48,7 +48,27 @@ if(mysqli_num_rows($run_appointments) > 0){
         ';
     }
 }else{
-    echo "Error: " . mysqli_error($conn);
+    ?>
+    <div class="d-flex justify-content-center align-items-center gap-4 py-5">
+      <div class="row text-center">
+        <div class="col-lg-12">
+          <h1 class="display-1">
+            <i class="fas fa-box-open text-info"></i>
+          </h1>
+        </div>
+        <div class="col-lg-12">
+          <div class="w-100">
+            <p class="h4 p-0 m-0 text-dark">
+              No Payment History Available
+            </p>
+            <p class="p-0 m-0">There is currently no payment data associated with this user.</p>
+          </div>
+        </div>
+      </div>
+     
+      
+    </div>
+    <?php
 }
 
 

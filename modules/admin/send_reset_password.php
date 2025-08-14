@@ -1,5 +1,8 @@
 <?php
-include('../../connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+
 ob_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -52,9 +55,9 @@ function send_password_reset($email,$token){
     }
 }
 
-if(isset($_POST['send_reset_password']))
+if(isset($_GET['email']))
 {
-    $email = $_POST['email'];
+    $email = $_GET['email'];
     $token = md5(rand());
 
     $check_email = "SELECT * FROM users WHERE email =  '$email'";
@@ -62,20 +65,20 @@ if(isset($_POST['send_reset_password']))
 
     if(mysqli_num_rows($check_email_run) > 0){
 
-        $row = mysqli_fetch_array($check_email_run);
-        $email = $row['email'];
+			$row = mysqli_fetch_array($check_email_run);
+			$email = $row['email'];
 
-        $update_token = "UPDATE users SET token = '$token' WHERE email = '$email'";
-        $update_token_run = mysqli_query($conn,$update_token);
+			$update_token = "UPDATE users SET token = '$token' WHERE email = '$email'";
+			$update_token_run = mysqli_query($conn,$update_token);
 
-        if($update_token_run){
-            send_password_reset($email,$token);
-            echo "<script> alert('Please Check Your Email Address') </script>";
-            echo "<script>window.location.href='patients.php'</script>";
-        }
+			if($update_token_run){
+				send_password_reset($email,$token);
+				echo "<script> success('Email sent successfully.', () => window.location.href = 'patients.php') </script>";
+			}
 
     }else{
-        echo "User Not Found";
+			echo "<script> error('Something went wrong!', () => window.location.href = 'patients.php') </script>";
+
     }
    
     

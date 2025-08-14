@@ -1,6 +1,8 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Appointments/appointments.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Payments/payments.php');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -159,43 +161,7 @@ $first_name = $_SESSION['first_name'];
 									</thead>
 									<tbody>
 										<?php
-										// $query_patients_appointments = "SELECT 
-										// 		payments.id, 
-										// 		payments.user_id AS payment_user_id,
-										// 		payments.payment_id,
-										// 		payments.initial_balance, 
-										// 		payments.remaining_balance,
-										// 		payments.is_deducted,
-										// 		users.user_id AS user_id,
-										// 		users.first_name,
-										// 		users.last_name,
-                    //     appointments.appointment_id,
-										// 		appointments.user_id_patient,
-                    //     appointments.concern,
-										// 		appointments.confirmed
-										// FROM `payments`
-										// LEFT JOIN users ON payments.user_id = users.user_id
-										// LEFT JOIN appointments ON payments.user_id = appointments.user_id_patient 
-										// WHERE appointments.confirmed = '1' AND users.role_id = '1' AND users.user_id = '$user_id'
-                    // GROUP BY payment_id
-										// "
-										// ;
-                    $query_patients_appointments = "SELECT
-                    appointments.user_id_patient,
-                    appointments.appointment_id AS id,
-                    appointments.concern,
-                    appointments.date_created,
-                    appointments.confirmed,
-                    payments.payment_id,
-                    payments.appointment_id,
-                    payments.initial_balance, 
-                    payments.remaining_balance, 
-                    payments.is_deducted
-                    FROM appointments 
-                    LEFT JOIN payments 
-                    ON appointments.appointment_id = payments.appointment_id
-                    WHERE user_id_patient = '$user_id' AND confirmed = '1'";
-										$run_patients_appointments = mysqli_query($conn,$query_patients_appointments);
+										$run_patients_appointments = getAppointments($conn, $user_id, '1');
 
 										if(mysqli_num_rows($run_patients_appointments) > 0){
 												foreach($run_patients_appointments as $row_patients_appointments){
@@ -300,13 +266,14 @@ $first_name = $_SESSION['first_name'];
             <h5 class="modal-title" id="exampleModalLabel">Add Balance</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="add-balance.php" method="POST">
+        <form action="add-balance.php" method="POST" data-message="edit">
           <div class="modal-body">
             <div class="row addForm">
             </div>
           </div>
           <div class="modal-footer">
-            <input type="submit" class="btn btn-md btn-primary" name="add_balance" value="Add">                      
+            <input type="submit" class="btn btn-md btn-primary" value="Add">                      
+            <input type="hidden" name="add_balance" value="1">                      
           </div>
         </form>
       </div>
@@ -319,13 +286,14 @@ $first_name = $_SESSION['first_name'];
             <h5 class="modal-title" id="exampleModalLabel">Edit Balance</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form action="edit-balance.php" method="POST">
+        <form action="edit-balance.php" method="POST" data-message="edit">
           <div class="modal-body">
             <div class="row editForm">
             </div>
           </div>
           <div class="modal-footer">
-            <input type="submit" class="btn btn-md btn-primary" name="update_balance" value="Update">                      
+            <input type="submit" class="btn btn-md btn-primary" value="Update">                      
+            <input type="hidden" name="update_balance" value="1">                      
           </div>
         </form>
       </div>
@@ -347,7 +315,17 @@ $first_name = $_SESSION['first_name'];
   </div>
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
-
+?>
+<script>
+  $(document).ready(function() {
+      $('form').on('submit', function(e) {
+          var message = $(this).data('message')
+          e.preventDefault();
+          confirmBeforeSubmit($(this), `Do you want to ${message} balance?`)
+      });
+  });
+</script>
+<?php
 // if(isset($_POST['add_payment'])) {
 //     $user_id = $_GET['user_id'];
 //     $service = $_POST['service_name'];

@@ -1,6 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Payments/payments.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/notification.php');
 
 ini_set('display_errors', 1);
@@ -168,37 +169,22 @@ if (isset($_POST['add_payment'])) {
 
     // Validate: Don't allow payment more than remaining balance
     if ($payment > $remaining_balance) {
-        echo "<script>alert('Payment exceeds remaining balance.'); window.history.back();</script>";
-        exit();
+				echo "<script> error('Payment exceeds remaining balance.', () => window.history.back()') </script>";
     }
 
     $updated_balance = $remaining_balance - $payment;
 
-    $query_update_balance = "UPDATE payments 
-        SET remaining_balance = '$updated_balance', 
-            is_deducted = '1', 
-            date_updated = '$date' 
-        WHERE payment_id = '$payment_id'";
-    $run_update_balance = mysqli_query($conn, $query_update_balance);
-
+    $run_update_balance = updateRemainingBalance($conn, $updated_balance, $payment_id);
     if ($run_update_balance) {
-        $query_insert_payment = "INSERT INTO payment_history 
-            (payment_id, payment_received, payment_method, date_created, date_updated) 
-            VALUES ('$payment_id', '$payment', 'Cash', '$date', '$date')";
-        $run_insert_payment = mysqli_query($conn, $query_insert_payment);
-
-        if ($run_insert_payment) {
-            createNotification($conn, $user_id, "New Payment Transaction", "Payment", $dateTime, $id);
-            
-            echo "<script>
-                alert('Payment Successful');
-                window.location.href='view-patient-payments.php?payment_id=$payment_id&user_id=$user_id&service=$concern';
-            </script>";
-        } else {
-            echo "❌ Error inserting payment: " . mysqli_error($conn);
-        }
+			$run_insert_payment = createPaymentHistory($conn, $payment_id, $payment, 'Cash');
+			if ($run_insert_payment) {
+				createNotification($conn, $user_id, "New Payment Transaction", "Payment", $dateTime, $id);
+				echo "<script> success('Payment Successful.', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
+			} else {
+				echo "<script> error('Error inserting payment history!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
+			}
     } else {
-        echo "❌ Error updating balance: " . mysqli_error($conn);
+			echo "<script> error('Error updating balance!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
     }
 }
 
@@ -221,32 +207,19 @@ if (isset($_POST['add_payment_paymogo'])) {
 
     // Validate
     if ($payment > $remaining_balance) {
-        echo "<script>alert('Payment exceeds remaining balance.'); window.history.back();</script>";
-        exit();
+				echo "<script> error('Payment exceeds remaining balance.', () => window.history.back()') </script>";
     }
 
     $updated_balance = $remaining_balance - $payment;
 
-    $query_update_balance = "UPDATE payments 
-        SET remaining_balance = '$updated_balance', 
-            is_deducted = '1', 
-            date_updated = '$date' 
-        WHERE payment_id = '$payment_id'";
-    $run_update_balance = mysqli_query($conn, $query_update_balance);
-
+		$run_update_balance = updateRemainingBalance($conn, $updated_balance, $payment_id);
     if ($run_update_balance) {
-        $query_insert_payment = "INSERT INTO payment_history 
-            (payment_id, payment_received, payment_method, date_created, date_updated) 
-            VALUES ('$payment_id', '$payment', '$description', '$date', '$date')";
-        $run_insert_payment = mysqli_query($conn, $query_insert_payment);
-
-        if (!$run_insert_payment) {
-            echo "❌ Error inserting payment history: " . mysqli_error($conn);
-            exit();
-        }
+			$run_insert_payment = createPaymentHistory($conn, $payment_id, $payment, $description);
+			if (!$run_insert_payment) {
+				echo "<script> error('Error inserting payment history!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
+			}
     } else {
-        echo "❌ Error updating balance: " . mysqli_error($conn);
-        exit();
+			echo "<script> error('Error updating balance!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
     }
 
     // Setup PayMongo Payment Link
@@ -281,6 +254,8 @@ if (isset($_POST['add_payment_paymogo'])) {
         header("Location: " . $response['data']['attributes']['checkout_url']);
         exit();
     } else {
+			echo "<script> error('Error creating PayMongo payment link.') </script>";
+
         echo "❌ Error creating PayMongo payment link: " . print_r($response, true);
     }
 }

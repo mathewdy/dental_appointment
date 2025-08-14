@@ -72,8 +72,7 @@ $first_name = $_SESSION['first_name'];
                                                         </li>
                                                         <li>
                                                             <a href="delete-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" 
-                                                            class="dropdown-item"
-                                                            onclick="return confirm('Are you sure you want to delete this dentist?');">
+                                                            class="dropdown-item delete-btn">
                                                             Delete
                                                             </a>
                                                         </li>
@@ -99,3 +98,7 @@ $first_name = $_SESSION['first_name'];
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 ?>
+<script>
+
+
+</script>

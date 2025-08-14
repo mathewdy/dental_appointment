@@ -24,29 +24,29 @@ ini_set('display_errors', 1);
           <div class="page-inner">
             <div class="page-header">
             <span class="d-flex justify-content-between align-items-center w-100">
-                    <span class="d-flex">
-                        <h4 class="page-title">My Profile</h4>
-                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
-                            <li class="nav-home">
-                            <a href="dashboard.php">
-                                <i class="icon-home"></i>
-                            </a>
-                            </li>
-                            <li class="separator">
-                                <i class="icon-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="my-profile.php">Profile</a>
-                            </li>
-                            <li class="separator">
-                                <i class="icon-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#">Edit Profile</a>
-                            </li>
-                        </ul>
-                    </span>    
-                </span>
+              <span class="d-flex">
+                  <h4 class="page-title">My Profile</h4>
+                  <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                    <li class="nav-home">
+                      <a href="dashboard.php">
+                          <i class="icon-home"></i>
+                      </a>
+                    </li>
+                    <li class="separator">
+                        <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="my-profile.php">Profile</a>
+                    </li>
+                    <li class="separator">
+                        <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">Edit Profile</a>
+                    </li>
+                  </ul>
+                </span>    
+              </span>
             </div>
             <div class="page-category">
                 <?php
@@ -156,8 +156,7 @@ ini_set('display_errors', 1);
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 
 if(isset($_POST['update_profile'])){
-    date_default_timezone_set("Asia/Manila");
-    $date = date('y-m-d');
+
     $user_id = $_GET['user_id'];
     $first_name = $_POST['first_name'];
     $middle_name = $_POST['middle_name'];
@@ -170,15 +169,11 @@ if(isset($_POST['update_profile'])){
         $date_of_birth = $_POST['birth_date'];
     }
 
-    $run_update = updateProfile($conn, $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $date, $user_id);
-
+    $run_update = updateProfile($conn, $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $user_id);
     if($run_update){
-        // header("Location: my-profile.php");
-        echo "<script>alert('success')</script>";
-
-        
+      echo "<script> success('Profile has been updated successfully.', () => window.location.href = 'my-profile.php') </script>";
     }else{
-        echo "error". $conn->error;
+      echo "<script> error('Something went wrong!', () => window.location.href = 'my-profile.php') </script>";
     }
 
 }

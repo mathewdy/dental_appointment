@@ -35,7 +35,6 @@ $first_name = $_SESSION['first_name'];
                             </li>
                         </ul>
                     </span>    
-
                     <a href="requests.php" class="btn btn-sm btn-dark op-7">View All Requests</a>
                 </span>
             </div>

@@ -1,5 +1,5 @@
 $.ajax({
-    url: "../../includes/notifications.php",
+    url: "http://localhost/dental_appointment/includes/notifications.php",
     type: "GET",
     dataType: "json",
     success: function(res) {
@@ -10,7 +10,7 @@ $.ajax({
                 totalCount += notificationGroup.count[0];  
 
                 $.each(notificationGroup.data, function(i, notification) {
-                    const colorCode = {
+                    const colorCode = { 
                         Payment: 'notif-success',
                         Appointment: 'notif-primary'
                     }
