@@ -55,15 +55,84 @@ mysqli_close($conn);
             <div class="page-category">
                 <h1>Welcome <?= $first_name; ?></h1>
             </div>
-
-            <?php
-
-              echo "<h2>Dentist Dashboard - Today ($today)</h2>";
-              echo "Total Appointments: " . $row_total['total_today'] . "<br>";
-              echo "Confirmed Appointments: " . $row_confirmed['total_confirmed'] . "<br>";
-              echo "Pending Appointments: " . $row_pending['total_pending'] . "<br>";
-              echo "Cancelled Appointments: " . $row_cancelled['total_cancelled'] . "<br>";
-            ?>
+ <div class="row">
+                  <div class="col-lg-6">
+                    <div class="card card-stats card-round">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-icon">
+                            <div class="icon-big text-center icon-primary bubble-shadow-small">
+                              <i class="fas fa-calendar"></i>
+                            </div>
+                          </div>
+                          <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                              <p class="card-category">Submitted Appointments</p>
+                              <h4 class="card-title"><?= $row_total['total_appointments'] ?></h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="card card-stats card-round">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-icon">
+                            <div class="icon-big text-center icon-success bubble-shadow-small">
+                              <i class="fas fa-calendar"></i>
+                            </div>
+                          </div>
+                          <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                              <p class="card-category">Confirmed Appointments</p>
+                              <h4 class="card-title"><?= $row_confirmed['total_confirmed'] ?></h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="card card-stats card-round">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-icon">
+                            <div class="icon-big text-center icon-info bubble-shadow-small">
+                              <i class="fas fa-calendar"></i>
+                            </div>
+                          </div>
+                          <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                              <p class="card-category">Walk-ins</p>
+                              <h4 class="card-title"><?= $row_walkin['total_walkin'] ?></h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="card card-stats card-round">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-icon">
+                            <div class="icon-big text-center icon-danger bubble-shadow-small">
+                              <i class="fas fa-calendar"></i>
+                            </div>
+                          </div>
+                          <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                              <p class="card-category">Cancelled Appointments</p>
+                              <h4 class="card-title"><?= $row_cancelled['total_cancelled'] ?></h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             
           </div>
         </div>

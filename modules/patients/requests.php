@@ -1,6 +1,7 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Appointments/appointments.php');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -57,26 +58,19 @@ $user_id_patient = $_SESSION['user_id'];
                     </thead>
                     <tbody>
                         <?php 
-                            $query_appointments = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed, appointments.appointment_time
-                            FROM appointments
-                            LEFT JOIN users
-                            ON
-                            appointments.user_id = users.user_id
-                            LEFT JOIN schedule 
-                            ON appointments.user_id = schedule.user_id WHERE appointments.user_id_patient =  '$user_id_patient'";
-                            $run_appointments = mysqli_query($conn,$query_appointments);
+                            $run_appointments = getAllRequestsById($conn, $user_id_patient);
                             if(mysqli_num_rows($run_appointments) > 0){
                                 foreach($run_appointments as $row_appointment){
                                     ?>
                                     <tr>
                                         <td><?php echo $row_appointment['appointment_date']. " " . $row_appointment['appointment_time']?></td>
-                                        <td>Dr. <?php echo $row_appointment['first_name'] . " " . $row_appointment['last_name']?></td>
+                                        <td>Dr. <?php echo $row_appointment['doctor_first_name'] . " " . $row_appointment['doctor_last_name']?></td>
                                     <td><?php echo $row_appointment['concern']?></td>
                                     <td>
                                         <?php
                                             $handler = match($row_appointment['confirmed']) {
-                                                '1' => '<span class="badge bg-success">Confirmed</span>',
-                                                '2' => '<span class="badge bg-danger">Cancelled</span>',
+                                                1 => '<span class="badge bg-success">Confirmed</span>',
+                                                2 => '<span class="badge bg-danger">Cancelled</span>',
                                                 default => '
                                                     <form action="declined.php" method="POST" onsubmit="return confirmCancel()">
                                                         <input type="hidden" name="appointment_date" value="' . htmlspecialchars($row_appointment['appointment_date']) . '">

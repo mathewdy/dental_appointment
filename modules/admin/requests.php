@@ -5,11 +5,6 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Ap
 
 $first_name = $_SESSION['first_name'];
 $user_id_patient = $_SESSION['user_id'];
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-include('../../includes/security.php');
 ?>
 
     <div class="wrapper">

@@ -59,14 +59,12 @@ if(mysqli_num_rows($run_appointments) > 0){
         <div class="col-lg-12">
           <div class="w-100">
             <p class="h4 p-0 m-0 text-dark">
-              No Payment History Available
+              No Appointment Record
             </p>
-            <p class="p-0 m-0">There is currently no payment data associated with this user.</p>
+            <p class="p-0 m-0">There is currently no appointment schedule on this date.</p>
           </div>
         </div>
       </div>
-     
-      
     </div>
     <?php
 }

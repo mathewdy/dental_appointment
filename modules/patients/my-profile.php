@@ -1,15 +1,13 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
 
 $first_name = $_SESSION['first_name'];
 $email = $_SESSION['email'];
 $roleId = $_SESSION['role_id'];
-
+$user_id = $_SESSION['user_id'];
 ?>
-
-
-
     <div class="wrapper">
         <?php include '../../includes/sidebar.php'; ?>
 
@@ -18,28 +16,28 @@ $roleId = $_SESSION['role_id'];
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-                <h4 class="page-title">My Profile</h4>
-                <ul class="breadcrumbs d-flex justify-items-center align-items-center">
-                    <li class="nav-home">
-                    <a href="dashboard.php">
-                        <i class="icon-home"></i>
-                    </a>
-                    </li>
-                    <li class="separator">
-                    <i class="icon-arrow-right"></i>
-                    </li>
-                    <li class="nav-item">
-                    <a href="#">Profile</a>
-                    </li>
-                </ul>
+                <span class="d-flex justify-content-between align-items-center w-100">
+                    <span class="d-flex">
+                        <h4 class="page-title">My Profile</h4>
+                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                            <li class="nav-home">
+                            <a href="dashboard.php">
+                                <i class="icon-home"></i>
+                            </a>
+                            </li>
+                            <li class="separator">
+                                <i class="icon-arrow-right"></i>
+                            </li>
+                            <li class="nav-item">
+                                <a href="patients.php">Profile</a>
+                            </li>
+                        </ul>
+                    </span>    
+                </span>
             </div>
             <div class="page-category">
                 <?php
-
-
-                $query_profile = "SELECT * FROM users WHERE email =  '$email' AND role_id = '$roleId'";
-                $run_profile = mysqli_query($conn,$query_profile);
-
+                $run_profile = getProfile($conn, $user_id, $roleId);
                 if(mysqli_num_rows($run_profile) > 0){
                     foreach($run_profile as $row_profile){
                         $name = $row_profile['first_name'] . " " . $row_profile['last_name'];
@@ -100,11 +98,9 @@ $roleId = $_SESSION['role_id'];
                                 </div>
                             </div>
                         </div>
-
-                        <?php
-                    }
+                  <?php
+                  }
                 }
-
                 ?>
             </div>
           </div>

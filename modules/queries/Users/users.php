@@ -46,7 +46,20 @@ function updateProfile($conn,$first_name, $middle_name, $last_name, $mobile_numb
   return mysqli_stmt_execute($stmt);
 }
 
-function checkUser($conn, $email, $first_name, $middle_name, $last_name, $date_of_birth){
+function checkAllUserByEmail($conn, $email){
+  $sql = "SELECT * 
+    FROM users
+    WHERE email = ?
+    ";
+
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "s", $email);
+  mysqli_stmt_execute($stmt);
+
+  return mysqli_stmt_get_result($stmt); 
+}
+
+function checkUser($conn, $email, $first_name, $middle_name, $last_name, $date_of_birth) {
   $sql = "SELECT * 
     FROM users 
     WHERE email = ? 
@@ -60,6 +73,15 @@ function checkUser($conn, $email, $first_name, $middle_name, $last_name, $date_o
   mysqli_stmt_execute($stmt);
 
   return mysqli_stmt_get_result($stmt); 
+}
+
+function updateOtp($conn, $otp, $email) {
+  $sql = "UPDATE users SET otp = ? WHERE email = ?";
+
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "ss", $otp, $email);
+  
+  return mysqli_stmt_execute($stmt);
 }
 
 function deleteUser($conn, $id) {

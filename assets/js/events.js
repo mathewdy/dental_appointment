@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var currentDate = new Date();
     var calendarEl = document.getElementById("calendar");
     var calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: "dayGridMonth",
@@ -9,20 +8,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const clickedDate = info.dateStr;        
         const eventsOnDate = calendar.getEvents().filter(event=>
         event.startStr.startsWith(clickedDate));  
-        if(eventsOnDate.length === 0){
-            alert('No appointment scheduled.')
-        }else{
-            var prompt = new bootstrap.Modal(document.getElementById("appointmentInfo"))
-            prompt.show()
-            $.ajax({
-                url: "../../includes/events/event-info.php",
-                type: "POST",
-                data: {date : clickedDate},
-                success: function(res){
-                    document.getElementById("appointment_info").innerHTML = res
-                }
-            })
-        }
+        var prompt = new bootstrap.Modal(document.getElementById("appointmentInfo"))
+        prompt.show()
+        $.ajax({
+            url: "../../includes/events/event-info.php",
+            type: "POST",
+            data: {date : clickedDate},
+            success: function(res){
+                document.getElementById("appointment_info").innerHTML = res
+            }
+        })
     }
 });
 calendar.render();

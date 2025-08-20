@@ -5,12 +5,25 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/connection/connect
 
 $id = $_SESSION['user_id'];
 
-if (isset($_POST['id']) && is_numeric($_POST['id'])) {
-  $payment_id = $_POST['id'];
+if (isset($_POST['id']) && is_numeric($_POST['id']) || isset($_POST['appointment'])) {
+  $payment_id = $_POST['id'] ??  null;
+  $appointmentId = $_POST['appointment'] ?? null;
 
-  $query = "SELECT *
+  $checkClause = $payment_id != null ?  "payment_history.payment_id = '$payment_id'" : "payments.appointment_id = '$appointmentId'";
+  
+  $query = "SELECT 
+    payment_history.id, 
+    payment_history.payment_id,
+    payment_history.payment_received,
+    payment_history.payment_method,
+    payment_history.date_created,
+    payment_history.date_updated, 
+    payments.payment_id,
+    payments.appointment_id
     FROM payment_history 
-    WHERE payment_id = '$payment_id'";
+    LEFT JOIN payments
+    ON payment_history.payment_id = payments.payment_id
+    WHERE " . $checkClause;
   $run = mysqli_query($conn, $query);
   if(mysqli_num_rows($run) > 0){
     echo '
@@ -56,8 +69,6 @@ if (isset($_POST['id']) && is_numeric($_POST['id'])) {
           </div>
         </div>
       </div>
-     
-      
     </div>
     <?php
   }

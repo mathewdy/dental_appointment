@@ -25,7 +25,7 @@ ini_set('display_errors', 1);
             <div class="page-header">
             <span class="d-flex justify-content-between align-items-center w-100">
               <span class="d-flex">
-                  <h4 class="page-title">My Profile</h4>
+                  <h4 class="page-title">Edit Profile</h4>
                   <ul class="breadcrumbs d-flex justify-items-center align-items-center">
                     <li class="nav-home">
                       <a href="dashboard.php">

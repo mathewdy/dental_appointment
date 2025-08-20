@@ -78,6 +78,41 @@ function getAllRequests($conn) {
   return mysqli_stmt_get_result($stmt);
 }
 
+function getAllRequestsById($conn, $id) {
+  $sql = "SELECT 
+    appointments.appointment_id,
+    appointments.user_id AS doctor_id,
+    appointments.user_id_patient AS patient_id,
+    appointments.concern,
+    appointments.appointment_date,
+    appointments.appointment_time,
+    appointments.confirmed,
+    appointments.remarks,
+    patient.first_name AS patient_first_name,
+    patient.middle_name AS patient_middle_name,
+    patient.last_name AS patient_last_name,
+    doctor.first_name AS doctor_first_name,
+    doctor.middle_name AS doctor_middle_name,
+    doctor.last_name AS doctor_last_name,
+    schedule.start_time,
+    schedule.end_time
+  FROM appointments
+  LEFT JOIN users AS patient
+  ON appointments.user_id_patient = patient.user_id
+  LEFT JOIN users AS doctor
+  ON appointments.user_id = doctor.user_id
+  LEFT JOIN schedule 
+  ON appointments.user_id = schedule.user_id
+  WHERE appointments.user_id_patient = ?
+  ";
+
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "i", $id);
+  mysqli_stmt_execute($stmt);
+
+  return mysqli_stmt_get_result($stmt);
+}
+
 function getAppointments($conn, $id, $confirmed) {
   $sql = "SELECT
       appointments.user_id_patient,

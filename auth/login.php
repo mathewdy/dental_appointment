@@ -1,44 +1,9 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
-
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Mailer/mail.php');
 ?>
 
-
-    <!-- Note: to be determined if we're going to add this -->
-    <!-- <nav class="navbar navbar-expand-lg bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="../assets/img/banner-2.png" alt="Logo" width="100%" height="50" class="d-inline-block align-text-top">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarScroll">
-            <ul class="navbar-nav ms-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle disabled" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Clinic
-                </a>
-                <ul class="dropdown-menu" style="z-index: 2 !important; opacity: 100%;">
-                    <li><a class="dropdown-item" href="#">No content yet</a></li>
-                </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Services</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact Us</a>
-                </li>
-            </ul>
-            </div>
-        </div>
-    </nav> -->
     <div class="container" style="height: 55em;">
         <div class="row d-flex justify-content-center align-items-center p-5" style="height: 100%;">
             <div class="col-12">
@@ -87,17 +52,17 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
             </div>
         </div>
     </div>
-<?php include "../includes/scripts.php"; ?> 
-<?php
+<?php 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
 
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
     $otp = substr(str_shuffle("0123456789"), 0, 5);
+    $subject = "One Time Password";
+    $mail =  "<h2>Here's your OTP</h2> <h3> $otp </h3>";
 
-    $query_login = "SELECT * FROM users WHERE email = '$email'";
-    $run_login = mysqli_query($conn, $query_login);
+    $run_login = checkAllUserByEmail($conn, $email);
 
     if (mysqli_num_rows($run_login) > 0) {
         foreach ($run_login as $row) {
@@ -110,12 +75,9 @@ if (isset($_POST['login'])) {
                 $_SESSION['role_id'] = $row['role_id'];
                 
                 if($row['role_id'] == '1' ){
-                    $update_otp = "UPDATE users SET otp = '$otp' WHERE email = '$email'";
-                    $update_otp_run = mysqli_query($conn,$update_otp);
-            
+                    $update_otp_run = updateOtp($conn, $otp, $email);            
                     if($update_otp_run){
-                        send_otp($email,$otp);
-                        //echo "otp sent";
+                        sendEmail($mail, $subject, $email);
                         $_SESSION['email'] = $email ;
                         echo "<script> alert('Please Check Your Email Address for OTP') </script>";
                         echo "<script>window.location.href='otp.php'</script>";
@@ -129,46 +91,6 @@ if (isset($_POST['login'])) {
     } else {
         echo "<script>window.alert('Invalid Credentials')</script>";
         echo "<script>window.location.origin</script>";
-    }
-}
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-function send_otp($email,$otp){
-    require("../PHPMailer/src/PHPMailer.php");
-    require("../PHPMailer/src/SMTP.php");
-    require("../PHPMailer/src/Exception.php");
-
-    $mail = new PHPMailer(true);
-
-    try {
-        //Server settings
-
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';        // e.g., smtp.gmail.com
-        $mail->SMTPAuth = true;
-        $mail->Username = 'fojasdentalclinic@gmail.com';
-        $mail->Password = 'clzodzskinrbfnsh';
-        $mail->SMTPSecure = 'tls';               // or 'ssl'
-        $mail->Port = 587;                       // use 465 for SSL
-        //Recipients
-        $mail->setFrom('fojasdentalclinic@gmail.com', 'Dental Clinic');
-        $mail->addAddress($email);     //Add a recipient
-        //Content
-        $mail->isHTML(true);                                  //Set email format to HTML
-        $mail->Subject = 'One Time Password';
-        $mail->Body    = "<h2>Here's your OTP</h2> <h3> $otp </h3>";
-        $mail->send();
-        echo ""; //please check your email address;
-        return true;
-    } catch (Exception $e) {
-        echo "not sent";
-        return false;
     }
 }
 

@@ -1,14 +1,11 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Payments/payments.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/notification.php');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
-include('../../includes/security.php');
 
 if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
   $user_id = $_GET['user_id'];
@@ -90,7 +87,7 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
                                 }
 
                             ?>
-                                    <form action="" method="POST">
+                                    <form action="new-payment.php" method="POST">
                                       <div class="card p-4 shadow-none form-card rounded-1">
                                         <div class="card-header">
                                             <h3>Make a payment</h3>
@@ -104,6 +101,10 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
                                                 </div>
                                                 <div class="col-lg-10">
                                                   <input type="text" class="form-control" name="remaining_balance" value="<?php echo $row_payment['remaining_balance']?>" readonly>
+                                                  <input type="hidden" name="email" value="<?= $row_patient_name['email']?>" readonly>
+                                                  <input type="hidden" name="user_id" value="<?= $_GET['user_id']?>" readonly>
+                                                  <input type="hidden" name="payment_id" value="<?= $_GET['payment_id']?>" readonly>
+                                                  <input type="hidden" name="service" value="<?= $_GET['service']?>" readonly>
                                                 </div>
                                               </div>
                                             </div>
@@ -154,109 +155,4 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
     </div>    
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
-
-$date = date('Y-m-d');
-$dateTime = date('Y-m-d H:i:s');
-// --------------------
-// CASH PAYMENT
-// --------------------
-if (isset($_POST['add_payment'])) {
-    $remaining_balance = floatval($_POST['remaining_balance']);
-    $payment = floatval($_POST['payment']);
-    $payment_id = $_GET['payment_id'];
-    $user_id = $_GET['user_id'];
-    $concern = $_GET['service'];
-
-    // Validate: Don't allow payment more than remaining balance
-    if ($payment > $remaining_balance) {
-				echo "<script> error('Payment exceeds remaining balance.', () => window.history.back()') </script>";
-    }
-
-    $updated_balance = $remaining_balance - $payment;
-
-    $run_update_balance = updateRemainingBalance($conn, $updated_balance, $payment_id);
-    if ($run_update_balance) {
-			$run_insert_payment = createPaymentHistory($conn, $payment_id, $payment, 'Cash');
-			if ($run_insert_payment) {
-				createNotification($conn, $user_id, "New Payment Transaction", "Payment", $dateTime, $id);
-				echo "<script> success('Payment Successful.', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
-			} else {
-				echo "<script> error('Error inserting payment history!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
-			}
-    } else {
-			echo "<script> error('Error updating balance!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
-    }
-}
-
-
-// --------------------
-// PAYMONGO PAYMENT
-// --------------------
-if (isset($_POST['add_payment_paymogo'])) {
-    // Replace with your PayMongo Secret Key
-    $secretKey = "sk_test_r8kyhfXQVLSNGMYfNtZQHVp3";
-
-    $user_id = $_GET['user_id'];
-    $default_device = "Phone";
-    $description = "Paid via PayMongo";
-
-    $remaining_balance = floatval($_POST['remaining_balance']);
-    $payment = floatval($_POST['payment']);
-    $payment_id = $_GET['payment_id'];
-    $concern = $_GET['service'];
-
-    // Validate
-    if ($payment > $remaining_balance) {
-				echo "<script> error('Payment exceeds remaining balance.', () => window.history.back()') </script>";
-    }
-
-    $updated_balance = $remaining_balance - $payment;
-
-		$run_update_balance = updateRemainingBalance($conn, $updated_balance, $payment_id);
-    if ($run_update_balance) {
-			$run_insert_payment = createPaymentHistory($conn, $payment_id, $payment, $description);
-			if (!$run_insert_payment) {
-				echo "<script> error('Error inserting payment history!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
-			}
-    } else {
-			echo "<script> error('Error updating balance!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
-    }
-
-    // Setup PayMongo Payment Link
-    $data = [
-        "data" => [
-            "attributes" => [
-                "amount" => intval($payment * 100), // centavos
-                "user_id" => $user_id,
-                "currency" => "PHP",
-                "description" => $description,
-                "checkout_url" => "https://pm.link/org-sBNv7gWdxikVStjWLa5zEfBt/test/Yxj6GJs"
-            ]
-        ]
-    ];
-
-    // CURL to PayMongo
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://api.paymongo.com/v1/links");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        "Content-Type: application/json",
-        "Authorization: Basic " . base64_encode($secretKey . ":")
-    ]);
-
-    $result = curl_exec($ch);
-    curl_close($ch);
-
-    $response = json_decode($result, true);
-
-    if (isset($response['data']['attributes']['checkout_url'])) {
-        header("Location: " . $response['data']['attributes']['checkout_url']);
-        exit();
-    } else {
-			echo "<script> error('Error creating PayMongo payment link.') </script>";
-
-        echo "❌ Error creating PayMongo payment link: " . print_r($response, true);
-    }
-}
 ?>
