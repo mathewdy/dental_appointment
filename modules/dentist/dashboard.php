@@ -2,6 +2,50 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 $first_name = $_SESSION['first_name'];
+$id = $_SESSION['user_id'];
+
+// Get today's date (format must match your stored appointment_date)
+$today = date("Y-m-d");
+
+// Total appointments today
+$sql_total = "SELECT COUNT(*) AS total_today 
+              FROM appointments 
+              WHERE user_id = '$id' 
+              AND appointment_date = '$today'";
+$result_total = mysqli_query($conn, $sql_total);
+$row_total = mysqli_fetch_assoc($result_total);
+
+// Confirmed appointments today
+$sql_confirmed = "SELECT COUNT(*) AS total_confirmed 
+                  FROM appointments 
+                  WHERE user_id = '$id' 
+                  AND appointment_date = '$today' 
+                  AND confirmed = 1";
+$result_confirmed = mysqli_query($conn, $sql_confirmed);
+$row_confirmed = mysqli_fetch_assoc($result_confirmed);
+
+// Pending appointments today
+$sql_pending = "SELECT COUNT(*) AS total_pending 
+                FROM appointments 
+                WHERE user_id = '$id' 
+                AND appointment_date = '$today' 
+                AND confirmed = 0";
+$result_pending = mysqli_query($conn, $sql_pending);
+$row_pending = mysqli_fetch_assoc($result_pending);
+
+// Cancelled appointments today
+$sql_cancelled = "SELECT COUNT(*) AS total_cancelled 
+                  FROM appointments 
+                  WHERE user_id = '$id' 
+                  AND appointment_date = '$today' 
+                  AND confirmed = 2";
+$result_cancelled = mysqli_query($conn, $sql_cancelled);
+$row_cancelled = mysqli_fetch_assoc($result_cancelled);
+
+
+
+mysqli_close($conn);
+
 ?>
     <div class="wrapper">
         <?php include '../../includes/sidebar.php'; ?>
@@ -16,6 +60,16 @@ $first_name = $_SESSION['first_name'];
             <div class="page-category">
                 <h1>Welcome <?= $first_name; ?></h1>
             </div>
+
+            <?php
+
+              echo "<h2>Dentist Dashboard - Today ($today)</h2>";
+              echo "Total Appointments: " . $row_total['total_today'] . "<br>";
+              echo "Confirmed Appointments: " . $row_confirmed['total_confirmed'] . "<br>";
+              echo "Pending Appointments: " . $row_pending['total_pending'] . "<br>";
+              echo "Cancelled Appointments: " . $row_cancelled['total_cancelled'] . "<br>";
+            ?>
+            
           </div>
         </div>
       </div>

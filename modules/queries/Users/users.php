@@ -19,25 +19,6 @@ function createUser($conn, $user_id, $role, $first_name, $middle_name, $last_nam
   return mysqli_stmt_execute($stmt);
 }
 
-//
-// work in progress 
-//
-// function updateUser($conn, $role, $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $user_id) {
-//   $sql = "UPDATE users 
-//   SET first_name = ?, 
-//     middle_name = ?, 
-//     last_name = ?, 
-//     mobile_number = ?, 
-//     email = ?,
-//     date_updated = NOW() 
-//   WHERE user_id = ?";
-
-//   $stmt = mysqli_prepare($conn, $sql);
-//   mysqli_stmt_bind_param($stmt, "iisssssss", $user_id, $role, $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $user_id);
-
-//   return mysqli_stmt_execute($stmt);
-// }
-
 function getProfile($conn, $user_id, $role) {
   $sql = "SELECT * FROM users WHERE user_id = ? AND role_id = ?";
 

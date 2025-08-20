@@ -6,89 +6,37 @@ $first_name = $_SESSION['first_name'];
 $id = $_SESSION['user_id'];
 
 date_default_timezone_set('Asia/Manila');
-$today = date('Y-m-d');
-$currentWeek = date('W');
-$currentMonth = date('m');
-$currentYear = date('Y');
-// DAILY REPORT
-$query_daily = "
-    SELECT p.first_name AS patient_fname, p.last_name AS patient_lname,
-            d.first_name AS doctor_fname, d.last_name AS doctor_lname,
-            a.concern, a.appointment_date, a.appointment_time
-    FROM appointments a
-    LEFT JOIN users p ON a.user_id_patient = p.user_id
-    LEFT JOIN users d ON a.user_id = d.user_id
-    WHERE STR_TO_DATE(a.appointment_date, '%m/%d/%Y') = '$today'
-    AND user_id_patient = '$id'
-";
 
-// WEEKLY REPORT
-$query_weekly = "
-    SELECT p.first_name AS patient_fname, p.last_name AS patient_lname,
-            d.first_name AS doctor_fname, d.last_name AS doctor_lname,
-            a.concern, a.appointment_date, a.appointment_time
-    FROM appointments a
-    LEFT JOIN users p ON a.user_id_patient = p.user_id
-    LEFT JOIN users d ON a.user_id = d.user_id
-    WHERE WEEK(STR_TO_DATE(a.appointment_date, '%m/%d/%Y'), 1) = '$currentWeek'
-    AND YEAR(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentYear'
-    AND user_id_patient = '$id'
-";
+$sql_total = "SELECT COUNT(*) AS total_appointments 
+              FROM appointments 
+              WHERE user_id_patient = '$id'";
+$result_total = mysqli_query($conn, $sql_total);
+$row_total = mysqli_fetch_assoc($result_total);
 
-// MONTHLY REPORT
-$query_monthly = "
-    SELECT p.first_name AS patient_fname, p.last_name AS patient_lname,
-            d.first_name AS doctor_fname, d.last_name AS doctor_lname,
-            a.concern, a.appointment_date, a.appointment_time
-    FROM appointments a
-    LEFT JOIN users p ON a.user_id_patient = p.user_id
-    LEFT JOIN users d ON a.user_id = d.user_id
-    WHERE MONTH(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentMonth'
-    AND YEAR(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentYear'
-    AND user_id_patient = '$id'
-";
+$sql_confirmed = "SELECT COUNT(*) AS total_confirmed 
+                  FROM appointments 
+                  WHERE user_id_patient = '$id' 
+                  AND confirmed = 1";
+$result_confirmed = mysqli_query($conn, $sql_confirmed);
+$row_confirmed = mysqli_fetch_assoc($result_confirmed);
 
-// Display function
-function displayReport($result, $title) {
-    echo "<h3>$title</h3>";
-    if (mysqli_num_rows($result) > 0) {
-        echo "<table class='display table' id='dataTable'>";
-        echo "
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Patient First Name</th>
-                <th>Patient Last Name</th>
-                <th>Doctor</th>
-                <th>Concern</th>
-                </tr>
-            </thead>
-            <tbody>    
-            ";
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo "
-                <tr>
-                    <td>{$row['appointment_date']}</td>
-                    <td>{$row['appointment_time']}</td>
-                    <td>{$row['patient_fname']}</td>
-                    <td>{$row['patient_lname']}</td>
-                    <td>Dr. {$row['doctor_fname']} {$row['doctor_lname']}</td>
-                    <td>{$row['concern']}</td>
-                </tr>
-                ";
-        }
-        echo "
-            </tbody>  
-            </table>
-            ";
-    } else {
-        echo "<p>No data found.</p><br>";
-    }
-}
-$run_daily = mysqli_query($conn, $query_daily);
-$run_weekly = mysqli_query($conn, $query_weekly);
-$run_monthly = mysqli_query($conn, $query_monthly);
+$sql_cancelled = "SELECT COUNT(*) AS total_cancelled 
+                  FROM appointments 
+                  WHERE user_id_patient = '$id' 
+                  AND confirmed = 2";
+$result_cancelled = mysqli_query($conn, $sql_cancelled);
+$row_cancelled = mysqli_fetch_assoc($result_cancelled);
+
+$sql_walkin = "SELECT COUNT(*) AS total_walkin 
+               FROM appointments 
+               WHERE user_id_patient = '$id' 
+               AND walk_in = 1";
+$result_walkin = mysqli_query($conn, $sql_walkin);
+$row_walkin = mysqli_fetch_assoc($result_walkin);
+
+
+
+mysqli_close($conn);
 
 ?>
 
@@ -123,7 +71,7 @@ $run_monthly = mysqli_query($conn, $query_monthly);
                     <div class="col-lg-6">
                         <div class="card p-4">
                             <?php
-                                displayReport($run_daily, "Daily Appointments (" . date('F j, Y') . ")");
+                                echo "Total Appointments Submitted: " . $row_total['total_appointments'] . "<br>";
                             ?>
                         </div>
                         
@@ -131,7 +79,7 @@ $run_monthly = mysqli_query($conn, $query_monthly);
                     <div class="col-lg-6">
                         <div class="card p-4">
                             <?php
-                                displayReport($run_weekly, "Weekly Appointments (Week $currentWeek)");
+                                echo "Total Confirmed Appointments: " . $row_confirmed['total_confirmed'] . "<br>";
                             ?>
                         </div>
                         
@@ -139,7 +87,14 @@ $run_monthly = mysqli_query($conn, $query_monthly);
                     <div class="col-lg-12">
                         <div class="card p-4">
                             <?php
-                                displayReport($run_monthly, "Monthly Appointments (" . date('F Y') . ")");
+                                echo "Total Cancelled Appointments: " . $row_cancelled['total_cancelled'] . "<br>";
+                            ?>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="card p-4">
+                            <?php
+                               echo "Total Walk-in Appointments: " . $row_walkin['total_walkin'] . "<br>";
                             ?>
                         </div>
                     </div>
