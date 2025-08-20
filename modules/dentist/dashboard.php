@@ -4,10 +4,8 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.
 $first_name = $_SESSION['first_name'];
 $id = $_SESSION['user_id'];
 
-// Get today's date (format must match your stored appointment_date)
 $today = date("Y-m-d");
 
-// Total appointments today
 $sql_total = "SELECT COUNT(*) AS total_today 
               FROM appointments 
               WHERE user_id = '$id' 
@@ -15,7 +13,6 @@ $sql_total = "SELECT COUNT(*) AS total_today
 $result_total = mysqli_query($conn, $sql_total);
 $row_total = mysqli_fetch_assoc($result_total);
 
-// Confirmed appointments today
 $sql_confirmed = "SELECT COUNT(*) AS total_confirmed 
                   FROM appointments 
                   WHERE user_id = '$id' 
@@ -24,7 +21,6 @@ $sql_confirmed = "SELECT COUNT(*) AS total_confirmed
 $result_confirmed = mysqli_query($conn, $sql_confirmed);
 $row_confirmed = mysqli_fetch_assoc($result_confirmed);
 
-// Pending appointments today
 $sql_pending = "SELECT COUNT(*) AS total_pending 
                 FROM appointments 
                 WHERE user_id = '$id' 
@@ -33,7 +29,6 @@ $sql_pending = "SELECT COUNT(*) AS total_pending
 $result_pending = mysqli_query($conn, $sql_pending);
 $row_pending = mysqli_fetch_assoc($result_pending);
 
-// Cancelled appointments today
 $sql_cancelled = "SELECT COUNT(*) AS total_cancelled 
                   FROM appointments 
                   WHERE user_id = '$id' 
