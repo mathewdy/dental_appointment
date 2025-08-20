@@ -1,9 +1,8 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/notification.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Appointments/appointments.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/dentists.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/patients.php');
 
 
 ini_set('display_errors', 1);
@@ -60,6 +59,11 @@ $id = $_SESSION['user_id'];
 
                   $run_dentist = getDentistById($conn, '3', $user_id_dentist);
                   $row_dentist = mysqli_fetch_assoc($run_dentist);
+
+                  $run_patient = getPatientById($conn, $user_id_patient);
+                  $row_patient = mysqli_fetch_assoc($run_patient);
+
+
                   json_encode($available_days = explode(", ", $row_dentist['day']));
 
                   $query_services = "SELECT * FROM services";
@@ -68,7 +72,7 @@ $id = $_SESSION['user_id'];
 
               ?>
 
-              <form action="" method="POST">
+              <form action="set.php" method="POST">
                 <div class="row">
                   <div class="col-lg-12 mb-4">
                     <div class="card p-4 shadow-none form-card rounded-1">
@@ -85,6 +89,14 @@ $id = $_SESSION['user_id'];
                               <div class="col-lg-10">
                                 <div class="input-group">
                                   <input type="text" class="appointment_date form-control" name="appointment_date" required>
+                                  <input type="hidden" name="dentist" value="<?= $_GET['user_id_dentist']?>">
+                                  <input type="hidden" name="patient" value="<?= $_GET['user_id_patient']?>">
+                                  <?php
+                                      $offset = 5;  
+                                      $values_patient = array_values($row_patient);  
+                                      $field_value_patient = $values_patient[$offset]; 
+                                  ?>
+                                  <input type="hidden" name="email" value="<?= $field_value_patient?>">
                                 </div>
                               </div>
                             </div>
@@ -203,37 +215,3 @@ $id = $_SESSION['user_id'];
       });
   });
 </script>
-<?php
-
-if(isset($_POST['save'])){
-    $user_id_dentist = $_GET['user_id_dentist'];
-    $user_id_patient = $_GET['user_id_patient'];
-    $appointment_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3) ;
-    $concern = $_POST['concern'];
-    $appointment_time = $_POST['appointment_time'];
-    $appointment_date = $_POST['appointment_date'];
-
-    $run_appointment_time = checkAppointment($conn, $appointment_time, $appointment_date, $user_id_dentist);
-    if(mysqli_num_rows($run_appointment_time) > 0){
-      echo "<script> error('Appointment time already booked!', () => window.location.href = 'appointments.php') </script>";
-    }else{
-        $run_check_appointment = checkAppointmentByUser($conn, $appointment_date, $user_id_patient);
-        if(mysqli_num_rows($run_check_appointment) > 0){
-          echo "<script> error('Patient already have an Appointment.', () => window.location.href = 'appointments.php') </script>";
-        }else{
-          $run_appointment = createAppointment($conn, $user_id_dentist, $user_id_patient, $appointment_id, $concern, $appointment_time, $appointment_date);
-          if($run_appointment) {
-            createNotification($conn, $user_id_dentist, "New Appointment Schedule", "Appointment", $id);
-            createNotification($conn, $user_id_patient, "New Appointment Schedule", "Appointment", $id);
-            echo "<script> success('Appointment added successfully.', () => window.location.href = 'appointments.php') </script>";
-          }else{
-            echo "<script> error('Something went wrong!', () => window.location.href = 'appointments.php') </script>";
-          }
-        }
-    }
-
-    
-}
-
-
-?>
