@@ -37,6 +37,14 @@ $sql_cancelled = "SELECT COUNT(*) AS total_cancelled
 $result_cancelled = mysqli_query($conn, $sql_cancelled);
 $row_cancelled = mysqli_fetch_assoc($result_cancelled);
 
+$sql_walk_in = "SELECT COUNT(*) AS total_walkin
+FROM appointments
+WHERE walk_in = 1
+  AND appointment_date = CURDATE()
+  AND user_id = '$id';";
+$result_walk_in = mysqli_query($conn,$sql_walk_in);
+$row_walk_in = mysqli_fetch_assoc($result_walk_in);
+
 
 
 mysqli_close($conn);
@@ -55,7 +63,7 @@ mysqli_close($conn);
             <div class="page-category">
                 <h1>Welcome <?= $first_name; ?></h1>
             </div>
- <div class="row">
+               <div class="row">
                   <div class="col-lg-6">
                     <div class="card card-stats card-round">
                       <div class="card-body">
@@ -68,7 +76,7 @@ mysqli_close($conn);
                           <div class="col col-stats ms-3 ms-sm-0">
                             <div class="numbers">
                               <p class="card-category">Submitted Appointments</p>
-                              <h4 class="card-title"><?= $row_total['total_appointments'] ?></h4>
+                              <h4 class="card-title"><?= $row_total['total_today'] ?></h4>
                             </div>
                           </div>
                         </div>
@@ -99,6 +107,25 @@ mysqli_close($conn);
                       <div class="card-body">
                         <div class="row align-items-center">
                           <div class="col-icon">
+                            <div class="icon-big text-center icon-warning bubble-shadow-small">
+                              <i class="fas fa-calendar"></i>
+                            </div>
+                          </div>
+                          <div class="col col-stats ms-3 ms-sm-0">
+                            <div class="numbers">
+                              <p class="card-category">Pending Appointments</p>
+                              <h4 class="card-title"><?= $row_pending['total_pending'] ?></h4>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="card card-stats card-round">
+                      <div class="card-body">
+                        <div class="row align-items-center">
+                          <div class="col-icon">
                             <div class="icon-big text-center icon-info bubble-shadow-small">
                               <i class="fas fa-calendar"></i>
                             </div>
@@ -106,7 +133,7 @@ mysqli_close($conn);
                           <div class="col col-stats ms-3 ms-sm-0">
                             <div class="numbers">
                               <p class="card-category">Walk-ins</p>
-                              <h4 class="card-title"><?= $row_walkin['total_walkin'] ?></h4>
+                              <h4 class="card-title"><?= $row_walk_in['total_walkin'] ?></h4>
                             </div>
                           </div>
                         </div>
