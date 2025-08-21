@@ -119,18 +119,6 @@ echo '
                         <p>Appointments</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="schedule.php">
-                        <i class="fas fa-book-open"></i>
-                        <p>Schedule</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="reports.php">
-                        <i class="fas fa-chart-line"></i>
-                        <p>Report</p>
-                    </a>
-                </li>
                 ';
             }
             
