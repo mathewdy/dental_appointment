@@ -4,7 +4,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.
 $first_name = $_SESSION['first_name'];
 $id = $_SESSION['user_id'];
 
-$today = date("Y-m-d");
+$today = date("m/d/Y"); // 08/27/2025
 
 $sql_total = "SELECT COUNT(*) AS total_today 
               FROM appointments 
