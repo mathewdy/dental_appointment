@@ -40,7 +40,8 @@ $role_id = $_SESSION['role_id'];
         </div>
     </div>
 <?php 
-include "../includes/scripts.php";
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+
 
 if(isset($_POST['verify'])){
     $otp_number = $_POST['otp_number'];
