@@ -18,15 +18,15 @@ if(isset($_POST['save'])){
     $email = $_POST['email'];
     $subject = "Appointment Schedule";
     $mail = "
-     <p>Dear Customer,</p>
-        <p>We are happy to confirm that your appointment has been successfully scheduled.</p>
-        <p><strong>Appointment Details:</strong></p>
+      <p>Dear Customer,</p>
+      <p>We are happy to confirm that your appointment has been successfully scheduled.</p>
+      <p><strong>Appointment Details:</strong></p>
 
-        <strong>Appointment Date:</strong> $appointment_date
+      <strong>Appointment Date:</strong> $appointment_date
 
-        <p>If you need to reschedule or make any changes, please don't hesitate to contact us.</p>
-        <p>Thank you for choosing our clinic!</p>
-        <p>Best Regards, <br>Fojas Dental Clinicp>
+      <p>If you need to reschedule or make any changes, please don't hesitate to contact us.</p>
+      <p>Thank you for choosing our clinic!</p>
+      <p>Best Regards, <br>Fojas Dental Clinic</p>
     "; 
     
     $run_appointment_time = checkAppointment($conn, $appointment_time, $appointment_date, $user_id_dentist);
