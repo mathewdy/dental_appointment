@@ -46,44 +46,46 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Ma
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
 if (isset($_POST['login'])) {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $otp = substr(str_shuffle("0123456789"), 0, 5);
-    $subject = "One Time Password";
-    $mail =  "<h2>Here's your OTP</h2> <h3> $otp </h3>";
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $otp = substr(str_shuffle("0123456789"), 0, 5);
+  $subject = "One Time Password";
+  $mail =  "<h2>Here's your OTP</h2> <h3> $otp </h3>";
 
-    $run_login = checkAllUserByEmail($conn, $email);
-    if (mysqli_num_rows($run_login) > 0) {
-        foreach ($run_login as $row) {
-          if (password_verify($password, $row['password'])) {
-            $_SESSION['email'] = $email;
-            $_SESSION['user_id'] = $row['user_id'];
-            $_SESSION['first_name'] = $row['first_name'];
-            $_SESSION['last_name'] = $row['last_name'];
-            $_SESSION['image'] = $row['image'];
+  $run_login = checkAllUserByEmail($conn, $email);
+  if (mysqli_num_rows($run_login) > 0) {
+    foreach ($run_login as $row) {
+      if (password_verify($password, $row['password'])) {
+        $_SESSION['email'] = $email;
+        $_SESSION['user_id'] = $row['user_id'];
+        $_SESSION['first_name'] = $row['first_name'];
+        $_SESSION['last_name'] = $row['last_name'];
+        $_SESSION['role_id'] = $row['role_id'];
 
+        if($row['role_id'] == '2' || $row['role_id'] == '3' ){
+          $update_otp_run = updateOtp($conn, $otp, $email);            
+          if($update_otp_run){
+            sendEmail($mail, $subject, $email);
+            $_SESSION['email'] = $email ;
             $_SESSION['role_id'] = $row['role_id'];
-
-            if($row['role_id'] == '2' || $row['role_id'] == '3' ){
-                $update_otp_run = updateOtp($conn, $otp, $email);            
-                if($update_otp_run){
-                    sendEmail($mail, $subject, $email);
-                    //echo "otp sent";
-                    $_SESSION['email'] = $email ;
-                    $_SESSION['role_id'] = $row['role_id'];
-                    echo "<script> alert('Please Check Your Email Address for OTP') </script>";
-                    echo "<script>window.location.href='otp.php'</script>";
-                }
-
-            }else{
-                echo "<script>window.alert('Authentication Failed')</script>";
-            }
+            echo "<script> success('Please Check Your Email Address for OTP.', () => window.location.href='otp.php') </script>";
+          }else{
+            echo "<script> error('Otp sending failed.', () => window.location.origin) </script>";
+            return;
           }
+        }else{
+          echo "<script> error('Invalid Credentials', () => window.location.origin) </script>";
+          return;
         }
-    } else {
-        echo "<script>window.alert('Invalid Credentials')</script>";
-        echo "<script>window.location.origin</script>";
+      }else{
+        echo "<script> error('Invalid Credentials', () => window.location.origin) </script>";
+        return;
+      }
     }
+  } else {
+    echo "<script> error('Something went wrong!', () => window.location.origin) </script>";
+    return;
+  }
 }
 ob_end_flush();
 ?>

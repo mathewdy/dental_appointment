@@ -53,7 +53,7 @@ function success(message, callback) {
 function error(message, callback) {
   Swal.fire({
     title: 'Error!',
-    text: message | "Process failed", 
+    text: message || "Process failed", 
     icon: 'error',
     confirmButtonText: 'Ok',
     confirmButtonColor: '#3085d6'
