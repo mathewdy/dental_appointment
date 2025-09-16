@@ -14,12 +14,12 @@ function sendEmail($message, $title, $creds) {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';       
     $mail->SMTPAuth = true;
-    $mail->Username = 'fojasdentalclinic@gmail.com';
-    $mail->Password = 'clzodzskinrbfnsh';
+    $mail->Username = 'matthewdalisay2001@gmail.com';
+    $mail->Password = 'mhqsbraxqhjzlelg';
     $mail->SMTPSecure = 'tls';            
     $mail->Port = 587;                      
 
-    $mail->setFrom('fojasdentalclinic@gmail.com', 'Dental Clinic');
+    $mail->setFrom('matthewdalisay2001@gmail.com', 'Dental Clinic');
     $mail->addAddress($creds);    
 
     $mail->isHTML(true);                               

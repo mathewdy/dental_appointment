@@ -126,10 +126,11 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
                                                   <input type="submit" class="btn btn-sm btn-primary disabled" name="add_payment" value="Add Cash Payment">
                                                   <input type="submit" class="btn btn-sm btn-success disabled" name="add_payment_paymogo" value="Add Paymogo Payment">
                                                   <?php
-                                                }else{
+                                                }
+                                                else{
                                                   ?>
                                                   <input type="submit" class="btn btn-sm btn-primary" name="add_payment" value="Add Cash Payment">
-                                                  <input type="submit" class="btn btn-sm btn-success" name="add_payment_paymogo" value="Add Paymogo Payment">
+                                                  <!-- <input type="submit" class="btn btn-sm btn-success" name="add_payment_paymogo" value="Add Paymogo Payment"> -->
                                                   <?php
                                                 }
                                               ?>
