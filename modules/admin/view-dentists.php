@@ -61,24 +61,11 @@ $first_name = $_SESSION['first_name'];
                                             <td><?php echo $row_dentist['day']. " " . date("g:i A",strtotime($row_dentist['start_time'])). " & " . date("g:i A", strtotime($row_dentist['end_time'])) ?></td>
                                             <td><?php echo $row_dentist['email']?></td>
                                             <td><?php echo $row_dentist['mobile_number']?></td>
-                                            <td class="d-flex justify-content-center">
-                                                <div class="dropdown">
-                                                    <a class="btn btn-sm btn-outline-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 12px;" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fas fa-ellipsis-v"></i>
-                                                    </a>
-                                                    <ul class="dropdown-menu"> 
-                                                        <li>
-                                                            <a href="edit-dentist.php?user_id=<?php echo$row_dentist['user_id']?>" class="dropdown-item">Edit</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="delete-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" 
-                                                            class="dropdown-item delete-btn">
-                                                            Delete
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                
+                                            <td>
+                                              <div class="d-flex justify-content-center align-items-center">
+                                                <a href="edit-dentist.php?user_id=<?php echo$row_dentist['user_id']?>" class="fs-3 me-3"><i class="fas fa-edit text-info"></i></a>
+                                                <a href="delete-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" class="fs-3 delete-btn"><i class="fas fa-trash text-danger"></i></a>
+                                              </div>
                                             </td>
                                         </tr>
                                         <?php
@@ -98,7 +85,3 @@ $first_name = $_SESSION['first_name'];
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 ?>
-<script>
-
-
-</script>
