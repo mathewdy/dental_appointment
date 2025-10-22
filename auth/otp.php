@@ -5,16 +5,20 @@ $email = $_SESSION['email'];
 ?>
 
 <style>
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
     margin: 0;
-    }
+  }
 
     /* Firefox */
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
+  .otp-fake-input {
+    width: 48px !important;
+    height: 48px !important;
+  }
 </style>
 <body>
 <div class="container-xl" style="height: 55em;">
@@ -63,8 +67,8 @@ if(isset($_POST['verify'])){
         echo "accepted";
         header("Location: ../modules/patients/dashboard.php");
     }else{
-       echo "<script>window.alert('Invalid Number')</script>";
-        echo "<script>window.location.origin</script>";
+      echo "<script>window.alert('Invalid Number')</script>";
+      echo "<script>window.location.origin</script>";
     }
 
 }
