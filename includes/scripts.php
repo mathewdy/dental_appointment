@@ -17,6 +17,7 @@ echo '
   <script src="' . BASE_PATH . '/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
   <script src="' . BASE_PATH . '/assets/js/kaiadmin.min.js"></script>
   <script src="' . BASE_PATH . '/assets/js/pw-visibility.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/HichemTab-tech/OTP-designer-jquery@2.3.1/dist/otpdesigner.min.js"></script>
 ';
 if(!empty($userId)){
   echo '

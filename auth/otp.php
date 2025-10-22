@@ -31,11 +31,9 @@ $email = $_SESSION['email'];
                                 <p>A verification code has been sent to your email.</p>
                             </span>
                             <form action="" method="POST">
-                                <div class="d-flex flex-column gap-4">
-                                    <input type="number" class="form-control" name="otp_number" maxLength="1">
-                                    <input type="submit" class="btn btn-black op-8 w-100 mb-2" name="verify" value="Verify">
-                                </div>
-                                
+                                <div id="otp_target" class="mb-5"></div>
+                                <input type="hidden" name="otp_number" id="otp-value">
+                                <input type="submit" class="btn btn-black op-8 w-100 mb-2" name="verify" value="Verify">
                                 <a href="login.php" class="text-black op-9">Go Back</a>
                             </form>
                         </div>
@@ -44,7 +42,15 @@ $email = $_SESSION['email'];
         </div>
     </div>
     <?php include "../includes/scripts.php"; ?>
-
+<script>
+  $('#otp_target').otpdesigner({
+    length: 5,
+    onlyNumbers: true,
+    typingDone: function(code) {
+      $('#otp-value').val(code);
+    }
+  });
+</script>
 <?php
 if(isset($_POST['verify'])){
     $otp_number = $_POST['otp_number'];
