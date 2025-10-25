@@ -14,6 +14,7 @@ echo '
   <script src="' . BASE_PATH . '/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
   <script src="' . BASE_PATH . '/assets/js/plugin/jsvectormap/jsvectormap.min.js"></script>
   <script src="' . BASE_PATH . '/assets/js/plugin/jsvectormap/world.js"></script>
+  <script src="' . BASE_PATH . '/assets/js/plugin/owl-carousel/owl.carousel.min.js"></script>
   <script src="' . BASE_PATH . '/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
   <script src="' . BASE_PATH . '/assets/js/kaiadmin.min.js"></script>
   <script src="' . BASE_PATH . '/assets/js/pw-visibility.js"></script>

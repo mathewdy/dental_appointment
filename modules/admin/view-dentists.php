@@ -35,48 +35,46 @@ $first_name = $_SESSION['first_name'];
                     </span>
                 </div>
                 <div class="page-category">
-                    <div class="card py-3">
-                        <div class="table-responsive">
-                        <table id="dataTable" class="display table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Schedule</th>
-                                    <th>Email</th>
-                                    <th>Contact Number</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                                $run_dentists = getAllDentist($conn, "3");
-                                if(mysqli_num_rows($run_dentists) > 0){
-                                    foreach($run_dentists as $row_dentist){
-                                        ?>
-
-                                        <tr>
-                                            <td><?php echo $row_dentist['user_id']?></td>
-                                            <td><?php echo $row_dentist['first_name']. " " . $row_dentist['middle_name'] . " " . $row_dentist['last_name']?></td>
-                                            <td><?php echo $row_dentist['day']. " " . date("g:i A",strtotime($row_dentist['start_time'])). " & " . date("g:i A", strtotime($row_dentist['end_time'])) ?></td>
-                                            <td><?php echo $row_dentist['email']?></td>
-                                            <td><?php echo $row_dentist['mobile_number']?></td>
-                                            <td>
-                                              <div class="d-flex justify-content-center align-items-center">
-                                                <a href="edit-dentist.php?user_id=<?php echo$row_dentist['user_id']?>" class="fs-3 me-3"><i class="fas fa-edit text-info"></i></a>
-                                                <a href="delete-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" class="fs-3 delete-btn"><i class="fas fa-trash text-danger"></i></a>
-                                              </div>
-                                            </td>
-                                        </tr>
-                                        <?php
-                                    }
+                  <div class="card py-3">
+                    <div class="table-responsive">
+                      <table id="dataTable" class="display table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Schedule</th>
+                                <th>Email</th>
+                                <th>Contact Number</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                            $run_dentists = getAllDentist($conn, "3");
+                            if(mysqli_num_rows($run_dentists) > 0){
+                                foreach($run_dentists as $row_dentist){
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $row_dentist['user_id']?></td>
+                                        <td><?php echo $row_dentist['first_name']. " " . $row_dentist['middle_name'] . " " . $row_dentist['last_name']?></td>
+                                        <td><?php echo $row_dentist['day']. " " . date("g:i A",strtotime($row_dentist['start_time'])). " & " . date("g:i A", strtotime($row_dentist['end_time'])) ?></td>
+                                        <td><?php echo $row_dentist['email']?></td>
+                                        <td><?php echo $row_dentist['mobile_number']?></td>
+                                        <td>
+                                          <div class="d-flex justify-content-center align-items-center">
+                                            <a class="text-info h4 mx-2" href="edit-dentist.php?user_id=<?php echo$row_dentist['user_id']?>" class="dropdown-item"><i class="fas fa-edit"></i></a>
+                                            <a class="text-danger h4" href="delete-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" class="dropdown-item delete-btn"><i class="fas fa-trash"></i></a>
+                                          </div>
+                                        </td>
+                                    </tr>
+                                    <?php
                                 }
-                                ?>
-                            </tbody>
-                                
-                            </table>
-                        </div>
+                            }
+                            ?>
+                        </tbody>
+                      </table>
                     </div>
+                  </div>
                 </div>
             </div>
         </div>

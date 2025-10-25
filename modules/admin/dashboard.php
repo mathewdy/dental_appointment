@@ -136,12 +136,28 @@ $run_monthly = mysqli_query($conn, $query_monthly);
 				</div>
 				<div class="page-category">
 					<h1>Welcome <?= $first_name; ?></h1>
+            <ul class="nav nav-tabs mb-2">
+              <li class="nav-item">
+                  <a class="nav-link text-decoration-none text-muted" aria-current="page" href="#today">Today's Appointments</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link text-decoration-none text-muted" aria-current="page" href="#">Weekly View</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link text-decoration-none text-muted" aria-current="page" href="#">Monthly View</a>
+              </li>
+            </ul>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="card p-4">
+                  <?php displayReport($run_daily, "Daily Appointments (" . date('F j, Y') . ")"); ?>
+                </div>
+              </div>
+            </div>
 				</div>
 				<div class="row">
-					<div class="col-lg-6">
-						<div class="card p-4">
-							<?php displayReport($run_daily, "Daily Appointments (" . date('F j, Y') . ")"); ?>
-						</div>
+					<div class="col-lg-6" id="today">
+						
 					</div>
 					<div class="col-lg-6">
 						<div class="card p-4">
