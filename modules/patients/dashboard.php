@@ -63,9 +63,11 @@ mysqli_close($conn);
                     </span>
                 </div>
                 <div class="page-category">
-                    <h1>Welcome <?= $first_name; ?></h1>
+                    <p class="h4 text-muted">Keep your smile healthy and bright! Here's your dental care overview.</p>
+                    <a href="appointments.php" class="btn btn-md btn-primary me-2"><i class="fas fa-plus me-3"></i> Book an appointment</a>
+                    <a href="history.php" class="btn btn-md btn-outline-dark"><i class="fas fa-clipboard me-3"></i> View Records</a>
                 </div>
-                <div class="row">
+                <div class="row justify-content-center">
                   <div class="col-lg-5">
                     <div class="card card-stats card-round" style="border-left: 3px solid blue;">
                       <div class="card-body">
@@ -77,7 +79,7 @@ mysqli_close($conn);
                               </div>
                               <div class="col-6 d-flex align-items-center justify-content-end">
                                 <div class="d-flex align-items-center justify-content-center rounded" style="background: blue; height: 40px; width: 40px;">
-                                  <i class="fas fa-calendar text-white"></i>
+                                  <i class="fas fa-clock text-white"></i>
                                 </div>
                               </div>
                             </div>            
@@ -95,7 +97,7 @@ mysqli_close($conn);
                     </div>
                   </div>
                   <div class="col-lg-5">
-                    <div class="card card-stats card-round" style="border-left: 3px solid blue;">
+                    <div class="card card-stats card-round" style="border-left: 3px solid green;">
                       <div class="card-body">
                         <div class="row align-items-center px-3">
                           <div class="col-lg-12">
@@ -104,8 +106,8 @@ mysqli_close($conn);
                                 <p class="h6 fw-bold text-muted">Confirmed Appointments</p>
                               </div>
                               <div class="col-6 d-flex align-items-center justify-content-end">
-                                <div class="d-flex align-items-center justify-content-center rounded" style="background: blue; height: 40px; width: 40px;">
-                                  <i class="fas fa-calendar text-white"></i>
+                                <div class="d-flex align-items-center justify-content-center rounded bg-success" style=" height: 40px; width: 40px;">
+                                  <i class="fas fa-check-circle text-white"></i>
                                 </div>
                               </div>
                             </div>            
@@ -116,48 +118,69 @@ mysqli_close($conn);
                             </div>
                           </div>
                           <div class="col-lg-12">
+                            <p class="text-muted">Ready for dental visit</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-5">
+                    <div class="card card-stats card-round" style="border-left: 3px solid orange;">
+                      <div class="card-body">
+                        <div class="row align-items-center px-3">
+                          <div class="col-lg-12">
+                            <div class="row align-items-center">
+                              <div class="col-6">
+                                <p class="h6 fw-bold text-muted">Walk-ins</p>
+                              </div>
+                              <div class="col-6 d-flex align-items-center justify-content-end">
+                                <div class="d-flex align-items-center justify-content-center rounded bg-warning" style="height: 40px; width: 40px;">
+                                  <i class="fas fa-clock text-white"></i>
+                                </div>
+                              </div>
+                            </div>            
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="numbers">
+                              <h4 class="fs-1"><?= $row_walkin['total_walkin'] ?></h4>
+                            </div>
+                          </div>
+                          <div class="col-lg-12">
                             <p class="text-muted">Waiting for clinic confirmation</p>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="card card-stats card-round">
+                  </div>
+                  <div class="col-lg-5">
+                    <div class="card card-stats card-round" style="border-left: 3px solid red;">
                       <div class="card-body">
-                        <div class="row align-items-center">
-                          <div class="col-icon">
-                            <div class="icon-big text-center icon-success bubble-shadow-small">
-                              <i class="fas fa-calendar"></i>
+                        <div class="row align-items-center px-3">
+                          <div class="col-lg-12">
+                            <div class="row align-items-center">
+                              <div class="col-6">
+                                <p class="h6 fw-bold text-muted">Cancelled Appointments</p>
+                              </div>
+                              <div class="col-6 d-flex align-items-center justify-content-end">
+                                <div class="d-flex align-items-center justify-content-center rounded bg-danger" style="height: 40px; width: 40px;">
+                                  <i class="fas fa-clock text-white"></i>
+                                </div>
+                              </div>
+                            </div>            
+                          </div>
+                          <div class="col-lg-12">
+                            <div class="numbers">
+                              <h4 class="fs-1"><?= $row_cancelled['total_cancelled'] ?></h4>
                             </div>
                           </div>
-                          <div class="col col-stats ms-3 ms-sm-0">
-                            <div class="numbers">
-                              <p class="card-category">Confirmed Appointments</p>
-                              <h1 class="card-title"><?= $row_confirmed['total_confirmed'] ?></h1>
-                            </div>
+                          <div class="col-lg-12">
+                            <p class="text-muted">Cancelled their appointments</p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="col-lg-6">
-                    <div class="card card-stats card-round">
-                      <div class="card-body">
-                        <div class="row align-items-center">
-                          <div class="col-icon">
-                            <div class="icon-big text-center icon-danger bubble-shadow-small">
-                              <i class="fas fa-calendar"></i>
-                            </div>
-                          </div>
-                          <div class="col col-stats ms-3 ms-sm-0">
-                            <div class="numbers">
-                              <p class="card-category">Cancelled Appointments</p>
-                              <h4 class="card-title"><?= $row_cancelled['total_cancelled'] ?></h4>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                </div>
                 </div>
             </div>
         </div>

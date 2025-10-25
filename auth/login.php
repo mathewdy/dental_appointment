@@ -77,20 +77,25 @@ if (isset($_POST['login'])) {
                 if($row['role_id'] == '1' ){
                     $update_otp_run = updateOtp($conn, $otp, $email);            
                     if($update_otp_run){
-                        sendEmail($mail, $subject, $email);
-                        $_SESSION['email'] = $email ;
-                        echo "<script> alert('Please Check Your Email Address for OTP') </script>";
-                        echo "<script>window.location.href='otp.php'</script>";
+                      sendEmail($mail, $subject, $email);
+                      $_SESSION['email'] = $email ;
+                      echo "<script> success('Please Check Your Email Address for OTP.', () => window.location.href='otp.php') </script>";
+                    }else{
+                      echo "<script> error('Otp sending failed.', () => window.location.origin) </script>";
+                      return;
                     }
                 }else{
-                    echo "<script>window.alert('Authentication Failed')</script>";
-                    echo "<script>window.location.origin</script>";
+                  echo "<script> error('Invalid Credentials', () => window.location.origin) </script>";
+                  return;
                 }
+            }else{
+              echo "<script> error('Invalid Credentials', () => window.location.origin) </script>";
+              return;
             }
         }
     } else {
-        echo "<script>window.alert('Invalid Credentials')</script>";
-        echo "<script>window.location.origin</script>";
+      echo "<script> error('Something went wrong!', () => window.location.origin) </script>";
+      return;
     }
 }
 
