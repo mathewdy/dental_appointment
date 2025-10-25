@@ -137,14 +137,14 @@ function getAppointments($conn, $id, $confirmed) {
   return mysqli_stmt_get_result($stmt);
 }
 
-function updateStatus($conn, $id) {
+function updateStatus($conn, $id, $status) {
   $sql = "UPDATE appointments 
-  SET confirmed = '1', 
+  SET confirmed = ?, 
     date_updated = NOW()
   WHERE appointment_id = ?";
 
   $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "i", $id);
+  mysqli_stmt_bind_param($stmt, "si", $status, $id);
   
   return mysqli_stmt_execute($stmt);
 }

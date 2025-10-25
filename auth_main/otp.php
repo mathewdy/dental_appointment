@@ -5,16 +5,20 @@ $email = $_SESSION['email'];
 $role_id = $_SESSION['role_id'];
 ?>
 <style>
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-    }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  }
 
-    /* Firefox */
-    input[type=number] {
-        -moz-appearance: textfield;
-    }
+  /* Firefox */
+  input[type=number] {
+      -moz-appearance: textfield;
+  }
+  .otp-fake-input {
+    width: 48px !important;
+    height: 48px !important;
+  }
 </style>
 <div class="container" style="height: 55em;">
         <div class="row d-flex justify-content-center align-items-center p-5" style="height: 100%;">
@@ -30,7 +34,8 @@ $role_id = $_SESSION['role_id'];
                                 <p>A verification code has been sent to your email.</p>
                             </span>
                             <form action="" method="POST">
-                                <input type="number" class="form-control mb-5"name="otp_number">
+                                <div id="otp_target" class="mb-5"></div>
+                                <input type="hidden" name="otp_number" id="otp-value">
                                 <input type="submit" class="btn btn-black op-8 w-100 mb-2" name="verify" value="Verify">
                                 <a href="login.php" class="text-black op-9">Go Back</a>
                             </form>
@@ -41,8 +46,18 @@ $role_id = $_SESSION['role_id'];
     </div>
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+?>
+<script>
+  $('#otp_target').otpdesigner({
+    length: 5,
+    onlyNumbers: true,
+    typingDone: function(code) {
+      $('#otp-value').val(code);
+    }
+  });
+</script>
 
-
+<?php
 if(isset($_POST['verify'])){
     $otp_number = $_POST['otp_number'];
     

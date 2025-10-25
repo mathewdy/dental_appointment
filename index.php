@@ -1,7 +1,48 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 ?>
+  <style>
+    .owl-carousel {
+      display: flex !important;
+      justify-content: center !important;
+      position: relative !important;
+    }
 
+    .owl-stage {
+      display: flex !important;
+      justify-content: center !important;
+    }
+
+    .item .card {
+      height: 100%;
+    }
+
+    .owl-nav {
+      position: absolute !important;
+      top: 41% !important;
+      width: 100% !important;
+      transform: translateY(-50%) !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      pointer-events: none !important;
+    }
+
+    .owl-nav button {
+      pointer-events: all !important;
+      color: black !important;
+      border-radius: 50%;
+      width: 40px !important;
+      height: 40px !important;
+      font-size: 5rem !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    .owl-nav button:hover {
+      background: none !important;
+    }
+  </style>
   <nav class="navbar navbar-expand-lg navbar-light bg-dark shadow-sm py-3">
     <div class="container">
       <a href="#" class="navbar-brand fw-bold text-light logo">
@@ -42,12 +83,12 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
     </div>
   </section>
 
-  <section id="services" class="py-5">
+  <section id="services" class="py-5 my-5">
     <div class="container text-center">
       <h2 class="fw-bold mb-4">Our Services</h2>
-      <div class="row g-4">
-        <div class="col-md-4">
-          <div class="card h-100 shadow-sm">
+      <div class="owl-carousel owl-theme px-5">
+        <div class="item">
+          <div class="card shadow-sm">
             <div class="card-body">
               <i class="fas fa-tooth fa-3x text-primary mb-3"></i>
               <h5 class="card-title">General Dentistry</h5>
@@ -55,8 +96,8 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card h-100 shadow-sm">
+        <div class="item">
+          <div class="card shadow-sm">
             <div class="card-body">
               <i class="fas fa-smile fa-3x text-primary mb-3"></i>
               <h5 class="card-title">Cosmetic Dentistry</h5>
@@ -64,8 +105,8 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
             </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card h-100 shadow-sm">
+        <div class="item">
+          <div class="card shadow-sm">
             <div class="card-body">
               <i class="fas fa-syringe fa-3x text-primary mb-3"></i>
               <h5 class="card-title">Oral Surgery</h5>
@@ -77,7 +118,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
     </div>
   </section>
 
-  <section id="about" class="py-5 bg-light">
+  <section id="about" class="py-5 my-5 bg-light">
     <div class="container text-center">
       <h2 class="fw-bold mb-4">About Us</h2>
       <p class="lead">
@@ -105,5 +146,13 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
 ?>
-
+<script>
+  $('.owl-carousel').owlCarousel({
+    loop: true,
+    margin: 10,
+    nav: true,
+    dots: true,
+    center: true
+})
+</script>
 

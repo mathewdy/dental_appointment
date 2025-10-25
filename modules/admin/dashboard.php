@@ -72,11 +72,8 @@ $query_monthly = "
 ";
 
 // Display function
-function displayReport($result, $title) {
-    echo "<h3>$title</h3>";
+function displayReport($result, $day, $date) {
     if (mysqli_num_rows($result) > 0) {
-        echo "<div class='table-responsive'>";
-        echo "<table class='display table' id='dataTable'>";
         echo "
             <thead>
             <tr>
@@ -102,9 +99,22 @@ function displayReport($result, $title) {
                 </tr>
             ";
         }
-        echo "</tbody></table></div>";
+        echo "</tbody>";
     } else {
-        echo "<p>No data found.</p><br>";
+        echo '
+          <div class="container">
+            <div class="row text-center my-4 gap-4">
+              <div class="col-lg-12">
+                <i class="fas fa-calendar display-1 text-muted"></i>
+                <p class="h4 fw-bold m-0 p-0">No Appointments ' . $day .' </p>
+                <p class="h5 text-muted m-0 p-0">You have a clear schedule for ' . $day . ' </p>
+              </div>
+              <div class="col-lg-12">
+                <a href="appointments.php" class="btn btn-primary rounded">Schedule Appointment</a>
+              </div>
+            </div>
+          </div>
+        ';
     }
 }
 
@@ -136,23 +146,138 @@ $run_monthly = mysqli_query($conn, $query_monthly);
 				</div>
 				<div class="page-category">
 					<h1>Welcome <?= $first_name; ?></h1>
-				</div>
-				<div class="row">
-					<div class="col-lg-6">
-						<div class="card p-4">
-							<?php displayReport($run_daily, "Daily Appointments (" . date('F j, Y') . ")"); ?>
-						</div>
-					</div>
-					<div class="col-lg-6">
-						<div class="card p-4">
-							<?php displayReport($run_weekly, "Weekly Appointments (Week $currentWeek)"); ?>
-						</div>
-					</div>
-					<div class="col-lg-12">
-						<div class="card p-4">
-							<?php displayReport($run_monthly, "Monthly Appointments (" . date('F Y') . ")"); ?>
-						</div>
-					</div>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link text-dark text-muted active" id="today-tab" data-bs-toggle="tab" data-bs-target="#today" type="button" role="tab" aria-controls="today" aria-selected="true">
+                    Today's Appointments
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+              <button class="nav-link text-dark text-muted" id="weekly-tab" data-bs-toggle="tab" data-bs-target="#weekly"
+                  type="button" role="tab" aria-controls="weekly" aria-selected="false">
+                  Weekly View
+              </button>
+              </li>
+              <li class="nav-item" role="presentation">
+              <button class="nav-link text-dark text-muted" id="monthly-tab" data-bs-toggle="tab" data-bs-target="#monthly"
+                  type="button" role="tab" aria-controls="monthly" aria-selected="false">
+                  Monthly View
+              </button>
+              </li>
+            </ul>
+
+                <!-- Tabs Content -->
+                <div class="tab-content mt-3" id="myTabContent">
+                  <div class="tab-pane fade show active" id="today" role="tabpanel" aria-labelledby="today-tab">
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="datatable-toolbar d-flex justify-content-between">
+                          <div class="d-flex align-items-center gap-2">
+                            <input type="text" id="customSearch" class="form-control" placeholder="Search appointments...">
+                            <button id="filterBtn" class="btn btn-outline-secondary">
+                              <i class="bi bi-funnel"></i> Filter
+                            </button>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <label class="me-2 mb-0">Show</label>
+                            <select id="customLength" class="form-select form-select-sm w-auto">
+                              <option value="10">10</option>
+                              <option value="25" selected>25</option>
+                              <option value="50">50</option>
+                            </select>
+                            <label class="ms-2 mb-0">entries</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <table id="table1" class="table table-striped">
+                          <?php displayReport($run_daily, 'today', ''); ?>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="row align-items-center mt-2">
+                      <div class="col-md-6">
+                        <div id="myTable_info" class="dataTables_info" role="status" aria-live="polite"></div>
+                      </div>
+                      <div class="col-md-6 d-flex justify-content-end">
+                        <div id="myTable_paginate" class="dataTables_paginate paging_simple_numbers"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="weekly" role="tabpanel" aria-labelledby="weekly-tab">
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="datatable-toolbar d-flex justify-content-between">
+                          <div class="d-flex align-items-center gap-2">
+                            <input type="text" id="customSearch" class="form-control" placeholder="Search appointments...">
+                            <button id="filterBtn" class="btn btn-outline-secondary">
+                              <i class="bi bi-funnel"></i> Filter
+                            </button>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <label class="me-2 mb-0">Show</label>
+                            <select id="customLength" class="form-select form-select-sm w-auto">
+                              <option value="10">10</option>
+                              <option value="25" selected>25</option>
+                              <option value="50">50</option>
+                            </select>
+                            <label class="ms-2 mb-0">entries</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <table id="table2" class="table table-striped">
+                          <?php displayReport($run_weekly, 'this week', ''); ?>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="row align-items-center mt-2">
+                      <div class="col-md-6">
+                        <div id="myTable_info" class="dataTables_info" role="status" aria-live="polite"></div>
+                      </div>
+                      <div class="col-md-6 d-flex justify-content-end">
+                        <div id="myTable_paginate" class="dataTables_paginate paging_simple_numbers"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="monthly" role="tabpanel" aria-labelledby="monthly-tab">
+                    <div class="card">
+                      <div class="card-header">
+                        <div class="datatable-toolbar d-flex justify-content-between">
+                          <div class="d-flex align-items-center gap-2">
+                            <input type="text" id="customSearch" class="form-control" placeholder="Search appointments...">
+                            <button id="filterBtn" class="btn btn-outline-secondary">
+                              <i class="bi bi-funnel"></i> Filter
+                            </button>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <label class="me-2 mb-0">Show</label>
+                            <select id="customLength" class="form-select form-select-sm w-auto">
+                              <option value="10">10</option>
+                              <option value="25" selected>25</option>
+                              <option value="50">50</option>
+                            </select>
+                            <label class="ms-2 mb-0">entries</label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body">
+                        <table id="table3" class="table table-striped">
+                          <?php displayReport($run_monthly, 'this month', ''); ?>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="row align-items-center mt-2">
+                      <div class="col-md-6">
+                        <div id="myTable_info" class="dataTables_info" role="status" aria-live="polite"></div>
+                      </div>
+                      <div class="col-md-6 d-flex justify-content-end">
+                        <div id="myTable_paginate" class="dataTables_paginate paging_simple_numbers"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 				</div>
 			</div>
 		</div>
@@ -161,3 +286,34 @@ $run_monthly = mysqli_query($conn, $query_monthly);
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 ?>
+<script>
+$(document).ready(function () {
+  var table = $('#table1').DataTable({
+    dom: 't<"bottom"ip>',
+    info: true,
+  });
+  var table2 = $('#table2').DataTable({
+    dom: 't<"bottom"ip>',
+    info: true,
+  });
+  var table3 = $('#table2').DataTable({
+    dom: 't<"bottom"ip>',
+    info: true,
+  });
+
+  var bottom = $('#myTable_wrapper .bottom');
+  bottom.addClass('row align-items-center mt-2');
+  bottom.find('.dataTables_info').addClass('col-md-6 mb-2 mb-md-0');
+  bottom.find('.dataTables_paginate').addClass('col-md-6 text-md-end');
+
+  $('#customSearch').on('keyup', function () {
+    table.search(this.value).draw();
+  });
+
+  $('#customLength').on('change', function () {
+    table.page.len($(this).val()).draw();
+  });
+
+});
+
+  </script>
