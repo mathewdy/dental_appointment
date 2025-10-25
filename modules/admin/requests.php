@@ -6,7 +6,11 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Ap
 $first_name = $_SESSION['first_name'];
 $user_id_patient = $_SESSION['user_id'];
 ?>
-
+<style>
+  .dataTable_wrapper input {
+    padding: 20px 12px !important;
+  }
+</style>
     <div class="wrapper">
       <?php include '../../includes/sidebar.php'; ?>
       <div class="main-panel">
@@ -42,7 +46,7 @@ $user_id_patient = $_SESSION['user_id'];
             <div class="page-category">
               <div class="card p-5">
                 <div class="table-responsive">
-                  <div id="customSearchContainer"></div>
+                  
                   <table class="display table table-border table-hover" id="dataTable">
                     <thead>
                         <tr>
@@ -77,7 +81,7 @@ $user_id_patient = $_SESSION['user_id'];
                               ?>
                             </td>
                             <td>
-                              <div class="d-flex justify-content-center align-items-center">
+                              <div class="d-flex justify-content-start align-items-center">
                                 <?php 
                                     if(!$row_appointment['confirmed']){
                                       ?>
@@ -117,7 +121,7 @@ $user_id_patient = $_SESSION['user_id'];
                                           <li>
                                             <a class="dropdown-item status" href="request-action.php?id=<?= $row_appointment['appointment_id']?>&status=3">
                                               <div class="d-flex align-items-center">
-                                                <i class="fas fa-lg fa-times me-3 text-warning"></i>
+                                                <i class="fas fa-lg fa-calendar me-3 text-warning"></i>
                                                 <div>
                                                   <p class="h6 fw-bold p-0 m-0 text-warning">Mark No Show</p>
                                                   <p class="lh-1 text-muted p-0 m-0">Patient did not show up</p>
@@ -136,7 +140,9 @@ $user_id_patient = $_SESSION['user_id'];
                                       <?php
                                     }else{
                                         ?>
-                                            <p class="text-muted p-0 m-0">Updated</p>
+                                        <button class="btn btn-sm btn-primary rounded dropdown-toggle disabled" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                          Update Status 
+                                        </button>
                                         <?php
                                     }
                                 ?>  
@@ -162,13 +168,45 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.p
 ?>
 <script>
 $(document).ready(function() {
-    $('.status').on('click', function(e) {
-        e.preventDefault();
-        confirmBeforeSubmit($(this), "Do you want to update this appointment?");
-    });
+  $('.status').on('click', function(e) {
+    e.preventDefault();
+    confirmBeforeRedirect("Do you want to update this appointment?", $(this).attr('href'))
+  });
 });
-
 </script>
+<script>
+$(document).ready(function () {
+  var table = $('#dataTable').DataTable();
+  var customFilter = `
+    <div class="col-sm-12 col-md-4 customFilterCol">
+      <select id="statusFilter" class="form-control form-control-sm d-inline-block w-auto">
+        <option value="">All</option>
+        <option value="Confirmed">Confirmed</option>
+        <option value="Cancelled">Cancelled</option>
+        <option value="Pending">Pending</option>
+        <option value="No Show">No Show</option>
+      </select>
+    </div>
+  `;
+
+  var topRow = $('.dataTables_wrapper .row:first');
+  topRow.find('.col-sm-12.col-md-6')
+    .removeClass('col-md-6')
+    .addClass('col-md-4');
+
+  topRow.find('.col-md-4').first().after(customFilter);
+
+  $('#statusFilter').on('change', function () {
+    var val = $(this).val();
+    table
+      .column(4)
+      .search(val ? val : '', true, false)
+      .draw();
+  });
+});
+</script>
+
+
 <?php
 if(isset($_POST['update_status'])){
     $appointment_id = $_POST['appointment_id'];

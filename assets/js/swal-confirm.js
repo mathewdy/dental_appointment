@@ -20,6 +20,22 @@ function confirmBeforeSubmit($form, message, validateCallback) {
     });
 }
 
+function confirmBeforeRedirect(message, redirectUrl) {
+  Swal.fire({
+      title: 'Are you sure?',
+      text: message || "Do you want to proceed?",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#3085d6'
+  }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = redirectUrl
+      }
+  });
+}
+
 function confirmDelete(message, callback) {
   Swal.fire({
     title: 'Are you sure?',
