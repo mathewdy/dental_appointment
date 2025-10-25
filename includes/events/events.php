@@ -16,12 +16,14 @@ if(mysqli_num_rows($run_appointments) > 0){
       $status = match($row_appointment['confirmed']){
         '0' => "Pending",
         '1' => "Completed",
-        '2' => "Canceled"
+        '2' => "Canceled",
+        '3' => "No Show"
       };
       $color = match($status){
         'Completed' => '#28a745',
         'Pending'   => '#ffc107',
-        'Canceled' => '#dc3545'
+        'Canceled' => '#dc3545',
+        'No Show' => '#dc9135ff'
       };
       $formattedDate = date("Y-m-d", strtotime($row_appointment['appointment_date']));
       $date = str_replace("/", "-",$formattedDate);

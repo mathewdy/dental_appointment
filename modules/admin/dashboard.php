@@ -1,126 +1,10 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Reports/reports.php');
 
 $first_name = $_SESSION['first_name'];                
-$today = date('m/d/Y'); // Matches your DB format
-$currentWeek = date('W');
-$currentMonth = date('m');
-$currentYear = date('Y');
 
-// DAILY REPORT
-$query_daily = "
-    SELECT 
-        a.appointment_date,
-        a.appointment_time,
-        CONCAT(p.first_name, ' ', p.last_name) AS patient_name,
-        CONCAT(d.first_name, ' ', d.last_name) AS doctor_name,
-        a.concern,
-        CASE 
-            WHEN a.confirmed = 1 THEN 'Confirmed'
-            WHEN a.confirmed = 2 THEN 'Cancelled'
-            ELSE 'Pending'
-        END AS status
-    FROM appointments a
-    LEFT JOIN users p ON a.user_id_patient = p.user_id
-    LEFT JOIN users d ON a.user_id = d.user_id
-    WHERE a.appointment_date = '$today'
-    ORDER BY a.appointment_time ASC
-";
-
-
-// WEEKLY REPORT
-$query_weekly = "
-    SELECT 
-        a.appointment_date,
-        a.appointment_time,
-        CONCAT(p.first_name, ' ', p.last_name) AS patient_name,
-        CONCAT(d.first_name, ' ', d.last_name) AS doctor_name,
-        a.concern,
-        CASE 
-            WHEN a.confirmed = 1 THEN 'Confirmed'
-            WHEN a.confirmed = 2 THEN 'Cancelled'
-            ELSE 'Pending'
-        END AS status
-    FROM appointments a
-    LEFT JOIN users p ON a.user_id_patient = p.user_id
-    LEFT JOIN users d ON a.user_id = d.user_id
-    WHERE WEEK(STR_TO_DATE(a.appointment_date, '%m/%d/%Y'), 1) = '$currentWeek'
-      AND YEAR(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentYear'
-    ORDER BY STR_TO_DATE(a.appointment_date, '%m/%d/%Y') ASC, a.appointment_time ASC
-";
-
-// MONTHLY REPORT
-$query_monthly = "
-    SELECT 
-        a.appointment_date,
-        a.appointment_time,
-        CONCAT(p.first_name, ' ', p.last_name) AS patient_name,
-        CONCAT(d.first_name, ' ', d.last_name) AS doctor_name,
-        a.concern,
-        CASE 
-            WHEN a.confirmed = 1 THEN 'Confirmed'
-            WHEN a.confirmed = 2 THEN 'Cancelled'
-            ELSE 'Pending'
-        END AS status
-    FROM appointments a
-    LEFT JOIN users p ON a.user_id_patient = p.user_id
-    LEFT JOIN users d ON a.user_id = d.user_id
-    WHERE MONTH(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentMonth'
-      AND YEAR(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentYear'
-    ORDER BY STR_TO_DATE(a.appointment_date, '%m/%d/%Y') ASC, a.appointment_time ASC
-";
-
-// Display function
-function displayReport($result, $day, $date) {
-    if (mysqli_num_rows($result) > 0) {
-        echo "
-            <thead>
-            <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Patient Name</th>
-                <th>Doctor</th>
-                <th>Concern</th>
-                <th>Status</th>
-            </tr>
-            </thead>
-            <tbody>    
-        ";
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo "
-                <tr>
-                    <td>{$row['appointment_date']}</td>
-                    <td>{$row['appointment_time']}</td>
-                    <td>{$row['patient_name']}</td>
-                    <td>Dr. {$row['doctor_name']}</td>
-                    <td>{$row['concern']}</td>
-                    <td>{$row['status']}</td>
-                </tr>
-            ";
-        }
-        echo "</tbody>";
-    } else {
-        echo '
-          <div class="container">
-            <div class="row text-center my-4 gap-4">
-              <div class="col-lg-12">
-                <i class="fas fa-calendar display-1 text-muted"></i>
-                <p class="h4 fw-bold m-0 p-0">No Appointments ' . $day .' </p>
-                <p class="h5 text-muted m-0 p-0">You have a clear schedule for ' . $day . ' </p>
-              </div>
-              <div class="col-lg-12">
-                <a href="appointments.php" class="btn btn-primary rounded">Schedule Appointment</a>
-              </div>
-            </div>
-          </div>
-        ';
-    }
-}
-
-$run_daily = mysqli_query($conn, $query_daily);
-$run_weekly = mysqli_query($conn, $query_weekly);
-$run_monthly = mysqli_query($conn, $query_monthly);
 ?>
 
 <div class="wrapper">
@@ -145,23 +29,22 @@ $run_monthly = mysqli_query($conn, $query_monthly);
 					</span>
 				</div>
 				<div class="page-category">
-					<h1>Welcome <?= $first_name; ?></h1>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">
                 <button class="nav-link text-dark text-muted active" id="today-tab" data-bs-toggle="tab" data-bs-target="#today" type="button" role="tab" aria-controls="today" aria-selected="true">
-                    Today's Appointments
+                    Today's Appointments <span class="badge bg-dark ms-2"><?php getRecordCount($conn, '') ?></span>
                 </button>
               </li>
               <li class="nav-item" role="presentation">
               <button class="nav-link text-dark text-muted" id="weekly-tab" data-bs-toggle="tab" data-bs-target="#weekly"
                   type="button" role="tab" aria-controls="weekly" aria-selected="false">
-                  Weekly View
+                  Weekly View <span class="badge bg-dark ms-2"><?php getRecordCount($conn, 'week') ?></span>
               </button>
               </li>
               <li class="nav-item" role="presentation">
               <button class="nav-link text-dark text-muted" id="monthly-tab" data-bs-toggle="tab" data-bs-target="#monthly"
                   type="button" role="tab" aria-controls="monthly" aria-selected="false">
-                  Monthly View
+                  Monthly View <span class="badge bg-dark ms-2"><?php getRecordCount($conn, 'month') ?></span>
               </button>
               </li>
             </ul>
@@ -191,16 +74,8 @@ $run_monthly = mysqli_query($conn, $query_monthly);
                       </div>
                       <div class="card-body">
                         <table id="table1" class="table table-striped">
-                          <?php displayReport($run_daily, 'today', ''); ?>
+                          <?php displayReport($conn, ''); ?>
                         </table>
-                      </div>
-                    </div>
-                    <div class="row align-items-center mt-2">
-                      <div class="col-md-6">
-                        <div id="myTable_info" class="dataTables_info" role="status" aria-live="polite"></div>
-                      </div>
-                      <div class="col-md-6 d-flex justify-content-end">
-                        <div id="myTable_paginate" class="dataTables_paginate paging_simple_numbers"></div>
                       </div>
                     </div>
                   </div>
@@ -227,16 +102,8 @@ $run_monthly = mysqli_query($conn, $query_monthly);
                       </div>
                       <div class="card-body">
                         <table id="table2" class="table table-striped">
-                          <?php displayReport($run_weekly, 'this week', ''); ?>
+                          <?php displayReport($conn, 'week'); ?>
                         </table>
-                      </div>
-                    </div>
-                    <div class="row align-items-center mt-2">
-                      <div class="col-md-6">
-                        <div id="myTable_info" class="dataTables_info" role="status" aria-live="polite"></div>
-                      </div>
-                      <div class="col-md-6 d-flex justify-content-end">
-                        <div id="myTable_paginate" class="dataTables_paginate paging_simple_numbers"></div>
                       </div>
                     </div>
                   </div>
@@ -263,16 +130,8 @@ $run_monthly = mysqli_query($conn, $query_monthly);
                       </div>
                       <div class="card-body">
                         <table id="table3" class="table table-striped">
-                          <?php displayReport($run_monthly, 'this month', ''); ?>
+                          <?php displayReport($conn, 'month'); ?>
                         </table>
-                      </div>
-                    </div>
-                    <div class="row align-items-center mt-2">
-                      <div class="col-md-6">
-                        <div id="myTable_info" class="dataTables_info" role="status" aria-live="polite"></div>
-                      </div>
-                      <div class="col-md-6 d-flex justify-content-end">
-                        <div id="myTable_paginate" class="dataTables_paginate paging_simple_numbers"></div>
                       </div>
                     </div>
                   </div>
@@ -291,20 +150,76 @@ $(document).ready(function () {
   var table = $('#table1').DataTable({
     dom: 't<"bottom"ip>',
     info: true,
+    language: { 
+      emptyTable: `
+       <div class="container">
+            <div class="row text-center my-4 gap-4">
+              <div class="col-lg-12">
+                <i class="fas fa-calendar display-1 text-muted"></i>
+                <p class="h4 fw-bold m-0 p-0">No Appointments today </p>
+                <p class="h5 text-muted m-0 p-0">You have a clear schedule for today </p>
+              </div>
+              <div class="col-lg-12">
+                <a href="appointments.php" class="btn btn-primary rounded">Schedule Appointment</a>
+              </div>
+            </div>
+          </div>` 
+    }
   });
   var table2 = $('#table2').DataTable({
     dom: 't<"bottom"ip>',
     info: true,
+    language: { 
+      emptyTable: `
+       <div class="container">
+            <div class="row text-center my-4 gap-4">
+              <div class="col-lg-12">
+                <i class="fas fa-calendar display-1 text-muted"></i>
+                <p class="h4 fw-bold m-0 p-0">No Appointments this week </p>
+                <p class="h5 text-muted m-0 p-0">You have a clear schedule for this week </p>
+              </div>
+              <div class="col-lg-12">
+                <a href="appointments.php" class="btn btn-primary rounded">Schedule Appointment</a>
+              </div>
+            </div>
+          </div>` 
+    }
   });
-  var table3 = $('#table2').DataTable({
+  var table3 = $('#table3').DataTable({
     dom: 't<"bottom"ip>',
     info: true,
+    language: { 
+      emptyTable: `
+       <div class="container">
+            <div class="row text-center my-4 gap-4">
+              <div class="col-lg-12">
+                <i class="fas fa-calendar display-1 text-muted"></i>
+                <p class="h4 fw-bold m-0 p-0">No Appointments this month </p>
+                <p class="h5 text-muted m-0 p-0">You have a clear schedule for this month </p>
+              </div>
+              <div class="col-lg-12">
+                <a href="appointments.php" class="btn btn-primary rounded">Schedule Appointment</a>
+              </div>
+            </div>
+          </div>` 
+    }
   });
 
-  var bottom = $('#myTable_wrapper .bottom');
-  bottom.addClass('row align-items-center mt-2');
-  bottom.find('.dataTables_info').addClass('col-md-6 mb-2 mb-md-0');
-  bottom.find('.dataTables_paginate').addClass('col-md-6 text-md-end');
+
+  var bottom1 = $('#table1_wrapper .bottom');
+  bottom1.addClass('row align-items-center mt-2');
+  bottom1.find('.dataTables_info').addClass('col-md-6 mb-2 mb-md-0');
+  bottom1.find('.dataTables_paginate').addClass('col-md-6 text-md-end');
+
+  var bottom2 = $('#table2_wrapper .bottom');
+  bottom2.addClass('row align-items-center mt-2');
+  bottom2.find('.dataTables_info').addClass('col-md-6 mb-2 mb-md-0');
+  bottom2.find('.dataTables_paginate').addClass('col-md-6 text-md-end');
+
+  var bottom3 = $('#table3_wrapper .bottom');
+  bottom3.addClass('row align-items-center mt-2');
+  bottom3.find('.dataTables_info').addClass('col-md-6 mb-2 mb-md-0');
+  bottom3.find('.dataTables_paginate').addClass('col-md-6 text-md-end');
 
   $('#customSearch').on('keyup', function () {
     table.search(this.value).draw();
