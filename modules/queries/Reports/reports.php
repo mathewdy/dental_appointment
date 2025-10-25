@@ -36,14 +36,7 @@ function getRecordCount($conn, $category) {
   echo $rowCount;
 }
 
-// Display function
-function displayReport($conn, $category) {
-  $today = date('m/d/Y');
-  $currentWeek = date('W');
-  $currentMonth = date('m');
-  $currentYear = date('Y');
-
-// DAILY REPORT
+function displayReport($conn) {
   $query = "SELECT 
     a.appointment_date,
     a.appointment_time,
@@ -58,20 +51,8 @@ function displayReport($conn, $category) {
   FROM appointments a
   LEFT JOIN users p ON a.user_id_patient = p.user_id
   LEFT JOIN users d ON a.user_id = d.user_id ";
-  $handleWhere = match($category){
-    'week' => "WHERE WEEK(STR_TO_DATE(a.appointment_date, '%m/%d/%Y'), 1) = '$currentWeek'
-      AND YEAR(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentYear'
-    ORDER BY STR_TO_DATE(a.appointment_date, '%m/%d/%Y') ASC, a.appointment_time ASC",
-    'month' => "WHERE MONTH(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentMonth'
-      AND YEAR(STR_TO_DATE(a.appointment_date, '%m/%d/%Y')) = '$currentYear'
-    ORDER BY STR_TO_DATE(a.appointment_date, '%m/%d/%Y') ASC, a.appointment_time ASC",
-    default => "WHERE a.appointment_date = '$today'
-    ORDER BY a.appointment_time ASC"
-  };
-
-
-  $queryBasedOnCategory = $query . ' ' . $handleWhere;
-  $run = mysqli_query($conn, $queryBasedOnCategory);
+ 
+  $run = mysqli_query($conn, $query);
   $rows = mysqli_fetch_all($run, MYSQLI_ASSOC);
   echo "
     <thead>
