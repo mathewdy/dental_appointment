@@ -1,57 +1,11 @@
 <?php
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Reports/reports.php');
 
 $first_name = $_SESSION['first_name'];
 $id = $_SESSION['user_id'];
 
-$today = date("m/d/Y"); // Example: 09/01/2025
-
-// Total appointments today
-$sql_total = "SELECT COUNT(*) AS total_today 
-              FROM appointments 
-              WHERE user_id = '$id' 
-              AND appointment_date = '$today'";
-$result_total = mysqli_query($conn, $sql_total);
-$row_total = mysqli_fetch_assoc($result_total);
-
-// Confirmed
-$sql_confirmed = "SELECT COUNT(*) AS total_confirmed 
-                  FROM appointments 
-                  WHERE user_id = '$id' 
-                  AND appointment_date = '$today' 
-                  AND confirmed = 1";
-$result_confirmed = mysqli_query($conn, $sql_confirmed);
-$row_confirmed = mysqli_fetch_assoc($result_confirmed);
-
-// Pending
-$sql_pending = "SELECT COUNT(*) AS total_pending 
-                FROM appointments 
-                WHERE user_id = '$id' 
-                AND appointment_date = '$today' 
-                AND confirmed = 0";
-$result_pending = mysqli_query($conn, $sql_pending);
-$row_pending = mysqli_fetch_assoc($result_pending);
-
-// Cancelled
-$sql_cancelled = "SELECT COUNT(*) AS total_cancelled 
-                  FROM appointments 
-                  WHERE user_id = '$id' 
-                  AND appointment_date = '$today' 
-                  AND confirmed = 2";
-$result_cancelled = mysqli_query($conn, $sql_cancelled);
-$row_cancelled = mysqli_fetch_assoc($result_cancelled);
-
-// Walk-ins (✅ fixed: use $today instead of CURDATE)
-$sql_walk_in = "SELECT COUNT(*) AS total_walkin
-                FROM appointments
-                WHERE walk_in = 1
-                  AND appointment_date = '$today'
-                  AND user_id = '$id'";
-$result_walk_in = mysqli_query($conn, $sql_walk_in);
-$row_walk_in = mysqli_fetch_assoc($result_walk_in);
-
-mysqli_close($conn);
 ?>
 <div class="wrapper">
     <?php include '../../includes/sidebar.php'; ?>
@@ -61,113 +15,157 @@ mysqli_close($conn);
     <div class="container">
       <div class="page-inner">
         <div class="page-header">
-          <h4 class="page-title">Home</h4>
+          <span class="d-flex justify-content-between align-items-center w-100">
+            <span class="d-flex">
+              <h4 class="page-title">Home</h4>
+              <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                <li class="nav-home">
+                  <a href="dashboard.php">
+                      <i class="icon-home"></i>
+                  </a>
+                </li>
+                <li class="separator">
+                  <i class="icon-arrow-right"></i>
+                </li>
+              </ul>
+            </span>    
+          </span>
         </div>
         <div class="page-category">
-            <h1>Welcome <?= $first_name; ?></h1>
-        </div>
-           <div class="row">
-              <div class="col-lg-6">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div class="icon-big text-center icon-primary bubble-shadow-small">
-                          <i class="fas fa-calendar"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Submitted Appointments</p>
-                          <h4 class="card-title"><?= $row_total['total_today'] ?></h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+          <div class="row mb-4">
+            <div class="col-lg-12">
+              <p class="h2 m-0 p-0">Hello <?= $first_name ?></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <h2 class="h4 fw-bold m-0 p-0">Today's Appointments</h2>
                 </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div class="icon-big text-center icon-success bubble-shadow-small">
-                          <i class="fas fa-calendar"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Confirmed Appointments</p>
-                          <h4 class="card-title"><?= $row_confirmed['total_confirmed'] ?></h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div class="icon-big text-center icon-warning bubble-shadow-small">
-                          <i class="fas fa-calendar"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Pending Appointments</p>
-                          <h4 class="card-title"><?= $row_pending['total_pending'] ?></h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div class="icon-big text-center icon-info bubble-shadow-small">
-                          <i class="fas fa-calendar"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Walk-ins</p>
-                          <h4 class="card-title"><?= $row_walk_in['total_walkin'] ?></h4>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-6">
-                <div class="card card-stats card-round">
-                  <div class="card-body">
-                    <div class="row align-items-center">
-                      <div class="col-icon">
-                        <div class="icon-big text-center icon-danger bubble-shadow-small">
-                          <i class="fas fa-calendar"></i>
-                        </div>
-                      </div>
-                      <div class="col col-stats ms-3 ms-sm-0">
-                        <div class="numbers">
-                          <p class="card-category">Cancelled Appointments</p>
-                          <h4 class="card-title"><?= $row_cancelled['total_cancelled'] ?></h4>
-                        </div>
-                      </div>
-                    </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="table1" class="table table-bordered">
+                      <?php displayReportById($conn, $id); ?>
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
-        
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <h2 class="h4 fw-bold m-0 p-0">Upcoming Appointments</h2>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="table2" class="table table-bordered">
+                      <?php displayReportById($conn, $id); ?>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-header">
+                  <h2 class="h4 fw-bold m-0 p-0">Monthly Summary Status</h2>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table id="table2" class="table table-bordered">
+                      <?php getMonthlyReport($conn, $id); ?>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+</div>
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 ?>
+<script>
+    $(document).ready(function () {
+    var today = new Date().toISOString().split('T')[0];
+    $('#filterDate').val(today).trigger('keyup');
+
+    var table = $('#table1').DataTable({
+      dom: 't',
+      info: true
+    });
+    var table2 = $('#table2').DataTable({
+      dom: 't',
+      info: true
+    });
+    var table3 = $('#table3').DataTable({
+      dom: 't<"bottom"ip>',
+      info: true,
+    });
+
+    
+    function addDailyFilter(tableSelector) {
+      var table = $(tableSelector).DataTable();
+
+      $.fn.dataTable.ext.search = $.fn.dataTable.ext.search.filter(
+        f => !f._for || f._for !== tableSelector + '-daily'
+      );
+
+      const dailyFilter = function (settings, data, dataIndex) {
+        if (settings.nTable.id !== tableSelector.replace('#', '')) return true;
+
+        var rowDate = data[0]?.trim();
+        if (!rowDate) return true;
+
+        var parts = rowDate.split('/');
+        var formattedRowDate = `${parts[2]}-${parts[0].padStart(2, '0')}-${parts[1].padStart(2, '0')}`;
+
+        var today = new Date().toISOString().split('T')[0];
+
+        return formattedRowDate === today;
+      };
+
+      dailyFilter._for = tableSelector + '-daily';
+      $.fn.dataTable.ext.search.push(dailyFilter);
+
+      table.draw();
+    }
+
+    function addUpcomingFilter(tableSelector) {
+      var table = $(tableSelector).DataTable();
+
+      $.fn.dataTable.ext.search = $.fn.dataTable.ext.search.filter(
+        f => !f._for || f._for !== tableSelector + '-upcoming'
+      );
+
+      const upcomingFilter = function (settings, data, dataIndex) {
+        if (settings.nTable.id !== tableSelector.replace('#', '')) return true;
+
+        var rowDate = data[0]?.trim();
+        if (!rowDate) return true;
+
+        var parts = rowDate.split('/');
+        var recordDate = new Date(parts[2], parts[0] - 1, parts[1]);
+        recordDate.setHours(0, 0, 0, 0);
+
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        return recordDate > today;
+      };
+
+      upcomingFilter._for = tableSelector + '-upcoming';
+      $.fn.dataTable.ext.search.push(upcomingFilter);
+
+      table.draw();
+    }
+
+    addDailyFilter('#table1');
+    addUpcomingFilter('#table2');
+  });
+ </script>

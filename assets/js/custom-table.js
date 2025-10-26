@@ -8,17 +8,17 @@
       language: { 
         emptyTable: `
         <div class="container">
-              <div class="row text-center my-4 gap-4">
-                <div class="col-lg-12">
-                  <i class="fas fa-calendar display-1 text-muted"></i>
-                  <p class="h4 fw-bold m-0 p-0">No Appointments today </p>
-                  <p class="h5 text-muted m-0 p-0">You have a clear schedule for today </p>
-                </div>
-                <div class="col-lg-12">
-                  <a href="appointments.php" class="btn btn-primary rounded">Schedule Appointment</a>
-                </div>
-              </div>
-            </div>` 
+          <div class="row text-center my-4 gap-4">
+            <div class="col-lg-12">
+              <i class="fas fa-calendar display-1 text-muted"></i>
+              <p class="h4 fw-bold m-0 p-0">No Appointments today </p>
+              <p class="h5 text-muted m-0 p-0">You have a clear schedule for today </p>
+            </div>
+            <div class="col-lg-12">
+              <a href="appointments.php" class="btn btn-primary rounded">Schedule Appointment</a>
+            </div>
+          </div>
+        </div>` 
       }
     });
     var table2 = $('#table2').DataTable({
@@ -27,36 +27,36 @@
       language: { 
         emptyTable: `
         <div class="container">
-              <div class="row text-center my-4 gap-4">
-                <div class="col-lg-12">
-                  <i class="fas fa-calendar display-1 text-muted"></i>
-                  <p class="h4 fw-bold m-0 p-0">No Appointments this week </p>
-                  <p class="h5 text-muted m-0 p-0">You have a clear schedule for this week </p>
-                </div>
-                <div class="col-lg-12">
-                  <a href="appointments.php" class="btn btn-primary rounded">Schedule Appointment</a>
-                </div>
-              </div>
-            </div>` 
+          <div class="row text-center my-4 gap-4">
+            <div class="col-lg-12">
+              <i class="fas fa-calendar display-1 text-muted"></i>
+              <p class="h4 fw-bold m-0 p-0">No Appointments this week </p>
+              <p class="h5 text-muted m-0 p-0">You have a clear schedule for this week </p>
+            </div>
+            <div class="col-lg-12">
+              <a href="appointments.php" class="btn btn-primary rounded">Schedule Appointment</a>
+            </div>
+          </div>
+        </div>` 
       }
     });
-    var table3 = $('#table3').DataTable({
+    $('#table3').DataTable({
       dom: 't<"bottom"ip>',
       info: true,
       language: { 
         emptyTable: `
         <div class="container">
-              <div class="row text-center my-4 gap-4">
-                <div class="col-lg-12">
-                  <i class="fas fa-calendar display-1 text-muted"></i>
-                  <p class="h4 fw-bold m-0 p-0">No Appointments this month </p>
-                  <p class="h5 text-muted m-0 p-0">You have a clear schedule for this month </p>
-                </div>
-                <div class="col-lg-12">
-                  <a href="appointments.php" class="btn btn-primary rounded">Schedule Appointment</a>
-                </div>
-              </div>
-            </div>` 
+          <div class="row text-center my-4 gap-4">
+            <div class="col-lg-12">
+              <i class="fas fa-calendar display-1 text-muted"></i>
+              <p class="h4 fw-bold m-0 p-0">No Appointments this month </p>
+              <p class="h5 text-muted m-0 p-0">You have a clear schedule for this month </p>
+            </div>
+            <div class="col-lg-12">
+              <a href="appointments.php" class="btn btn-primary rounded">Schedule Appointment</a>
+            </div>
+          </div>
+        </div>` 
       }
     });
 
@@ -195,10 +195,27 @@
     addWeeklyFilter('#table2', '#filterWeek');
     addMonthlyFilter('#table3', '#filterMonth')
 
-    $('#customSearch').on('keyup', function () {
+    $('#customSearch1').on('keyup', function () {
       table.search(this.value).draw();
     });
-    $('#customLength').on('change', function () {
+    
+    $('#customLength1').on('change', function () {
       table.page.len($(this).val()).draw();
+    });
+
+    $('#customSearch2').on('keyup', function () {
+      table2.search(this.value).draw();
+    });
+
+    $('#customLength2').on('change', function () {
+      table2.page.len($(this).val()).draw();
+    });
+
+    $('#customSearch3').on('keyup', function () {
+      table3.search(this.value).draw();
+    });
+
+    $('#customLength3').on('change', function () {
+      table3.page.len($(this).val()).draw();
     });
   });
