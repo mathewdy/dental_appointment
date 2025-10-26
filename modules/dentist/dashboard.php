@@ -39,11 +39,11 @@ $id = $_SESSION['user_id'];
           </div>
           <div class="row">
             <div class="col-lg-6">
-              <div class="card">
+              <div class="card" style="height:15rem;">
                 <div class="card-header">
                   <h2 class="h4 fw-bold m-0 p-0">Today's Appointments</h2>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0 m-0">
                   <div class="table-responsive">
                     <table id="table1" class="table table-bordered">
                       <?php displayReportById($conn, $id); ?>
@@ -53,11 +53,11 @@ $id = $_SESSION['user_id'];
               </div>
             </div>
             <div class="col-lg-6">
-              <div class="card">
+              <div class="card" style="height:15rem;">
                 <div class="card-header">
                   <h2 class="h4 fw-bold m-0 p-0">Upcoming Appointments</h2>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0 m-0">
                   <div class="table-responsive">
                     <table id="table2" class="table table-bordered">
                       <?php displayReportById($conn, $id); ?>
@@ -67,11 +67,11 @@ $id = $_SESSION['user_id'];
               </div>
             </div>
             <div class="col-lg-6">
-              <div class="card">
+              <div class="card" style="height:15rem;">
                 <div class="card-header">
                   <h2 class="h4 fw-bold m-0 p-0">Monthly Summary Status</h2>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0 m-0">
                   <div class="table-responsive">
                     <table id="table2" class="table table-bordered">
                       <?php getMonthlyReport($conn, $id); ?>
