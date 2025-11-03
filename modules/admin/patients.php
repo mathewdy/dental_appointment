@@ -77,6 +77,9 @@ include('../../includes/security.php');
                                                     <li>
                                                         <a href="delete-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="dropdown-item">Delete</a>
                                                     </li>
+                                                    <li>
+                                                        <a href="view-patient-medical-history.php?user_id=<?php echo $row_patients['user_id']?>" class="dropdown-item">View Medical History</a>
+                                                    </li>
                                                 </ul>
                                             </div>
                                             

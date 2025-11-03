@@ -59,6 +59,12 @@ echo '
                             <p>History</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="medical-history.php">
+                            <i class="fas fa-book"></i>
+                            <p>Medical History</p>
+                        </a>
+                    </li>
                     ';
             }
         if($role == 2){

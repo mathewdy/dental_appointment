@@ -63,6 +63,38 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
                                             <span class="input-group-text pw-toggle" id="basic-addon2" style="cursor:pointer;" data-target="#pw2"><i class="fas fa-eye"></i></span>
                                         </div>
                                     </div>
+
+                                    <div>
+                                       <h1>History</h1> 
+                                        <?php
+                                            $array_history = array("High Blood Pressure", "Diabetes", "Heart Disease", "Asthma", "Hepatitis", "Bleeding Disorder", "Tuberculosis");
+                                            foreach($array_history as $history){
+                                                ?>
+                                                <input class="form-check-input" type="checkbox" name="history[]" value="<?php echo $history; ?>" id="flexCheckDefault">
+                                                <label class="form-check-label" for="flexCheckDefault">
+                                                        <?php echo $history; ?>
+                                                </label>
+                                                <br>
+                                                <?php
+                                            }
+                                        ?>
+                                    <div>
+                                        <h1> Medication & Allergies</h1> 
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Current Medications</label>
+                                            <input type="text" name="current_medications" class="form-control" id="exampleFormControlInput1" placeholder="">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Allergies(Drugs/Foods/Anesthesia)</label>
+                                            <input type="text" name="allergies" class="form-control" id="exampleFormControlInput1" placeholder="">
+                                        </div>
+                                         <div class="mb-3">
+                                            <label for="exampleFormControlInput1" class="form-label">Past Surgeries / Hospitalizations</label>
+                                            <input type="text" name="past_surgeries" class="form-control" id="exampleFormControlInput1" placeholder="">
+                                        </div>
+                                    </div>
+
+
                                     <div class="col-lg-12 mb-4 text-center">
                                         <input type="submit" class="btn btn-black op-8 w-100" name="register_patient" value="Register">
                                         <a href="login.php" class="text-dark">Already have an account?</a>
@@ -108,6 +140,14 @@ if(isset($_POST['register_patient'])){
         ini_set('display_startup_errors', 1);
         error_reporting(E_ALL);
 
+        //history
+        $history_string = implode(", ", $_POST['history']);
+        $current_medications = $_POST['current_medications'];
+        $allergies = $_POST['allergies'];  
+        $past_surgeries = $_POST['past_surgeries'];
+
+        
+
         $query_check_user = "SELECT * FROM users WHERE email='$email'";
         $run_check_user = mysqli_query($conn,$query_check_user);
         
@@ -117,6 +157,10 @@ if(isset($_POST['register_patient'])){
         }else{
             $query_register = "INSERT INTO users (user_id,role_id,first_name,middle_name,last_name,mobile_number,email,password,date_of_birth,date_created,date_updated) VALUES ('$user_id','$role_id', '$first_name','$middle_name','$last_name','$mobile_number','$email','$new_password','$date_of_birth','$date','$date')";
             $run_sql = mysqli_query($conn,$query_register);
+
+            $sql_insert_history = "INSERT INTO medical_history (user_id, history, current_medications, allergies, past_surgeries,date_created,date_updated) VALUES ('$user_id', '$history_string', '$current_medications', '$allergies', '$past_surgeries','$date','$date')";
+            $run_insert_history = mysqli_query($conn, $sql_insert_history);
+            echo "history_added";
             echo "user_added" ; 
 
             if($run_sql){
