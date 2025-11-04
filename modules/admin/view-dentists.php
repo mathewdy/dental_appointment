@@ -63,7 +63,7 @@ $first_name = $_SESSION['first_name'];
                                         <td>
                                           <div class="d-flex justify-content-center align-items-center">
                                             <a class="text-info h4 mx-2" href="edit-dentist.php?user_id=<?php echo$row_dentist['user_id']?>" class="dropdown-item"><i class="fas fa-edit"></i></a>
-                                            <a class="text-danger h4" href="delete-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" class="dropdown-item delete-btn"><i class="fas fa-trash"></i></a>
+                                            <a class="text-danger h4 delete" href="delete-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" class="dropdown-item delete-btn"><i class="fas fa-trash"></i></a>
                                           </div>
                                         </td>
                                     </tr>
@@ -83,3 +83,11 @@ $first_name = $_SESSION['first_name'];
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 ?>
+<script>
+$(document).ready(function() {
+  $('.delete').on('click', function(e) {
+    e.preventDefault();
+    confirmBeforeRedirect("Do you want to update this appointment?", $(this).attr('href'))
+  });
+});
+</script>

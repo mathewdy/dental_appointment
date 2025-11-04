@@ -69,16 +69,16 @@ include('../../includes/security.php');
                                                 </a>
                                                 <ul class="dropdown-menu"> 
                                                     <li>
-                                                        <a href="set-doctor.php?user_id_patient=<?php echo $row_patients['user_id']?>" class="dropdown-item">Set Appointment</a>
+                                                        <a class="dropdown-item" href="set-doctor.php?user_id_patient=<?php echo $row_patients['user_id']?>" >Set Appointment</a>
                                                     </li>
                                                     <li>
-                                                        <a href="edit-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="dropdown-item">Edit</a>
+                                                        <a class="dropdown-item" href="edit-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="dropdown-item">Edit</a>
                                                     </li>
                                                     <li>
-                                                        <a href="delete-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="dropdown-item">Delete</a>
+                                                        <a class="dropdown-item delete" href="#" data="delete-patient.php?user_id=<?php echo $row_patients['user_id']?>">Delete</a>
                                                     </li>
                                                     <li>
-                                                        <a href="view-patient-medical-history.php?user_id=<?php echo $row_patients['user_id']?>" class="dropdown-item">View Medical History</a>
+                                                        <a class="dropdown-item" href="view-patient-medical-history.php?user_id=<?php echo $row_patients['user_id']?>">View Medical History</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -162,3 +162,11 @@ include('../../includes/security.php');
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 ?>
+<script>
+$(document).ready(function() {
+  $('.delete').on('click', function(e) {
+    e.preventDefault();
+    confirmBeforeRedirect("Do you want to update this appointment?", $(this).attr('data'))
+  });
+});
+</script>
