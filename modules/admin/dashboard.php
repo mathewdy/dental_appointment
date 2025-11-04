@@ -71,9 +71,12 @@ $first_name = $_SESSION['first_name'];
                         </div>
                       </div>
                       <div class="card-body">
-                        <table id="table1" class="table table-striped">
-                          <?php displayReport($conn); ?>
-                        </table>
+                        <div class="table-responsive">
+                          <table id="table1" class="table table-striped">
+                            <?php displayReport($conn); ?>
+                          </table>
+                        </div>
+                        
                       </div>
                     </div>
                   </div>
@@ -99,9 +102,11 @@ $first_name = $_SESSION['first_name'];
                         </div>
                       </div>
                       <div class="card-body">
-                        <table id="table2" class="table table-striped">
-                          <?php displayReport($conn); ?>
-                        </table>
+                        <div class="table-responsive">
+                          <table id="table2" class="table table-striped">
+                            <?php displayReport($conn); ?>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -127,9 +132,11 @@ $first_name = $_SESSION['first_name'];
                         </div>
                       </div>
                       <div class="card-body">
-                        <table id="table3" class="table table-striped">
-                          <?php displayReport($conn); ?>
-                        </table>
+                        <div class="table-responsive">
+                          <table id="table3" class="table table-striped">
+                            <?php displayReport($conn); ?>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
