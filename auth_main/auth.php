@@ -25,8 +25,8 @@ if (isset($_POST['login'])) {
           $update_otp_run = updateOtp($conn, $otp, $email);  
           if($update_otp_run){
             sendEmail($mail, $subject, $email);
-            $_SESSION['email'] = $email ;
-            $_SESSION['role_id'] = $_SESSION['role_id'];
+            $_SESSION['email'] = $email;
+            $_SESSION['role_id'] = $row['role_id'];
             echo "<script> success('Please Check Your Email Address for OTP.', () => window.location.href='otp.php') </script>";
           }else{
             echo "<script> error('Otp sending failed.', () => window.location.href='login.php') </script>";

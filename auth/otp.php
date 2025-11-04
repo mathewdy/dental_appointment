@@ -13,8 +13,7 @@ if(empty($email) || $email == null){
 if($role_id != 1 || $role_id == null) {
   echo "<script> error('Invalid Session.', () => window.location.href='login.php') </script>";
 }
-echo $email;
-echo $role_id;
+
 ?>
 
 <style>
