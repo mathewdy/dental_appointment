@@ -2,15 +2,19 @@
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
 
-if(empty($email) || $_SESSION['role_id'] != '1'){
+$email = $_SESSION['email'] ?? null;
+$role_id = $_SESSION['role_id'] ?? null;
+
+if(empty($email) || $email == null){
   echo "<script> error('Invalid Session.', () => window.location.href='login.php') </script>";
-}else{
-  $email = $_SESSION['email'];
-  $role_id = $_SESSION['role_id'];
+  session_destroy();
 }
-
+if($role_id != 1 || $role_id == null) {
+  echo "<script> error('Invalid Session.', () => window.location.href='login.php') </script>";
+}
+echo $email;
+echo $role_id;
 ?>
 
 <style>

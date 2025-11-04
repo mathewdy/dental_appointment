@@ -3,6 +3,11 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Mailer/mail.php');
 
+$email = $_SESSION['email'] ?? null;
+
+if(!empty($email)) {
+  session_destroy();
+}
 ?>
 <div class="container">
         <div class="row d-flex justify-content-center align-items-center p-lg-5 h-100">

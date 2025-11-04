@@ -9,7 +9,7 @@ echo '
   <script src="' . BASE_PATH . '/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
   <script src="' . BASE_PATH . '/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
   <script src="' . BASE_PATH . '/assets/js/plugin/owl-carousel/owl.carousel.min.js"></script>
-  <script src="' . BASE_PATH . '/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="' . BASE_PATH . '/assets/js/kaiadmin.min.js"></script>
   <script src="' . BASE_PATH . '/assets/js/pw-visibility.js"></script>
   <script src="' . BASE_PATH . '/assets/js/swal-confirm.js"></script>
@@ -28,12 +28,12 @@ if(!empty($userId)){
     <script src="' . BASE_PATH . '/assets/js/add-balance.js"></script>
     <script src="' . BASE_PATH . '/assets/js/edit-balance.js"></script>
     <script src="' . BASE_PATH . '/assets/js/payment-history.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="' . BASE_PATH . '/assets/js/validate-time.js"></script>
     <script src="' . BASE_PATH . '/assets/js/utils/delete-user.js"></script>
     <script src="' . BASE_PATH . '/assets/js/plugin/datatables/datatables.min.js"></script>
   ';
 }
+
 echo '
 </body>
 </html>
