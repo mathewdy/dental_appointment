@@ -118,6 +118,20 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
                                                 </div>
                                               </div>
                                             </div>
+                                            <div class="col-lg-12">
+                                              <div class="row d-flex align-items-center w-100">
+                                                <div class="col-lg-2">
+                                                  <label for="">Add Payment</label>
+                                                </div>
+                                                <div class="col-lg-10">
+                                                  <select name="payment_method" id="" class="form-control" required>
+                                                    <option value="">-Select-</option>
+                                                    <option value="Cash">Cash</option>
+                                                    <option value="GCash">GCash</option>
+                                                  </select>
+                                                </div>
+                                              </div>
+                                            </div>
                                             <div class="col-lg-12 text-end">
                                               <a href="view-patient-payments.php?user_id=<?php echo $user_id?>&concern=<?php echo $concern?>" class="btn btn-sm btn-danger">Cancel</a>
                                               <?php
@@ -129,9 +143,11 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
                                                 }
                                                 else{
                                                   ?>
-                                                  <input type="submit" class="btn btn-sm btn-primary" name="add_payment" value="Add Cash Payment">
+                                                  
+                                                  <input type="submit" class="btn btn-sm btn-primary" name="add_payment" value="Confirm">
+                                                  <!-- <input type="submit" class="btn btn-sm btn-primary" name="add_payment" value="Add Cash Payment"> -->
                                                   <!-- <input type="submit" class="btn btn-sm btn-success" name="add_payment_paymogo" value="Add Paymogo Payment"> -->
-                                                   <input type="submit" class="btn btn-sm btn-primary" name="add_payment_gcash" value="Add GCash Payment">
+                                                   <!-- <input type="submit" class="btn btn-sm btn-primary" name="add_payment_gcash" value="Add GCash Payment"> -->
                                                   <?php
                                                 }
                                               ?>
