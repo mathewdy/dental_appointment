@@ -26,20 +26,20 @@ if (isset($_POST['login'])) {
                       $_SESSION['role_id'] = $row['role_id'];
                       echo "<script> success('Please Check Your Email Address for OTP.', () => window.location.href='otp.php') </script>";
                     }else{
-                      echo "<script> error('Otp sending failed.', () => window.location.origin) </script>";
+                      echo "<script> error('Otp sending failed.', () => window.location.href='login.php') </script>";
                       return;
                     }
                 }else{
-                  echo "<script> error('Invalid Credentials', () => window.location.origin) </script>";
+                  echo "<script> error('Invalid Credentials', () => window.location.href='login.php') </script>";
                   return;
                 }
             }else{
-              echo "<script> error('Invalid Credentials', () => window.location.origin) </script>";
+              echo "<script> error('Invalid Credentials', () => window.location.href='login.php') </script>";
               return;
             }
         }
     } else {
-      echo "<script> error('Something went wrong!', () => window.location.origin) </script>";
+      echo "<script> error('Something went wrong!', () => window.location.href='login.php') </script>";
       return;
     }
 }
