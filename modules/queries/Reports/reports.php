@@ -46,6 +46,7 @@ function displayReport($conn) {
     CASE 
         WHEN a.confirmed = 1 THEN 'Confirmed'
         WHEN a.confirmed = 2 THEN 'Cancelled'
+        WHEN a.confirmed = 3 THEN 'No Show'
         ELSE 'Pending'
     END AS status
   FROM appointments a
@@ -68,6 +69,12 @@ function displayReport($conn) {
     <tbody>";
 
   foreach ($rows as $row) {
+    $handler = match($row['status']){
+      'Confirmed' => '<span class="badge text-dark text-body-secondary fw-bold" style="background: #94f7c9; border: #94f7c9;"><i class="fas fa-check-circle"></i> Confirmed</span>',
+      'Cancelled' => '<span class="badge text-dark text-body-secondary fw-bold" style="background: #f79494; border: #f79494;"><i class="fas fa-times-circle"></i> Cancelled</span>',
+      'No Show' => '<span class="badge text-dark text-body-secondary fw-bold" style="background: #fab273; border: #fab273;"><i class="fas fa-times"></i> No Show</span>',
+      default => '<span class="badge text-dark text-body-secondary fw-bold" style="background: #fae373; border: #fae373;"><i class="fas fa-clock"></i> Pending</span>'
+    };
             echo "
                 <tr>
                     <td>{$row['appointment_date']}</td>
@@ -75,7 +82,7 @@ function displayReport($conn) {
                     <td>{$row['patient_name']}</td>
                     <td>Dr. {$row['doctor_name']}</td>
                     <td>{$row['concern']}</td>
-                    <td>{$row['status']}</td>
+                    <td>{$handler}</td>
                 </tr>
             ";
         }
