@@ -2,9 +2,9 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 
 ?>
-<div class="container" style="height: 55em;">
-    <div class="row d-flex justify-content-center align-items-center px-5" style="height: 100%;">
-        <div class="col-6">
+<div class="container">
+    <div class="row d-flex justify-content-center align-items-center px-lg-5 h-100">
+        <div class="col-lg-6">
             <div class="card w-100 border-none rounded-0 px-5" style="height: 45em;">
                 <div class="row" style="height: 100%;">
                     <div class="col-lg-12 d-flex flex-column justify-content-center ">
@@ -38,4 +38,5 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
     </div>
 </div>
 <?php 
-include "../includes/scripts.php";
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+?>

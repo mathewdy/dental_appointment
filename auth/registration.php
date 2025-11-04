@@ -152,22 +152,18 @@ if(isset($_POST['register_patient'])){
         $run_check_user = mysqli_query($conn,$query_check_user);
         
         if(mysqli_num_rows($run_check_user) > 0){
-            echo "<script>alert('User Already Added')</script>";
-            exit();
+          echo "<script> error('User Already Exists', () => window.location.origin) </script>";
         }else{
             $query_register = "INSERT INTO users (user_id,role_id,first_name,middle_name,last_name,mobile_number,email,password,date_of_birth,date_created,date_updated) VALUES ('$user_id','$role_id', '$first_name','$middle_name','$last_name','$mobile_number','$email','$new_password','$date_of_birth','$date','$date')";
             $run_sql = mysqli_query($conn,$query_register);
 
             $sql_insert_history = "INSERT INTO medical_history (user_id, history, current_medications, allergies, past_surgeries,date_created,date_updated) VALUES ('$user_id', '$history_string', '$current_medications', '$allergies', '$past_surgeries','$date','$date')";
             $run_insert_history = mysqli_query($conn, $sql_insert_history);
-            echo "history_added";
-            echo "user_added" ; 
 
             if($run_sql){
-                echo "<script>window.alert('Account Created')</script>";
-                echo "<script>window.location.href='login.php'</script>";
+              echo "<script> success('Account Created.', () => window.location.href='login.php') </script>";
             }else{
-                echo "error" . $conn->error;
+              echo "<script> error('Something went wrong!', () => window.location.origin) </script>";
             }
         }
 

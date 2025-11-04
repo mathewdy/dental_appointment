@@ -2,9 +2,9 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 
 ?>
-<div class="container" style="height: 55em;">
-        <div class="row d-flex justify-content-center align-items-center p-5" style="height: 100%;">
-            <div class="col-8">
+<div class="container">
+        <div class="row d-flex justify-content-center align-items-center p-lg-5 h-100">
+            <div class="col-lg-8 p-0">
                 <div class="card w-100 border-none rounded-0">
                     <div class="row" style="height: 100%;">
                         <div class="col-lg-12 p-5 d-flex flex-column justify-content-center ">
@@ -102,18 +102,15 @@ if(isset($_POST['register_admin'])){
         $run_check_user = mysqli_query($conn,$query_check_user);
         
         if(mysqli_num_rows($run_check_user) > 0){
-            echo "<script>alert('User Already Added')</script>";
-            exit();
+          echo "<script> error('User Already Exists', () => window.location.origin) </script>";
         }else{
             $query_register = "INSERT INTO users (user_id,role_id,first_name,middle_name,last_name,mobile_number,email,password,date_of_birth,date_created,date_updated) VALUES ('$user_id','$role_id', '$first_name','$middle_name','$last_name','$mobile_number','$email','$new_password','$date_of_birth','$date','$date')";
             $run_sql = mysqli_query($conn,$query_register);
-            echo "user_added" ; 
 
             if($run_sql){
-                echo "<script>window.alert('Account Created')</script>";
-                echo "<script>window.location.href='login.php'</script>";
+              echo "<script> success('Account Created.', () => window.location.href='login.php') </script>";
             }else{
-                echo "error" . $conn->error;
+              echo "<script> error('Something went wrong!', () => window.location.origin) </script>";
             }
         }
     }

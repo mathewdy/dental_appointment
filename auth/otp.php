@@ -1,7 +1,16 @@
 <?php
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
-$email = $_SESSION['email'];
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+
+if(empty($email) || $_SESSION['role_id'] != '1'){
+  echo "<script> error('Invalid Session.', () => window.location.href='login.php') </script>";
+}else{
+  $email = $_SESSION['email'];
+  $role_id = $_SESSION['role_id'];
+}
+
 ?>
 
 <style>
@@ -21,9 +30,9 @@ $email = $_SESSION['email'];
   }
 </style>
 <body>
-<div class="container-xl" style="height: 55em;">
-        <div class="row d-flex justify-content-center align-items-center p-5" style="height: 100%;">
-            <div class="col-lg-6 col-md-12">
+  <div class="container-xl" style="height: 55em;">
+        <div class="row d-flex justify-content-center align-items-center p-lg-5 h-100">
+            <div class="col-lg-6">
                 <div class="card w-100 border-none rounded-0">
                     <div class="row" style="height: 100%;">
                         <div class="col-lg-12 p-5 d-flex flex-column justify-content-center text-center">
@@ -45,7 +54,7 @@ $email = $_SESSION['email'];
             </div>
         </div>
     </div>
-    <?php include "../includes/scripts.php"; ?>
+<?php include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); ?>
 <script>
   $('#otp_target').otpdesigner({
     length: 5,
@@ -64,11 +73,21 @@ if(isset($_POST['verify'])){
     $row_otp = mysqli_fetch_assoc($run_otp);
 
     if($row_otp['otp'] == $otp_number){
-        echo "accepted";
-        header("Location: ../modules/patients/dashboard.php");
+      $run_login = checkAllUserByEmail($conn, $email);
+
+      if (mysqli_num_rows($run_login) > 0) {
+        foreach ($run_login as $row) {
+          $_SESSION['user_id'] = $row['user_id'];
+          $_SESSION['first_name'] = $row['first_name'];
+          $_SESSION['last_name'] = $row['last_name'];
+          // $_SESSION['image'] = $row['image'];
+          $_SESSION['role_id'] = $row['role_id'];
+        }
+      }
+      echo "<script> success('Login Success!', () => window.location.href='../modules/patients/dashboard.php') </script>";
     }else{
-      echo "<script>window.alert('Invalid Number')</script>";
-      echo "<script>window.location.origin</script>";
+      echo "<script> error('Invalid Otp.', () => window.location.origin) </script>";
+
     }
 
 }
