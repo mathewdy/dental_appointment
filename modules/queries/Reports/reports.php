@@ -88,88 +88,151 @@ function displayReport($conn) {
         }
     echo "</tbody>";
 }
-function displayReportById($conn, $id) {
-  $query = "SELECT 
-    a.appointment_date,
-    a.appointment_time,
-    CONCAT(p.first_name, ' ', p.last_name) AS patient_name,
-    CONCAT(d.first_name, ' ', d.last_name) AS doctor_name,
-    a.concern,
-    CASE 
-        WHEN a.confirmed = 1 THEN 'Confirmed'
-        WHEN a.confirmed = 2 THEN 'Cancelled'
-        ELSE 'Pending'
-    END AS status
-  FROM appointments a
-  LEFT JOIN users p ON a.user_id_patient = p.user_id
-  LEFT JOIN users d ON a.user_id = d.user_id 
-  WHERE a.user_id = ' . $id . '";
- 
-  $run = mysqli_query($conn, $query);
-  $rows = mysqli_fetch_all($run, MYSQLI_ASSOC);
-  echo "
+function displayTodayReportById($conn, $id) {
+    $today = date('m/d/Y');
+
+    $query = "
+        SELECT 
+            a.appointment_date,
+            a.appointment_time,
+            a.concern,
+            p.first_name, 
+            p.last_name
+        FROM appointments a
+        LEFT JOIN users p ON a.user_id_patient = p.user_id
+        WHERE a.user_id = ? 
+          AND DATE(a.appointment_date) = ?
+          AND a.confirmed = 1
+        ORDER BY a.appointment_time ASC
+    ";
+
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "is", $id, $today);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    echo "
     <thead>
-      <tr>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Patient Name</th>
-          <th>Concern</th>
-      </tr>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Patient Name</th>
+            <th>Concern</th>
+        </tr>
     </thead>
     <tbody>";
 
-  foreach ($rows as $row) {
-            echo "
-                <tr>
-                    <td>{$row['appointment_date']}</td>
-                    <td>{$row['appointment_time']}</td>
-                    <td>{$row['patient_name']}</td>
-                    <td>{$row['concern']}</td>
-                </tr>
-            ";
-        }
+    foreach ($rows as $row) {
+        $patientName = $row['first_name'] . ' ' . $row['last_name'];
+        echo "
+            <tr>
+                <td>{$row['appointment_date']}</td>
+                <td>{$row['appointment_time']}</td>
+                <td>{$patientName}</td>
+                <td>{$row['concern']}</td>
+            </tr>
+        ";
+    }
+
+    echo "</tbody>";
+}
+
+function displayUpcomingAppointmentsById($conn, $id) {
+    $today = date('m/d/Y');
+
+    $query = "
+        SELECT 
+            a.appointment_date,
+            a.appointment_time,
+            a.concern,
+            p.first_name, 
+            p.last_name
+        FROM appointments a
+        LEFT JOIN users p ON a.user_id_patient = p.user_id
+        WHERE a.user_id = ? 
+          AND DATE(a.appointment_date) >= ?
+          AND a.confirmed = 0
+        ORDER BY a.appointment_date ASC, a.appointment_time ASC
+    ";
+
+    $stmt = mysqli_prepare($conn, $query);
+    mysqli_stmt_bind_param($stmt, "is", $id, $today);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    echo "
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Patient Name</th>
+            <th>Concern</th>
+        </tr>
+    </thead>
+    <tbody>";
+
+    foreach ($rows as $row) {
+        $patientName = $row['first_name'] . ' ' . $row['last_name'];
+        echo "
+            <tr>
+                <td>{$row['appointment_date']}</td>
+                <td>{$row['appointment_time']}</td>
+                <td>{$patientName}</td>
+                <td>{$row['concern']}</td>
+            </tr>
+        ";
+    }
+
     echo "</tbody>";
 }
 
 function getMonthlyReport($conn, $id) {
-  $currentMonth = date('m');
-  $currentYear = date('Y');
+    $start_date = date('m/01/Y');
+    $end_date = date('m/t/Y');
 
-  $countQuery = "
-  SELECT COUNT(*) AS total_count
-  FROM appointments
-  WHERE user_id = $id
-    AND MONTH(appointment_date) = $currentMonth
-    AND YEAR(appointment_date) = $currentYear
-  ";
-  $countResult = mysqli_query($conn, $countQuery);
-  $totalCount = mysqli_fetch_assoc($countResult)['total_count'] ?? 0;
+    $countQuery = "
+        SELECT 
+            COALESCE(COUNT(DISTINCT user_id_patient), 0) AS total_patients,
+            COALESCE(
+                (
+                    SELECT concern
+                    FROM appointments
+                    WHERE user_id = ?
+                      AND STR_TO_DATE(appointment_date, '%m/%d/%Y') 
+                          BETWEEN STR_TO_DATE(?, '%m/%d/%Y') 
+                              AND STR_TO_DATE(?, '%m/%d/%Y')
+                    GROUP BY concern
+                    ORDER BY COUNT(*) DESC
+                    LIMIT 1
+                ), 'None'
+            ) AS common_concern
+        FROM appointments
+        WHERE user_id = ?
+          AND STR_TO_DATE(appointment_date, '%m/%d/%Y') 
+              BETWEEN STR_TO_DATE(?, '%m/%d/%Y') 
+                  AND STR_TO_DATE(?, '%m/%d/%Y')
+    ";
 
-  $concernQuery = "
-  SELECT concern, COUNT(concern) AS concern_count
-  FROM appointments
-  WHERE user_id = $id
-    AND MONTH(appointment_date) = $currentMonth
-    AND YEAR(appointment_date) = $currentYear
-  GROUP BY concern
-  ORDER BY concern_count DESC
-  LIMIT 1
-  ";
-  $concernResult = mysqli_query($conn, $concernQuery);
-  $topConcern = mysqli_fetch_assoc($concernResult)['concern'] ?? 'None';
-
-  echo "
+    $stmt = mysqli_prepare($conn, $countQuery);
+    mysqli_stmt_bind_param($stmt, "ississ", $id, $start_date, $end_date, $id, $start_date, $end_date);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $data = mysqli_fetch_assoc($result);
+    echo "
     <thead>
-      <tr>
-          <th>Total Patients</th>
-          <th>Common Concern</th>
-      </tr>
+        <tr>
+            <th>Total Patients</th>
+            <th>Common Concern</th>
+        </tr>
     </thead>
     <tbody>
-      <tr>
-          <td>$totalCount</td>
-          <td>$topConcern</td>
-      </tr>
+        <tr>
+            <td>{$data['total_patients']}</td>
+            <td>{$data['common_concern']}</td>
+        </tr>
     </tbody>";
 }
+
 ?>
