@@ -48,7 +48,7 @@ $user_id_patients = $_SESSION['user_id'];
                             <th>Concern</th>
                             <th>Doctor's Remarks</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th>Payment History</th>
                         </tr>  
                       </thead>
                       <tbody>
@@ -64,33 +64,23 @@ $user_id_patients = $_SESSION['user_id'];
                                   <td><?php echo $row_appointment['remarks'] ? $row_appointment['remarks'] : 'N/A' ?></td>
                                   <td>
                                     <?php 
-                                      if($row_appointment['confirmed'] === '1'){
-                                        echo "Completed";
-                                      }elseif($row_appointment['confirmed'] === '2'){
-                                        echo "Cancelled";
-                                      }elseif($row_appointment['confirmed'] === '3') {
-                                        echo "Pending";
-                                      }else{
-                                        echo "Pending";
-                                      }
+                                      $handler = match($row_appointment['confirmed']){
+                                          1 => '<span class="badge text-dark text-body-secondary fw-bold" style="background: #94f7c9; border: #94f7c9;"><i class="fas fa-check-circle"></i> Confirmed</span>',
+                                          2 => '<span class="badge text-dark text-body-secondary fw-bold" style="background: #f79494; border: #f79494;"><i class="fas fa-times-circle"></i> Cancelled</span>',
+                                          3 => '<span class="badge text-dark text-body-secondary fw-bold" style="background: #fab273; border: #fab273;"><i class="fas fa-times"></i> No Show</span>',
+                                          default => '<span class="badge text-dark text-body-secondary fw-bold" style="background: #fae373; border: #fae373;"><i class="fas fa-clock"></i> Pending</span>'
+                                      };
+                                      echo $handler;
                                     ?>
                                   </td>
                                   <td class="d-flex justify-content-center">
-                                    <a class="btn btn-sm btn-outline-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 12px;" data-bs-toggle="dropdown" aria-expanded="false">
-																				<i class="fas fa-ellipsis-v"></i>
-																		</a>
-																		<ul class="dropdown-menu">
-                                      <li>
-                                        <a class="dropdown-item payment-history" 
-                                          href="#"
-                                          data-bs-toggle="modal" data-bs-target="#paymentHistoryDialog"
-                                          data-appointment="<?= $row_appointment['appointment_id']?>"
-                                        >
-                                          Payment History
-                                        </a>
-                                      </li>
-                                    </ul>
-
+                                    <a class="payment-history" 
+                                      href="#"
+                                      data-bs-toggle="modal" data-bs-target="#paymentHistoryDialog"
+                                      data-appointment="<?= $row_appointment['appointment_id']?>"
+                                    >
+                                      View
+                                    </a>
                                   </td>
                                   </tr>
                                   <?php
