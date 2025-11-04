@@ -2,6 +2,8 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/notification.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Appointments/appointments.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Mailer/mail.php');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -61,8 +63,9 @@ $first_name = $_SESSION['first_name'];
                             
                         ?>
 
-                            <form action="" method="POST">
+                            <form action="set.php" method="POST">
                                 <label>Select Appointment Date:</label>
+                                <input type="hidden" name="user_id" value="<?= $_SESSION['user_id']?>">
                                 <input type="text" class="appointment_date form-control mb-4" name="appointment_date">
                                 <label for="">Set Time:</label>
                                 <select name="appointment_time" class="form-control mb-4" required>
@@ -89,7 +92,8 @@ $first_name = $_SESSION['first_name'];
                                     ?>
                                 </select>
                                 <label for="">Doctor:</label>
-                                <input type="text" name="dentist" class="form-control mb-4" value="<?= 'Dr. ' . $row_dentist['first_name']. " " . $row_dentist['last_name']?> " readonly>
+                                <input type="text" class="form-control mb-4" value="<?= 'Dr. ' . $row_dentist['first_name']. " " . $row_dentist['last_name']?> " readonly>
+                                <input type="hidden" name="dentist" value="<?= $row_dentist['user_id']?> " readonly>
                                 <label for="">Concern</label>
                                 <select name="concern" id="" class="form-control">
                                     <option value="">-Select-</option>
@@ -158,57 +162,54 @@ $(function () {
 
 <?php
 
-if(isset($_POST['save'])){
-    date_default_timezone_set("Asia/Manila");
-    $date = date('y-m-d');
-    $appointment_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3) ;
+// if(isset($_POST['save'])){
+//     date_default_timezone_set("Asia/Manila");
+//     $date = date('y-m-d');
+//     $appointment_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3) ;
 
-    $user_id = $_GET['user_id'];
-    $user_id_patient = $_SESSION['user_id'];
-    $concern = $_POST['concern'];
-    $appointment_time = $_POST['appointment_time'];
-    $dentist = $_POST['dentist'];
+//     $user_id = $_GET['user_id'];
+//     $user_id_patient = $_SESSION['user_id'];
+//     $concern = $_POST['concern'];
+//     $appointment_time = $_POST['appointment_time'];
+//     $dentist = $_POST['dentist'];
 
-    $appointment_date  = $_POST['appointment_date'];
+//     $appointment_date  = $_POST['appointment_date'];
 
-    $current_date = date('Y-m-d');
-    if (strtotime($appointment_date) < strtotime($current_date)) {
-        echo "<script>alert('Cannot set appointments in the past.');</script>";
-        echo "<script>window.location.href='appointments.php';</script>";
-        exit();
-    }else{
-        $check_time_appointment = "SELECT appointment_time, appointment_date, user_id FROM appointments WHERE appointment_time = '$appointment_time' AND appointment_date = '$appointment_date' AND user_id = '$dentist'";
-    $run_appointment_time = mysqli_query($conn,$check_time_appointment);
+//     $current_date = date('Y-m-d');
+//     if (strtotime($appointment_date) < strtotime($current_date)) {
+//         echo "<script>alert('Cannot set appointments in the past.');</script>";
+//         echo "<script>window.location.href='appointments.php';</script>";
+//         exit();
+//     }else{
+//         $check_time_appointment = "SELECT appointment_time, appointment_date, user_id FROM appointments WHERE appointment_time = '$appointment_time' AND appointment_date = '$appointment_date' AND user_id = '$dentist'";
+//     $run_appointment_time = mysqli_query($conn,$check_time_appointment);
 
-        if(mysqli_num_rows($run_appointment_time) > 0){
-            echo "<script>window.alert('Appointment time already booked')</script>";
-            echo "<script>window.location.href='appointments.php'</script>";
-        }else{
-            $check_appointment = "SELECT appointment_date , user_id_patient FROM appointments WHERE appointment_date =  '$appointment_date' AND user_id_patient =  '$user_id_patient'";
-            $run_check_appointment = mysqli_query($conn,$check_appointment);
-            if(mysqli_num_rows($run_check_appointment) > 0){
-                echo "<script>window.alert('You  already have an appointment')</script>";
-                echo "<script>window.location.href='appointments.php'</script>";
-            }else{
-                $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_time,appointment_date,date_created,date_updated) 
-                                        VALUES ('$user_id','$user_id_patient','$appointment_id','$concern', '0','$appointment_time', '$appointment_date','$date', '$date')";
-                $run_appointment = mysqli_query($conn,$query_appointment);
-                $insert_notification ="INSERT INTO `notification` (user_id, `message`, hasRead, `type`, createdAt, createdBy)
-                                        VALUES ('$user_id', 'New Appointment Request', 0, 'Appointment', '$date', '$user_id_patient')";
-                $run_notif = mysqli_query($conn, $insert_notification);
-                if($run_appointment) {
-                    header("Location: appointments.php");
-                }else{
-                    echo "<script>window.alert('Error')</script>";
-                    echo "<script>window.location.href='appointments.php'</script>";
-                }
-            }
-        }
-    }
+//         if(mysqli_num_rows($run_appointment_time) > 0){
+//             echo "<script>window.alert('Appointment time already booked')</script>";
+//             echo "<script>window.location.href='appointments.php'</script>";
+//         }else{
+//             $check_appointment = "SELECT appointment_date , user_id_patient FROM appointments WHERE appointment_date =  '$appointment_date' AND user_id_patient =  '$user_id_patient'";
+//             $run_check_appointment = mysqli_query($conn,$check_appointment);
+//             if(mysqli_num_rows($run_check_appointment) > 0){
+//                 echo "<script>window.alert('You already have an appointment')</script>";
+//                 echo "<script>window.location.href='appointments.php'</script>";
+//             }else{
+//                 $query_appointment = "INSERT INTO appointments (user_id,user_id_patient,appointment_id,concern,confirmed,appointment_time,appointment_date,date_created,date_updated) 
+//                                         VALUES ('$user_id','$user_id_patient','$appointment_id','$concern', '0','$appointment_time', '$appointment_date','$date', '$date')";
+//                 $run_appointment = mysqli_query($conn,$query_appointment);
+//                 $insert_notification ="INSERT INTO `notification` (user_id, `message`, hasRead, `type`, createdAt, createdBy)
+//                                         VALUES ('$user_id', 'New Appointment Request', 0, 'Appointment', '$date', '$user_id_patient')";
+//                 $run_notif = mysqli_query($conn, $insert_notification);
+//                 if($run_appointment) {
+//                     header("Location: appointments.php");
+//                 }else{
+//                     echo "<script>window.alert('Error')</script>";
+//                     echo "<script>window.location.href='appointments.php'</script>";
+//                 }
+//             }
+//         }
+//     }
 
-    
-
-    
-}
+// }
 
 ?>
