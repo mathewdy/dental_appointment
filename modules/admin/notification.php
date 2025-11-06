@@ -51,6 +51,7 @@ $first_name = $_SESSION['first_name'];
                               <th>Type</th>
                               <th>Message</th>
                               <th>Created At</th>
+                              <th>Created By</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -63,6 +64,7 @@ $first_name = $_SESSION['first_name'];
                                         <td><?= $row['type'] ?></td>
                                         <td><?= $row['message'] ?></td>
                                         <td><?= $row['createdAt'] ?></td>
+                                        <td><?= $row['first_name'] . ' ' . $row['last_name'] ?></td>
                                     </tr>
                                     <?php
                                 }

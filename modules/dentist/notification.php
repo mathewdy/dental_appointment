@@ -5,6 +5,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
+$id = $_SESSION['user_id'];
 ?>
 
     <div class="wrapper">
@@ -49,15 +50,26 @@ $first_name = $_SESSION['first_name'];
                             <tr>
                               <th>Type</th>
                               <th>Message</th>
-                              <th>Time</th>
+                              <th>Created At</th>
+                              <th>Created By</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr>
+                            <?php
+                              $runNotif = getNotificationById($conn, $id);
+                              if(mysqli_num_rows($runNotif) > 0){
+                                  foreach($runNotif as $row){
+                                      ?>
+                                      <tr>
+                                          <td><?= $row['type'] ?></td>
+                                          <td><?= $row['message'] ?></td>
+                                          <td><?= $row['createdAt'] ?></td>
+                                          <td><?= $row['first_name'] . ' ' . $row['last_name'] ?></td>
+                                      </tr>
+                                      <?php
+                                  }
+                              }
+                            ?>
                           </tbody>
                         </table>
                       </div>

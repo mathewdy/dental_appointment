@@ -80,28 +80,18 @@ echo '
             </span>
             
           </a>
-          <ul class="dropdown-menu w-50 dropdown-user animated fadeIn">
+          <ul class="dropdown-menu dropdown-user animated fadeIn" style="width: 15rem;">
             <div class="dropdown-user-scroll scrollbar-outer">
-              <li>';
-              if($role == 1){
-                echo '
-                  <a class="dropdown-item" href="'. BASE_PATH . '/modules/patients/my-profile.php">My Profile</a>
-                  <a class="dropdown-item" href="'. BASE_PATH . '/auth/logout.php ">Logout</a>
-                ';
-              }
-              if($role == 2){
-                echo '
-                  <a class="dropdown-item" href="'. BASE_PATH . '/modules/admin/my-profile.php">My Profile</a>
-                  <a class="dropdown-item" href="'. BASE_PATH . '/auth_main/logout.php ">Logout</a>
-                ';
-              }
-              if($role == 3){
-                echo '
-                  <a class="dropdown-item" href="'. BASE_PATH . '/modules/dentist/my-profile.php">My Profile</a>
-                  <a class="dropdown-item" href="'. BASE_PATH . '/auth_main/logout.php ">Logout</a>
-                ';
-              }
-              echo '</li>
+              <li>
+                <a class="dropdown-item py-2 fs-6" href="'. BASE_PATH . '/modules/' . $roleHandler . '/my-profile.php">
+                  <i class="fas fa-user-circle me-2"></i>
+                  My Profile
+                </a>
+                <a class="dropdown-item py-2 fs-6" href="' . BASE_PATH . ($roleHandler == 1 ? '/auth/logout.php' : '/auth_main/logout.php') . '">
+                  <i class="fas fa-sign-out-alt me-2"></i>
+                  Logout
+                </a>
+              </li>
             </div>
           </ul>
         </li>
