@@ -1,8 +1,6 @@
 fetch('http://localhost/dental_appointment/includes/notifications.php')
   .then(response => response.json())
   .then(data => {
-    console.log('Response from server:', data);
-
     const notifContainer = document.getElementById('notif');
     const notifBadge = document.querySelector('.notification'); 
     notifContainer.innerHTML = '';

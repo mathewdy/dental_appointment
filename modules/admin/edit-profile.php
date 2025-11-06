@@ -57,7 +57,7 @@ ini_set('display_errors', 1);
                             foreach($run_profile as $row_profile){
                               $dob = date("Y-m-d", strtotime($row_profile['date_of_birth']));
                               ?>
-                              <form action="" method="POST">
+                              <form action="update-profile.php" method="POST">
                                   <div class="row">
                                     <div class="col-lg-12 mb-4">
                                       <div class="card p-4 shadow-none form-card rounded-1">
@@ -138,7 +138,9 @@ ini_set('display_errors', 1);
                                     </div>
                                     <div class="col-lg-12 text-end">
                                       <a href="my-profile.php" class="btn btn-sm btn-danger">Cancel</a>
-                                      <input type="submit" class="btn btn-sm btn-primary" name="update_profile" value="Update">
+                                      <input type="submit" class="btn btn-sm btn-primary" value="Save">
+                                      <input type="hidden" name="update_profile" value="1">
+                                      <input type="hidden" name="user_id" value="<?= $user_id?>">
                                     </div>
                                 </div>                        
                               </form>
@@ -154,28 +156,14 @@ ini_set('display_errors', 1);
     </div>
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
-
-if(isset($_POST['update_profile'])){
-
-    $user_id = $_GET['user_id'];
-    $first_name = $_POST['first_name'];
-    $middle_name = $_POST['middle_name'];
-    $last_name = $_POST['last_name'];
-    $mobile_number = $_POST['mobile_number'];
-    $email = $_POST['email'];
-    if(!empty($_POST['date_of_birth'])){
-        $date_of_birth = $_POST['date_of_birth'];
-    }else{
-        $date_of_birth = $_POST['birth_date'];
-    }
-
-    $run_update = updateProfile($conn, $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $user_id);
-    if($run_update){
-      echo "<script> success('Profile has been updated successfully.', () => window.location.href = 'my-profile.php') </script>";
-    }else{
-      echo "<script> error('Something went wrong!', () => window.location.href = 'my-profile.php') </script>";
-    }
-
-}
-
 ?>
+<script>
+  $(document).ready(function() {
+      $('form').on('submit', function(e) {
+        const $btn = $('input[type="submit"]');
+        $btn.prop('disabled', true).val('Submitting...');
+        e.preventDefault();
+        confirmBeforeSubmit($(this), "Do you want to save your changes?")
+      });
+  });
+</script>

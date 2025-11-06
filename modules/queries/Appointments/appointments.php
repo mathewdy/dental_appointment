@@ -1,6 +1,7 @@
 <?php
 function createAppointment($conn, $dentist, $patient, $appointment, $concern, $time, $date) {
-  $sql = "INSERT INTO appointments (user_id,
+  $sql = "INSERT INTO appointments (
+      user_id,
       user_id_patient,
       appointment_id,
       concern,
@@ -8,63 +9,62 @@ function createAppointment($conn, $dentist, $patient, $appointment, $concern, $t
       appointment_time,
       appointment_date,
       date_created,
-      walk_in) 
-    VALUES (?, ?, ?, ?, 0, ?, ?, NOW(), 1)";
-
+      walk_in
+    ) VALUES (?, ?, ?, ?, 0, ?, ?, NOW(), 1)";
   $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "iiisss", $dentist, $patient, $appointment, $concern, $time, $date);
-  
+  mysqli_stmt_bind_param($stmt, "iissss", $dentist, $patient, $appointment, $concern, $time, $date);
   return mysqli_stmt_execute($stmt);
 }
 
 function checkAppointment($conn, $date, $time, $id) {
-  $sql = "SELECT appointment_time, 
-      appointment_date, 
-      user_id 
+  $sql = "SELECT appointment_time, appointment_date, user_id 
     FROM appointments 
     WHERE appointment_date = ?
     AND appointment_time = ? 
-    AND user_id =  ?
-  ";
-
+    AND user_id = ?";
   $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "ssi",  $date, $time, $id);
+  mysqli_stmt_bind_param($stmt, "ssi", $date, $time, $id);
   mysqli_stmt_execute($stmt);
-
   return mysqli_stmt_get_result($stmt);
 }
+
 function checkPendingAppointment($conn, $id) {
-  $sql = "SELECT appointment_date, 
-      appointment_time,
-      user_id_patient, 
-      confirmed
+  $sql = "SELECT appointment_date, appointment_time, user_id_patient, confirmed
     FROM appointments 
     WHERE user_id_patient = ?
-    AND confirmed = 0
-    ";
-
+    AND confirmed = 0";
   $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "i", $id);
   mysqli_stmt_execute($stmt);
-
   return mysqli_stmt_get_result($stmt);
 }
+
+function hasOverlappingAppointment($conn, $dentist_id, $appointment_date, $appointment_start, $appointment_end) {
+  $sql = "SELECT *
+    FROM appointments
+    WHERE user_id = ?
+      AND appointment_date = ?
+      AND confirmed IN (0,1)
+      AND (
+        (appointment_time < ? AND ADDTIME(appointment_time, '01:00:00') > ?)
+      )
+    LIMIT 1";
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "isss", $dentist_id, $appointment_date, $appointment_end, $appointment_start);
+  mysqli_stmt_execute($stmt);
+  return mysqli_stmt_get_result($stmt);
+}
+
 function checkAppointmentByUser($conn, $date, $start, $id) {
-  $sql = "SELECT appointment_date, 
-      appointment_time,
-      user_id_patient, 
-      confirmed
+  $sql = "SELECT appointment_date, appointment_time, user_id_patient, confirmed
     FROM appointments 
-    WHERE appointment_date =  ? 
+    WHERE appointment_date = ?
     AND appointment_time = ?
     AND user_id_patient = ?
-    AND confirmed = 0
-    ";
-
+    AND confirmed = 0";
   $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "ssi", $date, $start, $id);
   mysqli_stmt_execute($stmt);
-
   return mysqli_stmt_get_result($stmt);
 }
 
@@ -86,16 +86,11 @@ function getAllRequests($conn) {
     schedule.start_time,
     schedule.end_time
   FROM appointments
-  LEFT JOIN users AS patient
-  ON appointments.user_id_patient = patient.user_id
-  LEFT JOIN users AS doctor
-  ON appointments.user_id = doctor.user_id
-  LEFT JOIN schedule 
-  ON appointments.user_id = schedule.user_id";
-
+  LEFT JOIN users AS patient ON appointments.user_id_patient = patient.user_id
+  LEFT JOIN users AS doctor ON appointments.user_id = doctor.user_id
+  LEFT JOIN schedule ON appointments.user_id = schedule.user_id";
   $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_execute($stmt);
-
   return mysqli_stmt_get_result($stmt);
 }
 
@@ -118,19 +113,13 @@ function getAllRequestsById($conn, $id) {
     schedule.start_time,
     schedule.end_time
   FROM appointments
-  LEFT JOIN users AS patient
-  ON appointments.user_id_patient = patient.user_id
-  LEFT JOIN users AS doctor
-  ON appointments.user_id = doctor.user_id
-  LEFT JOIN schedule 
-  ON appointments.user_id = schedule.user_id
-  WHERE appointments.user_id_patient = ?
-  ";
-
+  LEFT JOIN users AS patient ON appointments.user_id_patient = patient.user_id
+  LEFT JOIN users AS doctor ON appointments.user_id = doctor.user_id
+  LEFT JOIN schedule ON appointments.user_id = schedule.user_id
+  WHERE appointments.user_id_patient = ?";
   $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "i", $id);
   mysqli_stmt_execute($stmt);
-
   return mysqli_stmt_get_result($stmt);
 }
 
@@ -147,25 +136,19 @@ function getAppointments($conn, $id, $confirmed) {
       payments.remaining_balance, 
       payments.is_deducted
     FROM appointments 
-    LEFT JOIN payments 
-    ON appointments.appointment_id = payments.appointment_id
+    LEFT JOIN payments ON appointments.appointment_id = payments.appointment_id
     WHERE user_id_patient = ? AND confirmed = ?";
-
   $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "ii", $id, $confirmed);
   mysqli_stmt_execute($stmt);
-
   return mysqli_stmt_get_result($stmt);
 }
 
 function updateStatus($conn, $id, $status) {
   $sql = "UPDATE appointments 
-  SET confirmed = ?, 
-    date_updated = NOW()
+  SET confirmed = ?, date_updated = NOW()
   WHERE appointment_id = ?";
-
   $stmt = mysqli_prepare($conn, $sql);
   mysqli_stmt_bind_param($stmt, "si", $status, $id);
-  
   return mysqli_stmt_execute($stmt);
 }

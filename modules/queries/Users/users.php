@@ -29,7 +29,7 @@ function getProfile($conn, $user_id, $role) {
   return mysqli_stmt_get_result($stmt);
 }
 
-function updateProfile($conn,$first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $user_id) {
+function updateProfile($conn, $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $user_id) {
   $sql = "UPDATE users 
     SET first_name = ?, 
       middle_name = ?,
@@ -41,7 +41,7 @@ function updateProfile($conn,$first_name, $middle_name, $last_name, $mobile_numb
     WHERE user_id = ?";
 
   $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "sssssssi", $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $user_id);
+  mysqli_stmt_bind_param($stmt, "ssssssi", $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $user_id);
   
   return mysqli_stmt_execute($stmt);
 }
