@@ -40,7 +40,7 @@ include('../../includes/security.php');
                 </span>
             </div>
             <div class="page-category">
-                <div class="card py-3">
+                <div class="card p-4">
                     <div class="table-responsive">
                     <table id="dataTable" class="display table table-striped table-hover">
                         <thead>
