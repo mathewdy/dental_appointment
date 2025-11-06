@@ -16,8 +16,8 @@ $run_appointments = mysqli_query($conn, $query);
 if(mysqli_num_rows($run_appointments) > 0){
     foreach($run_appointments as $row_appointment){
         $formattedDate = date("M d, Y", strtotime($row_appointment['appointment_date']));
-        $formattedStartTime = date("h:i a", strtotime($row_appointment['start_time']));
-        $formattedEndTime = date("h:i a", strtotime($row_appointment['end_time']));
+        $formattedStartTime = date("h:i a", strtotime($row_appointment['appointment_time']));
+        $formattedEndTime = date("h:i a", strtotime($row_appointment['appointment_time'] . "+ 1 hour"));
         $status = match($row_appointment['confirmed']){
             '0' => '<span class="badge bg-warning">Pending</span>',
             '1' => '<span class="badge bg-success">Completed</span>',

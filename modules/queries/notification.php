@@ -9,3 +9,12 @@ function createNotification($conn, $user_id, $message, $type, $createdBy) {
   
   return mysqli_stmt_execute($stmt);
 }
+
+function getAllNotification($conn) {
+  $sql = "SELECT * FROM `notification` ";
+
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_execute($stmt);
+
+  return mysqli_stmt_get_result($stmt);
+}

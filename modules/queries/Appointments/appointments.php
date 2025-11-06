@@ -17,31 +17,52 @@ function createAppointment($conn, $dentist, $patient, $appointment, $concern, $t
   return mysqli_stmt_execute($stmt);
 }
 
-function checkAppointment($conn, $time, $date, $id) {
+function checkAppointment($conn, $date, $time, $id) {
   $sql = "SELECT appointment_time, 
       appointment_date, 
       user_id 
     FROM appointments 
-    WHERE appointment_time = ? 
-    AND appointment_date = ?
-    AND user_id =  ?";
+    WHERE appointment_date = ?
+    AND appointment_time = ? 
+    AND user_id =  ?
+  ";
 
   $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "ssi", $time, $date, $id);
+  mysqli_stmt_bind_param($stmt, "ssi",  $date, $time, $id);
   mysqli_stmt_execute($stmt);
 
   return mysqli_stmt_get_result($stmt);
 }
-
-function checkAppointmentByUser($conn, $date, $id) {
+function checkPendingAppointment($conn, $id) {
   $sql = "SELECT appointment_date, 
-      user_id_patient 
+      appointment_time,
+      user_id_patient, 
+      confirmed
     FROM appointments 
-    WHERE appointment_date =  ? 
-    AND user_id_patient = ?";
+    WHERE user_id_patient = ?
+    AND confirmed = 0
+    ";
 
   $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "si", $date, $id);
+  mysqli_stmt_bind_param($stmt, "i", $id);
+  mysqli_stmt_execute($stmt);
+
+  return mysqli_stmt_get_result($stmt);
+}
+function checkAppointmentByUser($conn, $date, $start, $id) {
+  $sql = "SELECT appointment_date, 
+      appointment_time,
+      user_id_patient, 
+      confirmed
+    FROM appointments 
+    WHERE appointment_date =  ? 
+    AND appointment_time = ?
+    AND user_id_patient = ?
+    AND confirmed = 0
+    ";
+
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "ssi", $date, $start, $id);
   mysqli_stmt_execute($stmt);
 
   return mysqli_stmt_get_result($stmt);

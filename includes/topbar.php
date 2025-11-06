@@ -2,8 +2,11 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/config.php');
 $role = $_SESSION['role_id'];
 $id = $_SESSION['user_id'];
-
-
+$roleHandler = match($role) {
+  1 => 'patients',
+  2 => 'admin',
+  3 => 'dentists'
+};
 echo '
 <div class="main-header">
   <div class="main-header-logo">
@@ -38,6 +41,7 @@ echo '
             aria-expanded="false"
           >
             <i class="fa fa-bell"></i>
+            <span class="notification bg-danger" id="notifCount" style="display:none;">0</span>
           </a>
           <ul
             class="dropdown-menu notif-box animated fadeIn"
@@ -50,7 +54,7 @@ echo '
               </div>
             </li>
             <li>
-              <a class="see-all" href="'. BASE_PATH . '/modules/notification.php"
+              <a class="see-all" href="'. BASE_PATH . '/modules/' . $roleHandler . '/notification.php"
                 >See all notifications<i class="fa fa-angle-right"></i>
               </a>
             </li>

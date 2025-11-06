@@ -20,6 +20,7 @@ function queryEventInfoBuilder($role, $id, $formattedClickedDate) {
     appointments.user_id_patient AS patient_id,
     appointments.concern, 
     appointments.appointment_date, 
+    appointments.appointment_time,
     dentist.first_name AS dentist_first_name,
     dentist.last_name AS dentist_last_name,
     patient.first_name AS patient_first_name,
@@ -35,7 +36,9 @@ function queryEventInfoBuilder($role, $id, $formattedClickedDate) {
   ON appointments.user_id_patient = patient.user_id
   LEFT JOIN schedule 
   ON appointments.user_id = schedule.user_id
-  WHERE appointments.appointment_date = $formattedClickedDate " . $eventInfoClause;
+  WHERE appointments.appointment_date = $formattedClickedDate " . $eventInfoClause
+  
+  ;
 
   return $sql;
 }

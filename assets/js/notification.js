@@ -1,45 +1,43 @@
-$.ajax({
-    url: "http://localhost/dental_appointment/includes/notifications.php",
-    type: "GET",
-    dataType: "json",
-    success: function(res) {
-        if (Array.isArray(res)) {
-            let totalCount = 0;
+fetch('http://localhost/dental_appointment/includes/notifications.php')
+  .then(response => response.json())
+  .then(data => {
+    console.log('Response from server:', data);
 
-            $.each(res, function(index, notificationGroup) {
-                totalCount += notificationGroup.count[0];  
+    const notifContainer = document.getElementById('notif');
+    const notifBadge = document.querySelector('.notification'); 
+    notifContainer.innerHTML = '';
 
-                $.each(notificationGroup.data, function(i, notification) {
-                    const colorCode = { 
-                        Payment: 'notif-success',
-                        Appointment: 'notif-primary'
-                    }
-                    const bgColor = colorCode[notification.type] || 'notif-secondary';
+    if (data.total && data.total > 0) {
+      notifBadge.textContent = data.total;
+      notifBadge.style.display = 'inline-block';
+    } else {
+      notifBadge.style.display = 'none';
+    }
 
-                    $('#notif').append(`    
-                        <a href="${notification.url}">
-                            <div class="notif-icon ${bgColor}">
-                                <i class="${notification.icon}"></i>
-                            </div>
-                            <div class="notif-content">
-                                <span class="block">${notification.message}</span>
-                                <span class="time">${notification.time}</span>
-                            </div>
-                        </a>
-                    `);
-                });
-                
-                if (totalCount > 0) {
-                    $('#notifDropdown').append(`
-                        <span class="notification bg-danger">${totalCount}</span>
-                    `);
-                }
-            });
-            
-        } else {
-            return null
-        }
+    if (!data.notifications || data.notifications.length === 0) {
+      notifContainer.innerHTML = '<p class="text-center text-muted">No notifications yet</p>';
+      return;
+    }
 
-    },
-    error: null
-})
+    data.notifications.forEach(notif => {
+      const colorCode = {
+        Payment: 'notif-success',
+        Appointment: 'notif-primary'
+      };
+      const bgColor = colorCode[notif.type] || 'notif-secondary';
+
+      const notifItem = `
+        <a href="${notif.url}">
+          <div class="notif-icon ${bgColor}">
+            <i class="${notif.icon}"></i>
+          </div>
+          <div class="notif-content">
+            <span class="block">${notif.message}</span>
+            <span class="time">${notif.time}</span>
+          </div>
+        </a>
+      `;
+      notifContainer.innerHTML += notifItem;
+    });
+  })
+  .catch(error => console.error('Error loading notifications:', error));

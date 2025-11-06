@@ -20,37 +20,37 @@ $id = $_SESSION['user_id'];
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-            <span class="d-flex justify-content-between align-items-center w-100">
-                    <span class="d-flex">
-                        <h4 class="page-title">Set Schedule</h4>
-                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
-                            <li class="nav-home">
-                            <a href="dashboard.php">
-                                <i class="icon-home"></i>
-                            </a>
-                            </li>
-                            <li class="separator">
-                            <i class="icon-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                            <a href="appointments.php">Patient</a>
-                            </li>
-                            <li class="separator">
-                            <i class="icon-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                            <a href="set-doctor.php?user_id_patient=<?= $_GET['user_id_patient'] ?>">Set Doctor</a>
-                            </li>
-                            <li class="separator">
-                            <i class="icon-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                            <a href="#">Set Schedule</a>
-                            </li>
-                        </ul>
-                    </span>    
-                </span>
-            </div>
+              <span class="d-flex justify-content-between align-items-center w-100">
+                <span class="d-flex">
+                  <h4 class="page-title">Set Schedule</h4>
+                  <ul class="breadcrumbs d-flex justify-items-center align-items-center">
+                    <li class="nav-home">
+                    <a href="dashboard.php">
+                      <i class="icon-home"></i>
+                    </a>
+                    </li>
+                    <li class="separator">
+                      <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                      <a href="appointments.php">Patient</a>
+                    </li>
+                    <li class="separator">
+                      <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                      <a href="set-doctor.php?user_id_patient=<?= $_GET['user_id_patient'] ?>">Set Doctor</a>
+                    </li>
+                    <li class="separator">
+                      <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#">Set Schedule</a>
+                    </li>
+                  </ul>
+              </span>    
+            </span>
+          </div>
             <div class="page-category">
               <?php
               if(isset($_GET['user_id_patient']) && isset($_GET['user_id_dentist'])){
@@ -63,6 +63,8 @@ $id = $_SESSION['user_id'];
                   $run_patient = getPatientById($conn, $user_id_patient);
                   $row_patient = mysqli_fetch_assoc($run_patient);
 
+                  $start = date("h:i A", strtotime($row_dentist['start_time']));
+                  $end = date("h:i A", strtotime($row_dentist['end_time']));
 
                   json_encode($available_days = explode(", ", $row_dentist['day']));
 
@@ -107,29 +109,13 @@ $id = $_SESSION['user_id'];
                                 <label for="">Set Time</label>
                               </div>
                               <div class="col-lg-10">
-                                <select name="appointment_time" class="form-control" required>
-                                  <option value="">-- Select Time Slot --</option>
-                                  <?php
-                                      $start_time = $row_dentist['start_time']; 
-                                      $end_time = $row_dentist['end_time'];     
-
-                                      $start = strtotime($start_time);
-                                      $end = strtotime($end_time);
-
-                                      while ($start < $end) {
-                                          $slot_start = date("h:i A", $start);
-                                          $slot_end_time = strtotime("+1 hour", $start);
-
-                                          if ($slot_end_time > $end) {
-                                              break;
-                                          }
-                                          $slot_end = date("h:i A", $slot_end_time);
-                                          $display = "$slot_start to $slot_end";
-                                          echo "<option value='$display'>$display</option>";
-                                          $start = $slot_end_time; 
-                                      }
-                                  ?>
-                                </select>
+                                <input type="time" class="form-control" name="appointment_time" id="start_time">
+                                <span>
+                                  <small class="text-muted">
+                                    <i class="fas fa-info-circle text-info"></i>
+                                    Office hours are <?= $start . ' to ' . $end ?>
+                                  </small>
+                                </span>
                               </div>
                             </div>
                           </div>

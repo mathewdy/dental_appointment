@@ -2,6 +2,7 @@
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/dentists.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/patients.php');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -97,7 +98,7 @@ $user_id_patient = $_SESSION['user_id'];
                           </td>
                           <td>
                             <input type="hidden" id="date">
-                            <a href="select-dentist.php?user_id=<?php echo $row_dentist['user_id']?>" >Select</a>
+                            <a href="select-dentist.php?user_id_dentist=<?= $row_dentist['user_id']; ?>&user_id_patient=<?= $user_id_patient; ?>" >Select</a>
                           </td>
                         </tr>
                       <?php

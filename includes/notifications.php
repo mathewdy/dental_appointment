@@ -7,7 +7,6 @@ header('Content-Type: application/json');
 $id = $_SESSION['user_id'];
 $role = $_SESSION['role_id']; 
 
-
 function timeAgo($datetime) {
     $time = strtotime($datetime);
     $diff = time() - $time;
@@ -33,38 +32,43 @@ function timeAgo($datetime) {
     return 'Just Now';
 }
 
+$possibleClause = $role != 2 ? "WHERE user_id = '$id'" : '';  
+
+$countQuery = "SELECT COUNT(*) AS total FROM `notification` $possibleClause";
+$countResult = mysqli_query($conn, $countQuery);
+$totalCount = mysqli_fetch_assoc($countResult)['total'];
+
 $notifItem = [];
 
-$possibleClause = $role != 2 ? "WHERE user_id = '$id'" : '';  
-$fetch = "SELECT *, (SELECT COUNT(*) FROM `notification` $possibleClause) AS total FROM `notification`" . $possibleClause . " ORDER BY id DESC ";
+$fetch = "SELECT * FROM `notification` $possibleClause ORDER BY id DESC";
 $run = mysqli_query($conn, $fetch);
+
 if(mysqli_num_rows($run) > 0){
-	foreach($run as $row){
+    foreach($run as $row){
+        $iconType = match($row['type']) {
+            'Appointment' => 'fa fa-calendar',
+            'Payment'     => 'fa fa-money-bill',
+            default       => 'fa fa-bell'
+        };
+        $link = match($row['type']) {
+            'Appointment' => 'requests.php',
+            'Payment'     => 'payments.php',
+            default       => '#'
+        };
 
-		$iconType = match($row['type']) {
-      'Appointment' => 'fa fa-calendar',
-      'Payment'     => 'fa fa-money-bill'
-		};
-		$link = match($row['type']) {
-        'Appointment' => 'requests.php',
-        'Payment'     => 'payments.php'
-    };
-
-		$notifItem[]= [
-			'count' => (int)$row['total'],
-			'read'  => $row['hasRead'],
-			'data'  => [
-				[
-          'type'    => $row['type'],
-					'message' => $row['message'],
-					'icon'    => $iconType,
-          'url'     => $link,
-					'time'    => timeAgo($row['createdAt']),
-          'datetime'=> $row['createdAt']
-				]
-			]
-		];
-	}
+        $notifItem[] = [
+            'type'     => $row['type'],
+            'message'  => $row['message'],
+            'icon'     => $iconType,
+            'url'      => $link,
+            'time'     => timeAgo($row['createdAt']),
+            'datetime' => $row['createdAt'],
+            'read'     => $row['hasRead']
+        ];
+    }
 }
 
-echo json_encode($notifItem);
+echo json_encode([
+    'total' => (int)$totalCount,
+    'notifications' => $notifItem
+]);

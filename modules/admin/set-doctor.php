@@ -67,7 +67,7 @@ $first_name = $_SESSION['first_name'];
                                                     <td><?php echo "Dr. " . $row_dentist['first_name'] . " " . $row_dentist['last_name']?></td>
                                                     <td><?php echo $row_dentist['day']. " " . date("g:i A",strtotime($row_dentist['start_time'])) . " - " . date("g:i A", strtotime($row_dentist['end_time']))?></td>
                                                     <td>
-                                                    <a href="set-schedule.php?user_id_dentist=<?php echo $row_dentist['user_id']; ?>&user_id_patient=<?php echo $user_id_patient; ?>">Select</a>
+                                                    <a href="set-schedule.php?user_id_dentist=<?= $row_dentist['user_id']; ?>&user_id_patient=<?= $user_id_patient; ?>">Select</a>
 
                                                     </td>
                                                 </tr>

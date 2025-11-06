@@ -46,7 +46,6 @@ $user_id_patient = $_SESSION['user_id'];
             <div class="page-category">
               <div class="card p-5">
                 <div class="table-responsive">
-                  
                   <table class="display table table-border table-hover" id="dataTable">
                     <thead>
                         <tr>
@@ -167,6 +166,21 @@ $user_id_patient = $_SESSION['user_id'];
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 ?>
 <script>
+  document.querySelectorAll('.dropdown-toggle').forEach(el => {
+  new bootstrap.Dropdown(el, {
+    popperConfig: {
+      strategy: 'fixed',
+      modifiers: [
+        {
+          name: 'preventOverflow',
+          options: { boundary: document.body }
+        }
+      ]
+    }
+  });
+});
+</script>
+<script>
 $(document).ready(function() {
   $('.status').on('click', function(e) {
     e.preventDefault();
@@ -209,10 +223,10 @@ $(document).ready(function () {
 
 <?php
 if(isset($_POST['update_status'])){
-    $appointment_id = $_POST['appointment_id'];
+  $appointment_id = $_POST['appointment_id'];
 
-    $run_query = updateStatus($conn, $appointment_id);
-    if($run_query){
+  $run_query = updateStatus($conn, $appointment_id);
+  if($run_query){
 		echo "<script> success('Updated successfully.', () => window.location.href = 'requests.php') </script>";
 	}else{
 		echo "<script> error('Something went wrong!', () => window.location.href = 'requests.php') </script>";
