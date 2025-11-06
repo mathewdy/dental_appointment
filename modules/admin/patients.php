@@ -68,18 +68,18 @@ include('../../includes/security.php');
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </a>
                                                 <ul class="dropdown-menu"> 
-                                                    <li>
-                                                        <a class="dropdown-item" href="set-doctor.php?user_id_patient=<?php echo $row_patients['user_id']?>" >Set Appointment</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" href="edit-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="dropdown-item">Edit</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item delete" href="#" data="delete-patient.php?user_id=<?php echo $row_patients['user_id']?>">Delete</a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="dropdown-item" href="view-patient-medical-history.php?user_id=<?php echo $row_patients['user_id']?>">View Medical History</a>
-                                                    </li>
+                                                  <li>
+                                                    <a class="dropdown-item fs-6 fw-bold" href="edit-patient.php?user_id=<?php echo $row_patients['user_id']?>" class="dropdown-item">Edit</a>
+                                                  </li>
+                                                  <li>
+                                                    <a class="dropdown-item delete fs-6 fw-bold" href="#" data="delete-patient.php?user_id=<?php echo $row_patients['user_id']?>">Delete</a>
+                                                  </li>
+                                                  <li>
+                                                    <a class="dropdown-item fs-6 fw-bold" href="set-doctor.php?user_id_patient=<?php echo $row_patients['user_id']?>" >Set Appointment</a>
+                                                  </li>
+                                                  <li>
+                                                    <a class="dropdown-item fs-6 fw-bold" href="view-patient-medical-history.php?user_id=<?php echo $row_patients['user_id']?>">Medical History</a>
+                                                  </li>
                                                 </ul>
                                             </div>
                                             

@@ -165,7 +165,7 @@ $(document).ready(function () {
               <i class="fas fa-calendar display-1 text-muted"></i>
               <p class="h4 fw-bold m-0 p-0">No Appointments today</p>
               <p class="h5 text-muted m-0 p-0">You have a clear schedule for today</p>
-              <a href="appointments.php" class="btn btn-primary rounded mt-3">Schedule Appointment</a>
+              <a href="patients.php" class="btn btn-primary rounded mt-3">Schedule Appointment</a>
             </div>` 
         }
     });
@@ -179,7 +179,7 @@ $(document).ready(function () {
               <i class="fas fa-calendar display-1 text-muted"></i>
               <p class="h4 fw-bold m-0 p-0">No Appointments this week</p>
               <p class="h5 text-muted m-0 p-0">You have a clear schedule for this week</p>
-              <a href="appointments.php" class="btn btn-primary rounded mt-3">Schedule Appointment</a>
+              <a href="patients.php" class="btn btn-primary rounded mt-3">Schedule Appointment</a>
             </div>` 
         }
     });
@@ -193,7 +193,7 @@ $(document).ready(function () {
               <i class="fas fa-calendar display-1 text-muted"></i>
               <p class="h4 fw-bold m-0 p-0">No Appointments this month</p>
               <p class="h5 text-muted m-0 p-0">You have a clear schedule for this month</p>
-              <a href="appointments.php" class="btn btn-primary rounded mt-3">Schedule Appointment</a>
+              <a href="patients.php" class="btn btn-primary rounded mt-3">Schedule Appointment</a>
             </div>` 
         }
     });
