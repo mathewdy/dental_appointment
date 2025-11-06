@@ -5,7 +5,11 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Us
 
 $first_name = $_SESSION['first_name'];
 ?>
-
+<style>
+    .icon-check:hover{
+        color: green;
+    }
+</style>
 
     <div class="wrapper">
       <?php include '../../includes/sidebar.php'; ?>
@@ -66,9 +70,8 @@ $first_name = $_SESSION['first_name'];
                                                 <tr>
                                                     <td><?php echo "Dr. " . $row_dentist['first_name'] . " " . $row_dentist['last_name']?></td>
                                                     <td><?php echo $row_dentist['day']. " " . date("g:i A",strtotime($row_dentist['start_time'])) . " - " . date("g:i A", strtotime($row_dentist['end_time']))?></td>
-                                                    <td>
-                                                    <a href="set-schedule.php?user_id_dentist=<?= $row_dentist['user_id']; ?>&user_id_patient=<?= $user_id_patient; ?>">Select</a>
-
+                                                    <td class="text-center">
+                                                        <a href="set-schedule.php?user_id_dentist=<?= $row_dentist['user_id']; ?>&user_id_patient=<?= $user_id_patient; ?>" style="text-decoration: none; color: black;"><i class="icon-check fs-2 p-0 m-0"></i></a>
                                                     </td>
                                                 </tr>
                                             </form>
