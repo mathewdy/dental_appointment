@@ -49,7 +49,6 @@ $first_name = $_SESSION['first_name'];
               </li>
             </ul>
 
-                <!-- Tabs Content -->
                 <div class="tab-content mt-3" id="myTabContent">
                   <div class="tab-pane fade show active" id="today" role="tabpanel" aria-labelledby="today-tab">
                     <div class="card">
