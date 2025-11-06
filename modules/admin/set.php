@@ -12,14 +12,13 @@ $id = $_SESSION['user_id'];
 if(isset($_POST['save'])){
     $user_id_dentist = intval($_POST['dentist']);
     $user_id_patient = intval($_POST['patient']);
-    $appointment_id = uniqid("2025"); // unique appointment ID
+    $appointment_id = "2025".rand('1','10') . substr(str_shuffle(str_repeat("0123456789", 5)), 0, 3);
     $concern = trim($_POST['concern']);
     $appointment_time = $_POST['appointment_time'];
     $appointment_date = $_POST['appointment_date'];
     $email = trim($_POST['email']);
     $subject = "Appointment Schedule";
 
-    // Email content
     $mail = "
         <p>Dear Customer,</p>
         <p>We are happy to confirm that your appointment has been successfully scheduled.</p>
@@ -31,24 +30,28 @@ if(isset($_POST['save'])){
         <p>Best Regards,<br>Fojas Dental Clinic</p>
     ";
 
-    // Validate dentist exists
     $get_dentist = getDentistById($conn, '3', $user_id_dentist);
     if(mysqli_num_rows($get_dentist) === 0){
-        echo "<script>error('Selected dentist does not exist!', () => window.location.href='set-schedule.php');</script>";
+        echo "<script>error('Selected dentist does not exist!', () => window.location.href='appointments.php');</script>";
         exit;
     }
 
     $run_dentist = mysqli_fetch_assoc($get_dentist);
     $dentist_start = $run_dentist['start_time'];
     $dentist_end = $run_dentist['end_time'];
+    $formatted_dentist_start = date("h:i A", strtotime($run_dentist['start_time']));
+    $formatted_dentist_end = date("h:i A", strtotime($run_dentist['end_time']));
 
-    // Format times to H:i:s
     $appointment_start = date("H:i:s", strtotime($appointment_time));
     $appointment_end = date("H:i:s", strtotime("+1 hour", strtotime($appointment_time)));
     $dentist_start_ts = date("H:i:s", strtotime($dentist_start));
     $dentist_end_ts = date("H:i:s", strtotime($dentist_end));
 
-    // Check overlapping appointments
+    if($appointment_start < $dentist_start || $appointment_end > $dentist_end){
+        echo "<script>error('Appointment time is outside of dentist working hours $formatted_dentist_start - $formatted_dentist_end', () => window.location.href='set-schedule.php?user_id_dentist=$user_id_dentist&user_id_patient=$user_id_patient');</script>";
+        exit;
+    }
+
     $overlap = hasOverlappingAppointment($conn, $user_id_dentist, $appointment_date, $appointment_start, $appointment_end);
     if(mysqli_num_rows($overlap) > 0){
         echo "<script>
@@ -58,7 +61,6 @@ if(isset($_POST['save'])){
         exit;
     }
 
-    // Check patient pending appointments
     $checkPending = checkPendingAppointment($conn, $user_id_patient);
     if(mysqli_num_rows($checkPending) > 0){
         echo "<script>
@@ -68,7 +70,6 @@ if(isset($_POST['save'])){
         exit;
     }
 
-    // Check if patient already has appointment at same time
     $checkPatient = checkAppointmentByUser($conn, $appointment_date, $appointment_start, $user_id_patient);
     if(mysqli_num_rows($checkPatient) > 0){
         echo "<script>
@@ -78,7 +79,6 @@ if(isset($_POST['save'])){
         exit;
     }
 
-    // Start transaction
     mysqli_begin_transaction($conn);
 
     try {
