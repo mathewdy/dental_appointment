@@ -46,8 +46,12 @@ if(isset($_POST['save'])){
     exit;
   }
   $checkPending = checkPendingAppointment($conn, $user_id_patient);
-  if ($checkPending) {
-    echo "<script> error('This user has a pending schedule!', () => window.location.href = 'select-dentist.php?user_id_dentist=$user_id_dentist&user_id_patient=$user_id_patient') </script>";
+  if (mysqli_num_rows($checkPending) > 0) {
+    echo "<script>
+      error('This user has a pending schedule!', () => 
+        window.location.href = 'set-schedule.php?user_id_dentist=$user_id_dentist&user_id_patient=$user_id_patient'
+      );
+    </script>";
     exit;
   }
   $run_appointment_time = checkAppointment($conn, $appointment_date, $appointment_time, $user_id_dentist);
