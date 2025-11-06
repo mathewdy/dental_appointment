@@ -196,8 +196,11 @@ $id = $_SESSION['user_id'];
 <script>
   $(document).ready(function() {
       $('form').on('submit', function(e) {
-          e.preventDefault();
-          confirmBeforeSubmit($(this), "Do you want to add this appointment?")
+        const $btn = $('input[type="submit"]');
+        $btn.prop('disabled', true).val('Submitting...');
+        e.preventDefault();
+        confirmBeforeSubmit($(this), "Do you want to add this appointment?")
       });
   });
 </script>
+
