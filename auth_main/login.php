@@ -51,14 +51,14 @@ if(!empty($email)) {
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
 ?>
-<script>
+<!-- <script>
 $(document).ready(function() {
     $('form').on('submit', function(e) {
     const $btn = $('input[type="submit"]');
     $btn.prop('disabled', true).val('Submitting...');
     });
 });
-</script>
+</script> -->
 <?php
 ob_end_flush();
 ?>
