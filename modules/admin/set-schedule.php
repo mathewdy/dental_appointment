@@ -70,7 +70,6 @@ $id = $_SESSION['user_id'];
 
                   $query_services = "SELECT * FROM services";
                   $run_services = mysqli_query($conn,$query_services);
-                  $row_services = mysqli_fetch_assoc($run_services);
 
               ?>
 
@@ -109,7 +108,7 @@ $id = $_SESSION['user_id'];
                                 <label for="">Set Time</label>
                               </div>
                               <div class="col-lg-10">
-                                <input type="time" class="form-control" name="appointment_time" id="start_time">
+                                <input type="time" class="form-control " name="appointment_time" id="start_time">
                                 <span>
                                   <small class="text-muted">
                                     <i class="fas fa-info-circle text-info"></i>
@@ -195,12 +194,15 @@ $id = $_SESSION['user_id'];
 </script>
 <script>
   $(document).ready(function() {
-      $('form').on('submit', function(e) {
-        const $btn = $('input[type="submit"]');
-        $btn.prop('disabled', true).val('Submitting...');
+    $(".appointment_date").on("keydown paste", function(e) {
         e.preventDefault();
-        confirmBeforeSubmit($(this), "Do you want to add this appointment?")
-      });
+    });
+    $('form').on('submit', function(e) {
+      const $btn = $('input[type="submit"]');
+      $btn.prop('disabled', true).val('Submitting...');
+      e.preventDefault();
+      confirmBeforeSubmit($(this), "Do you want to add this appointment?")
+    });
   });
 </script>
 

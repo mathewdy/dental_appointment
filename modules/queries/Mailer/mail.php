@@ -31,7 +31,6 @@ function sendEmail($message, $title, $creds) {
 
     return true;
   } catch (Exception $e) {
-    echo "not sent";
     return false;
   }
 }

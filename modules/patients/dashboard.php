@@ -63,7 +63,6 @@ mysqli_close($conn);
                     </span>
                 </div>
                 <div class="page-category">
-                    <p class="h4 text-muted">Keep your smile healthy and bright! Here's your dental care overview.</p>
                     <a href="appointments.php" class="btn btn-md btn-primary me-2"><i class="fas fa-plus me-3"></i> Book an appointment</a>
                     <a href="history.php" class="btn btn-md btn-outline-dark"><i class="fas fa-clipboard me-3"></i> View Records</a>
                 </div>
@@ -74,10 +73,10 @@ mysqli_close($conn);
                         <div class="row align-items-center px-3">
                           <div class="col-lg-12">
                             <div class="row align-items-center">
-                              <div class="col-6">
+                              <div class="col-8">
                                 <p class="h6 fw-bold text-muted">Submitted Appointments</p>
                               </div>
-                              <div class="col-6 d-flex align-items-center justify-content-end">
+                              <div class="col-4 d-flex align-items-center justify-content-end">
                                 <div class="d-flex align-items-center justify-content-center rounded" style="background: blue; height: 40px; width: 40px;">
                                   <i class="fas fa-clock text-white"></i>
                                 </div>
@@ -89,9 +88,7 @@ mysqli_close($conn);
                               <h4 class="fs-1"><?= $row_total['total_appointments'] ?></h4>
                             </div>
                           </div>
-                          <div class="col-lg-12">
-                            <p class="text-muted">Waiting for clinic confirmation</p>
-                          </div>
+                          
                         </div>
                       </div>
                     </div>
@@ -102,10 +99,10 @@ mysqli_close($conn);
                         <div class="row align-items-center px-3">
                           <div class="col-lg-12">
                             <div class="row align-items-center">
-                              <div class="col-6">
+                              <div class="col-8">
                                 <p class="h6 fw-bold text-muted">Confirmed Appointments</p>
                               </div>
-                              <div class="col-6 d-flex align-items-center justify-content-end">
+                              <div class="col-4 d-flex align-items-center justify-content-end">
                                 <div class="d-flex align-items-center justify-content-center rounded bg-success" style=" height: 40px; width: 40px;">
                                   <i class="fas fa-check-circle text-white"></i>
                                 </div>
@@ -117,9 +114,7 @@ mysqli_close($conn);
                               <h4 class="fs-1"><?= $row_confirmed['total_confirmed'] ?></h4>
                             </div>
                           </div>
-                          <div class="col-lg-12">
-                            <p class="text-muted">Ready for dental visit</p>
-                          </div>
+                          
                         </div>
                       </div>
                     </div>
@@ -130,10 +125,10 @@ mysqli_close($conn);
                         <div class="row align-items-center px-3">
                           <div class="col-lg-12">
                             <div class="row align-items-center">
-                              <div class="col-6">
+                              <div class="col-8">
                                 <p class="h6 fw-bold text-muted">Walk-ins</p>
                               </div>
-                              <div class="col-6 d-flex align-items-center justify-content-end">
+                              <div class="col-4 d-flex align-items-center justify-content-end">
                                 <div class="d-flex align-items-center justify-content-center rounded bg-warning" style="height: 40px; width: 40px;">
                                   <i class="fas fa-clock text-white"></i>
                                 </div>
@@ -145,9 +140,7 @@ mysqli_close($conn);
                               <h4 class="fs-1"><?= $row_walkin['total_walkin'] ?></h4>
                             </div>
                           </div>
-                          <div class="col-lg-12">
-                            <p class="text-muted">Waiting for clinic confirmation</p>
-                          </div>
+                          
                         </div>
                       </div>
                     </div>
@@ -158,10 +151,10 @@ mysqli_close($conn);
                         <div class="row align-items-center px-3">
                           <div class="col-lg-12">
                             <div class="row align-items-center">
-                              <div class="col-6">
+                              <div class="col-8">
                                 <p class="h6 fw-bold text-muted">Cancelled Appointments</p>
                               </div>
-                              <div class="col-6 d-flex align-items-center justify-content-end">
+                              <div class="col-4 d-flex align-items-center justify-content-end">
                                 <div class="d-flex align-items-center justify-content-center rounded bg-danger" style="height: 40px; width: 40px;">
                                   <i class="fas fa-clock text-white"></i>
                                 </div>
@@ -173,9 +166,7 @@ mysqli_close($conn);
                               <h4 class="fs-1"><?= $row_cancelled['total_cancelled'] ?></h4>
                             </div>
                           </div>
-                          <div class="col-lg-12">
-                            <p class="text-muted">Cancelled their appointments</p>
-                          </div>
+                          
                         </div>
                       </div>
                     </div>

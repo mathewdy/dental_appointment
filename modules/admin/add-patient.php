@@ -226,10 +226,13 @@ if(isset($_POST['register_patient'])){
     $email = $_POST['email'];
     $password = $_POST['password'];
     $new_password = password_hash($password,PASSWORD_DEFAULT);
-		$history_string = implode(", ", $_POST['history']);
-		$current_medications = $_POST['current_medications'];
-		$allergies = $_POST['allergies'];  
-		$past_surgeries = $_POST['past_surgeries'];
+
+		$history_string = isset($_POST['history']) && is_array($_POST['history']) 
+      ? implode(", ", $_POST['history']) 
+      : "";
+		$current_medications = $_POST['current_medications'] ?? "";
+		$allergies = $_POST['allergies'] ?? "";  
+		$past_surgeries = $_POST['past_surgeries'] ?? "";
 		
 		$run_check_user = checkUser($conn, $email, $first_name, $middle_name, $last_name, $date_of_birth);
     if(mysqli_num_rows($run_check_user) > 0){

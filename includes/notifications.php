@@ -5,7 +5,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/config.php');
 header('Content-Type: application/json');
 
 $id = $_SESSION['user_id'];
-$role = $_SESSION['role_id']; 
+$role = $_SESSION['role_id'];
 
 function timeAgo($datetime) {
     $time = strtotime($datetime);
@@ -32,16 +32,24 @@ function timeAgo($datetime) {
     return 'Just Now';
 }
 
-$possibleClause = $role != 2 ? "WHERE user_id = '$id'" : '';  
+if ($role == 2) {
+    $readField = 'adminHasRead';
+    $conditions = "$readField = 0";
+} else {
+    $readField = 'hasRead';
+    $conditions = "user_id = '$id' AND $readField = 0";
+}
 
-$countQuery = "SELECT COUNT(*) AS total FROM `notification` $possibleClause";
+$whereClause = !empty($conditions) ? "WHERE $conditions" : "";
+
+$countQuery = "SELECT COUNT(*) AS total FROM notification $whereClause";
 $countResult = mysqli_query($conn, $countQuery);
 $totalCount = mysqli_fetch_assoc($countResult)['total'];
 
 $notifItem = [];
 
-$fetch = "SELECT * FROM `notification` $possibleClause ORDER BY id DESC";
-$run = mysqli_query($conn, $fetch);
+$fetchQuery = "SELECT * FROM notification $whereClause ORDER BY id DESC";
+$run = mysqli_query($conn, $fetchQuery);
 
 if(mysqli_num_rows($run) > 0){
     foreach($run as $row){
@@ -57,13 +65,13 @@ if(mysqli_num_rows($run) > 0){
         };
 
         $notifItem[] = [
+            'id'       => $row['id'],
             'type'     => $row['type'],
             'message'  => $row['message'],
             'icon'     => $iconType,
             'url'      => $link,
-            'time'     => timeAgo($row['createdAt']),
             'datetime' => $row['createdAt'],
-            'read'     => $row['hasRead']
+            'read'     => $row[$readField]
         ];
     }
 }
@@ -72,3 +80,4 @@ echo json_encode([
     'total' => (int)$totalCount,
     'notifications' => $notifItem
 ]);
+?>

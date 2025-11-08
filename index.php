@@ -1,4 +1,5 @@
 <?php
+include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/config.php');
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
 ?>
   <style>
@@ -90,9 +91,13 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
         <div class="item">
           <div class="card shadow-sm">
             <div class="card-body">
-              <i class="fas fa-tooth fa-3x text-primary mb-3"></i>
-              <h5 class="card-title">General Dentistry</h5>
-              <p class="card-text">Routine checkups, cleaning, and preventive care for all ages.</p>
+              <i class="fas fa-smile-beam fa-3x text-primary mb-3"></i>
+              <h5 class="card-title">
+                Oral Prophylaxis
+              </h5>
+              <p class="card-text">
+                A professional cleaning that removes plaque, tartar, and stains from your teeth. It helps prevent cavities, gum disease, and keeps your mouth feeling fresh and healthy.
+              </p>
             </div>
           </div>
         </div>
@@ -100,8 +105,27 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
           <div class="card shadow-sm">
             <div class="card-body">
               <i class="fas fa-smile fa-3x text-primary mb-3"></i>
-              <h5 class="card-title">Cosmetic Dentistry</h5>
-              <p class="card-text">Teeth whitening, veneers, and aesthetic smile transformations.</p>
+              <h5 class="card-title">
+                Composite Restoration
+              </h5>
+              <p class="card-text">
+                A tooth-colored filling used to repair decayed or damaged teeth. It restores your tooth’s
+                natural look and function while blending perfectly with your smile.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <i class="fas fa-teeth fa-3x text-primary mb-3"></i>
+              <h5 class="card-title">
+                Cosmetic Dentistry (Direct Composite Veneers)
+              </h5>
+              <p class="card-text">
+                A cosmetic procedure that enhances the shape, color, and overall appearance of your teeth
+                using a special composite material — perfect for improving your smile instantly.
+              </p>
             </div>
           </div>
         </div>
@@ -109,8 +133,56 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
           <div class="card shadow-sm">
             <div class="card-body">
               <i class="fas fa-syringe fa-3x text-primary mb-3"></i>
-              <h5 class="card-title">Oral Surgery</h5>
-              <p class="card-text">Extractions, implants, and advanced dental procedures.</p>
+              <h5 class="card-title">
+                Dental Extraction / Surgery
+              </h5>
+              <p class="card-text">
+                The removal of a damaged or decayed tooth that can no longer be saved. This helps prevent
+                pain, infection, or damage to nearby teeth.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <i class="fas fa-tooth fa-3x text-primary mb-3"></i>
+              <h5 class="card-title">
+                Wisdom Tooth Removal (₱4,000–₱15,000 | 1–3 hrs)
+              </h5>
+              <p class="card-text">
+                A surgical procedure to remove impacted or painful wisdom teeth. It relieves discomfort and
+                prevents future dental problems caused by overcrowding or infection.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <i class="fas fa-teeth fa-3x text-primary mb-3"></i>
+              <h5 class="card-title">
+                Prosthodontics (Dentures)
+              </h5>
+              <p class="card-text">
+                Replace missing teeth with dentures that can be taken out for cleaning, available in US
+                Plastic for an affordable and durable option, Porcelain for a natural and strong appearance,
+                and Flexible for a lightweight, comfortable, and perfect fit.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="item">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <i class="fas fa-syringe fa-3x text-primary mb-3"></i>
+              <h5 class="card-title">
+                Orthodontics (Braces)
+              </h5>
+              <p class="card-text">
+                A treatment that straightens crooked or crowded teeth using metal brackets and wires. It
+                improves both your bite and smile for long-term dental health.
+              </p>
             </div>
           </div>
         </div>
@@ -118,14 +190,23 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
     </div>
   </section>
 
-  <section id="about" class="py-5 my-5 bg-light">
-    <div class="container text-center">
-      <h2 class="fw-bold mb-4">About Us</h2>
-      <p class="lead">
-        At <strong>Fojas Dental</strong>, we are committed to providing top-notch
-        dental care in a comfortable environment. Our experienced team uses the
-        latest technology to ensure every patient leaves with a confident smile.
-      </p>
+  <section id="about" class="py-5 my-5">
+    <div class="container d-flex justify-content-center">
+      <div class="row justify-content-center gap-5">
+        <div class="col-lg-4">
+          <div class="card" style=" border-radius: 25px;">
+            <img src="<?= BASE_PATH . '/assets/img/Dentistandpat.png';?>" class="w-100 h-100"  style="border-radius: 25px;" alt="">
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <h2 class="fw-bold mb-3 fs-1">About Us</h2>
+          <p class="fs-5">
+            At Fojas Dental, we care about your smile. Our friendly team provides quality dental
+            services using reliable approaches in a clean and comfortable environment, making sure
+            every visit helps you smile with confidence.
+          </p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -133,9 +214,10 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
   <section id="contact" class="py-5 bg-dark text-white">
     <div class="container text-center">
       <h2 class="fw-bold mb-4">Contact Us</h2>
-      <p class="lead"><i class="icon-location-pin"></i>
-        123 Smile Street, Quezon City, Philippines</p>
-      <p><i class="icon-phone"></i> (02) 1234-5678 | 📧 fojasdentalclinic@gmail.com</p>
+      <p><i class="icon-location-pin"></i>
+        121 Sta. Cruz St. Poblacion 1 Tanza, Cavite</p>
+      <p><i class="icon-phone"></i>   09178668636 | 09177089099</p>
+      <p>📧 fojasdentalclinic@gmail.com</p>
     </div>
   </section>
 
@@ -151,7 +233,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.p
     loop: true,
     margin: 10,
     nav: true,
-    dots: true,
+    dots: false,
     center: true
 })
 </script>

@@ -141,12 +141,12 @@ if(isset($_POST['register_patient'])){
         error_reporting(E_ALL);
 
         //history
-        $history_string = implode(", ", $_POST['history']);
-        $current_medications = $_POST['current_medications'];
-        $allergies = $_POST['allergies'];  
-        $past_surgeries = $_POST['past_surgeries'];
-
-        
+        $history_string = isset($_POST['history']) && is_array($_POST['history']) 
+          ? implode(", ", $_POST['history']) 
+          : "";
+        $current_medications = $_POST['current_medications'] ?? "";
+        $allergies = $_POST['allergies'] ?? "";  
+        $past_surgeries = $_POST['past_surgeries'] ?? "";
 
         $query_check_user = "SELECT * FROM users WHERE email='$email'";
         $run_check_user = mysqli_query($conn,$query_check_user);

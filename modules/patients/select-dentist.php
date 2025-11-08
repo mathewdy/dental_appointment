@@ -66,7 +66,6 @@ $first_name = $_SESSION['first_name'];
 
                   $query_services = "SELECT * FROM services";
                   $run_services = mysqli_query($conn,$query_services);
-                  $row_services = mysqli_fetch_assoc($run_services);
                 ?>
 
                 <form action="set.php" method="POST">
@@ -176,21 +175,18 @@ $first_name = $_SESSION['first_name'];
   ";
 ?>
 <script>
-$(function () {
-    const allDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const availableIndexes = availableDays.map(day => allDays.indexOf(day));
-    $(".appointment_date").datepicker({
-        beforeShowDay: function(date) {
-            var dayIndex = date.getDay(); 
-            return [availableIndexes.includes(dayIndex)];
-        },
-        minDate: 0
+  $(document).ready(function() {
+    $(".appointment_date").on("keydown paste", function(e) {
+        e.preventDefault();
     });
-});
+    $('form').on('submit', function(e) {
+      const $btn = $('input[type="submit"]');
+      $btn.prop('disabled', true).val('Submitting...');
+      e.preventDefault();
+      confirmBeforeSubmit($(this), "Do you want to add this appointment?")
+    });
+  });
 </script>
-</body>
-</html>
-
 
 <?php
 
