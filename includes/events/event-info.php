@@ -21,7 +21,8 @@ if(mysqli_num_rows($run_appointments) > 0){
         $status = match($row_appointment['confirmed']){
             '0' => '<span class="badge bg-warning">Pending</span>',
             '1' => '<span class="badge bg-success">Completed</span>',
-            '2' => '<span class="badge bg-danger">Canceled</span>'
+            '2' => '<span class="badge bg-danger">Canceled</span>',
+            '3' => '<span class="badge bg-warning">No Show</span>'
         };
         echo '
          <div class="row">
