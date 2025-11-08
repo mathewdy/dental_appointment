@@ -82,14 +82,14 @@ $user_id_patient = $_SESSION['user_id'];
                                       <?php
                                         if($row_appointment['confirmed'] == 0) {
                                           ?>
-                                          <div class="text-center text-danger">
-                                            <a href="request-action.php?id=<?= $row_appointment['appointment_id']?>&status=2" class="status"><i class="fas fa-trash"></i></a>
+                                          <div class="text-center">
+                                            <a href="request-action.php?id=<?= $row_appointment['appointment_id']?>&status=2" class="status btn btn-danger">Cancel</a>
                                           </div>
                                           <?php
                                         } else {
                                           ?>
                                           <div class="text-center text-danger" style="opacity: 50%;">
-                                            <a href="#" class="status" style="pointer-events:none;"><i class="fas fa-trash"></i></a>
+                                            <a href="#" class="status text-danger"></a>
                                           </div>
                                           <?php
                                         }
