@@ -73,7 +73,7 @@ $user_id_patients = $_SESSION['user_id'];
                                       echo $handler;
                                     ?>
                                   </td>
-                                  <td class="d-flex justify-content-center">
+                                  <td class="text-center">
                                     <a class="payment-history" 
                                       href="#"
                                       data-bs-toggle="modal" data-bs-target="#paymentHistoryDialog"
