@@ -46,7 +46,6 @@ $user_id_patients = $_SESSION['user_id'];
                             <th>Appointment Date & Time</th>
                             <th>Dentist</th>
                             <th>Concern</th>
-                            <th>Doctor's Remarks</th>
                             <th>Status</th>
                             <th>Payment History</th>
                         </tr>  
@@ -61,7 +60,6 @@ $user_id_patients = $_SESSION['user_id'];
                                       <td><?php echo $row_appointment['appointment_date']. " " . $row_appointment['appointment_time']?></td>
                                       <td>Dr. <?php echo $row_appointment['doctor_first_name'] . " " . $row_appointment['doctor_last_name']?></td>
                                   <td><?php echo $row_appointment['concern']?></td>
-                                  <td><?php echo $row_appointment['remarks'] ? $row_appointment['remarks'] : 'N/A' ?></td>
                                   <td>
                                     <?php 
                                       $handler = match($row_appointment['confirmed']){
