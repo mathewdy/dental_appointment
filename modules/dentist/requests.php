@@ -101,8 +101,8 @@ $user_id = $_SESSION['user_id'];
 																											<!-- <input type="hidden" name="appointment_date" value="<?php echo $row_appointment['appointment_date']?>">
 																											<input type="hidden" name="user_id_patient" value="<?php echo $row_appointment['user_id_patient']?>"> -->
 																											<!-- <input type="submit" name="accept" value="Confirm"> -->
-																											<button class="btn btn-sm btn-primary" data-id="<?= $row_appointment['user_id_patient']?>"
-																											data-date="<?= $row_appointment['appointment_date']?>" id="confirmBtn">Confirm</button>
+																											<!-- <button class="btn btn-sm btn-primary" data-id="<?= $row_appointment['user_id_patient']?>"
+																											data-date="<?= $row_appointment['appointment_date']?>" id="confirmBtn">Confirm</button> -->
 
 																									
 																									<?php

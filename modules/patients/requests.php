@@ -89,7 +89,7 @@ $user_id_patient = $_SESSION['user_id'];
                                         } else {
                                           ?>
                                           <div class="text-center text-danger" style="opacity: 50%;">
-                                            <a href="#" class="status" style="pointer-events:none; color"><i class="fas fa-trash"></i></a>
+                                            <a href="#" class="status" style="pointer-events:none;"><i class="fas fa-trash"></i></a>
                                           </div>
                                           <?php
                                         }

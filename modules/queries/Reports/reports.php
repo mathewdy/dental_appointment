@@ -139,7 +139,7 @@ function displayTodayReportById($conn, $id) {
       echo "
           <tr>
               <td>{$row['appointment_date']}</td>
-              <td>$start - $end</td>
+              <td>$formattedTime - $end</td>
               <td>{$patientName}</td>
               <td>{$row['concern']}</td>
           </tr>

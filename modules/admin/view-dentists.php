@@ -87,7 +87,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.p
 $(document).ready(function() {
   $('.delete').on('click', function(e) {
     e.preventDefault();
-    confirmBeforeRedirect("Do you want to update this appointment?", $(this).attr('href'))
+    confirmBeforeRedirect("Do you want to delete this dentist?", $(this).attr('href'))
   });
 });
 </script>
