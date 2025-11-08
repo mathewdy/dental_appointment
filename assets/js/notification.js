@@ -45,7 +45,7 @@ $(document).ready(function() {
                 }
 
                 if (!data.notifications || data.notifications.length === 0) {
-                    $notifContainer.html('<p class="text-center text-muted">No notifications yet</p>');
+                    $notifContainer.html('<p class="text-center text-muted mt-3">No notifications yet</p>');
                     return;
                 }
 
