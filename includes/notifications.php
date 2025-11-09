@@ -41,14 +41,15 @@ if ($role == 2) {
 }
 
 $whereClause = !empty($conditions) ? "WHERE $conditions" : "";
+$groupClause = "GROUP BY trans_id";
 
-$countQuery = "SELECT COUNT(*) AS total FROM notification $whereClause";
+$countQuery = "SELECT COUNT(*) AS total FROM notification $whereClause ";
 $countResult = mysqli_query($conn, $countQuery);
 $totalCount = mysqli_fetch_assoc($countResult)['total'];
 
 $notifItem = [];
 
-$fetchQuery = "SELECT * FROM notification $whereClause ORDER BY id DESC";
+$fetchQuery = "SELECT * FROM notification $whereClause $groupClause ORDER BY id DESC";
 $run = mysqli_query($conn, $fetchQuery);
 
 if(mysqli_num_rows($run) > 0){

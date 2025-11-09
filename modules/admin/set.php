@@ -18,6 +18,7 @@ if(isset($_POST['save'])){
   $appointment_date = $_POST['appointment_date'];
   $current_date = date('Y-m-d');
   $email = trim($_POST['email']);
+  $trans_id = uniqid();
   $subject = "Appointment Schedule";
 
   $mail = "
@@ -93,8 +94,8 @@ if(isset($_POST['save'])){
     } else {
       $create = createAppointment($conn, $user_id_dentist, $user_id_patient, $appointment_id, $concern, $appointment_start, $appointment_date);
       if(!$create) throw new Exception("Failed to create appointment");
-      createNotification($conn, $user_id_dentist, "New Appointment Schedule", "Appointment", $user_id_patient);
-      createNotification($conn, $user_id_patient, "New Appointment Schedule", "Appointment", $user_id_patient);
+      createNotification($conn, $user_id_dentist, $trans_id, "New Appointment Schedule", "Appointment", $user_id_patient);
+      createNotification($conn, $user_id_patient, $trans_id, "New Appointment Schedule", "Appointment", $user_id_patient);
       mysqli_commit($conn);
       echo "<script>success('Appointment scheduled successfully.', () => window.location.href='appointments.php');</script>";
     }

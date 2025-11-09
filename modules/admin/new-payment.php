@@ -21,6 +21,8 @@ if (isset($_POST['add_payment'])) {
     $services = $_POST['service'];
     $email = $_POST['email'];
     $subject = "Payment";
+    $trans_id = uniqid();
+
     $mail = "
       <h3>Dear Customer,</h3>
       <br>
@@ -50,7 +52,7 @@ if (isset($_POST['add_payment'])) {
     if ($run_update_balance) {
 			$run_insert_payment = createPaymentHistory($conn, $payment_id, $payment, $method);
 			if ($run_insert_payment) {
-				createNotification($conn, $user_id, "New Payment Transaction", "Payment", $dateTime, $id);
+				createNotification($conn, $user_id, $trans_id, "New Payment Transaction", "Payment", $dateTime, $id);
         $sendMail = sendEmail($mail, $subject, $email);
         if ($sendMail) {
           echo "<script>
