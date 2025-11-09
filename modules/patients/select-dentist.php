@@ -175,6 +175,19 @@ $first_name = $_SESSION['first_name'];
   ";
 ?>
 <script>
+  $(function () {
+      const allDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const availableIndexes = availableDays.map(day => allDays.indexOf(day));
+      $(".appointment_date").datepicker({
+          beforeShowDay: function(date) {
+              var dayIndex = date.getDay(); 
+              return [availableIndexes.includes(dayIndex)];
+          },
+          minDate: 0
+      });
+  });
+</script>
+<script>
   $(document).ready(function() {
     $(".appointment_date").on("keydown paste", function(e) {
         e.preventDefault();
