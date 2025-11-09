@@ -10,7 +10,11 @@ error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
 include('../../includes/security.php');
 ?>
-
+<style>
+  .dataTable_wrapper input {
+    padding: 20px 12px !important;
+  }
+</style>
     <div class="wrapper">
         <?php include '../../includes/sidebar.php'; ?>
 
@@ -64,7 +68,7 @@ include('../../includes/security.php');
                                         <td><?php echo $row_patients['email']?></td>
                                         <td class="d-flex justify-content-center">
                                             <div class="dropdown">
-                                                <a class="btn btn-sm btn-outline-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 12px;" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <a class="btn btn-sm btn-outline-primary rounded-circle d-flex justify-content-center align-items-center dropdownToggler" style="width: 12px;" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="fas fa-ellipsis-v"></i>
                                                 </a>
                                                 <ul class="dropdown-menu"> 
@@ -162,6 +166,21 @@ include('../../includes/security.php');
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 ?>
+<script>
+  document.querySelectorAll('.dropdownToggler').forEach(el => {
+  new bootstrap.Dropdown(el, {
+    popperConfig: {
+      strategy: 'fixed',
+      modifiers: [
+        {
+          name: 'preventOverflow',
+          options: { boundary: document.body }
+        }
+      ]
+    }
+  });
+});
+</script>
 <script>
 $(document).ready(function() {
   $('.delete').on('click', function(e) {
