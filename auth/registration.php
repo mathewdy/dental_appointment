@@ -127,8 +127,8 @@ if(isset($_POST['register_patient'])){
     $password_2 = $_POST['password_2'];
 
     if ($password !== $password_2) {
-        echo "<script>window.alert('Password does not match')</script>";
-        echo "<script>window.location.origin</script>";
+      echo "<script> error('Password does not match!', () => window.location.origin) </script>";
+      exit;
     }else{
         $new_password = password_hash($password,PASSWORD_DEFAULT);
 
@@ -153,6 +153,7 @@ if(isset($_POST['register_patient'])){
         
         if(mysqli_num_rows($run_check_user) > 0){
           echo "<script> error('User Already Exists', () => window.location.origin) </script>";
+          exit;
         }else{
             $query_register = "INSERT INTO users (user_id,role_id,first_name,middle_name,last_name,mobile_number,email,password,date_of_birth,date_created,date_updated) VALUES ('$user_id','$role_id', '$first_name','$middle_name','$last_name','$mobile_number','$email','$new_password','$date_of_birth','$date','$date')";
             $run_sql = mysqli_query($conn,$query_register);

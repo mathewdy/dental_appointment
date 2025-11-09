@@ -27,9 +27,7 @@ if (isset($_POST['login'])) {
             sendEmail($mail, $subject, $email);
             $_SESSION['email'] = $email;
             $_SESSION['role_id'] = $row['role_id'];
-            echo "<script> success('Please Check Your Email Address for OTP.', () => window.location.href='otp.php').then(
-                console.log('hello')
-              ) </script>";
+            echo "<script> success('Please Check Your Email Address for OTP.', () => window.location.href='otp.php')</script>";
           }else{
             echo "<script> error('Otp sending failed.', () => window.location.href='login.php') </script>";
             return;

@@ -70,16 +70,16 @@ if(isset($_POST['update'])){
     if(mysqli_num_rows($check_token_run) > 0){
 
         if($password_1 == $password_2){
-            $query_update_password = "UPDATE users SET password = '$new_password' WHERE email = '$email' AND token =  '$token' LIMIT 1";
-            $run_update_password = mysqli_query($conn,$query_update_password);
-            echo "<script>alert('Password updated, please login') </script>";
-            header("Location: login.php");
+          $query_update_password = "UPDATE users SET password = '$new_password' WHERE email = '$email' AND token =  '$token' LIMIT 1";
+          $run_update_password = mysqli_query($conn,$query_update_password);
+          echo "<script> success('Password updated, please login.', () => window.location.href='login.php') </script>";
         }else{
-            echo "Password Doesn't Match";
+          echo "<script> error('Password does not match!', () => window.location.origin) </script>";
+          exit;
         }
-
     }else{
-        echo "User not found & token not available";
+      echo "<script> error('User not found & token not available.', () => window.location.origin) </script>";
+      exit;
     }
 
 

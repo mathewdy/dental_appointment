@@ -86,8 +86,8 @@ if(isset($_POST['register_admin'])){
     $password_2 = $_POST['password_2'];
 
     if ($password !== $password_2) {
-        echo "<script>window.alert('Password does not match')</script>";
-        echo "<script>window.location.origin</script>";
+      echo "<script> error('Password does not match!', () => window.location.origin) </script>";
+      exit;
     }else{
         $new_password = password_hash($password,PASSWORD_DEFAULT);
         date_default_timezone_set("Asia/Manila");
