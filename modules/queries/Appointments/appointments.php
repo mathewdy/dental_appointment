@@ -38,6 +38,18 @@ function checkPendingAppointment($conn, $id) {
   mysqli_stmt_execute($stmt);
   return mysqli_stmt_get_result($stmt);
 }
+function hasAppointmentToday($conn, $id, $appointment_date) {
+  $sql = "SELECT appointment_date, appointment_time, user_id_patient, confirmed
+    FROM appointments 
+    WHERE user_id_patient = ?
+    AND appointment_date = ?
+    AND confirmed IN (0,1)";
+    
+  $stmt = mysqli_prepare($conn, $sql);
+  mysqli_stmt_bind_param($stmt, "is", $id, $appointment_date);
+  mysqli_stmt_execute($stmt);
+  return mysqli_stmt_get_result($stmt);
+}
 
 function hasOverlappingAppointment($conn, $dentist_id, $appointment_date, $appointment_start, $appointment_end) {
   $sql = "SELECT *

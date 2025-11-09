@@ -61,6 +61,15 @@ if(isset($_POST['save'])){
       exit;
   }
 
+  $checkAppointmentToday = hasAppointmentToday($conn, $user_id_patient, $appointment_date);
+  if(mysqli_num_rows($checkAppointmentToday) > 0){
+      echo "<script>
+          error('You already had an appointment at that day.', 
+          () => window.location.href='set-schedule.php?user_id_dentist=$user_id_dentist&user_id_patient=$user_id_patient');
+      </script>";
+      exit;
+  }
+
   $overlap = hasOverlappingAppointment($conn, $user_id_dentist, $appointment_date, $appointment_start, $appointment_end);
   if(mysqli_num_rows($overlap) > 0){
       echo "<script>error('This time slot is already taken. Please choose another one.', () => window.location.href='select-dentist.php?user_id_dentist=$user_id_dentist&user_id_patient=$user_id_patient');</script>";

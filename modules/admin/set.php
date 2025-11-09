@@ -76,6 +76,15 @@ if(isset($_POST['save'])){
       exit;
   }
 
+  $checkAppointmentToday = hasAppointmentToday($conn, $user_id_patient, $appointment_date);
+  if(mysqli_num_rows($checkAppointmentToday) > 0){
+      echo "<script>
+          error('This patient has an appointment at that day.', 
+          () => window.location.href='set-schedule.php?user_id_dentist=$user_id_dentist&user_id_patient=$user_id_patient');
+      </script>";
+      exit;
+  }
+
   $checkPatient = checkAppointmentByUser($conn, $appointment_date, $appointment_start, $user_id_patient);
   if(mysqli_num_rows($checkPatient) > 0){
       echo "<script>
