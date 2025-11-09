@@ -5,7 +5,7 @@ $id = $_SESSION['user_id'];
 $roleHandler = match($role) {
   1 => 'patients',
   2 => 'admin',
-  3 => 'dentists'
+  3 => 'dentist'
 };
 echo '
 <div class="main-header">
