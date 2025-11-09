@@ -11,7 +11,7 @@ if ($role == 2) {
     $readField = 'hasRead';
 }
 
-mysqli_query($conn, "UPDATE notification SET $readField = 1 WHERE id = '$id'");
+mysqli_query($conn, "UPDATE notification SET $readField = 1 WHERE trans_id = '$id'");
 
 if ($role == 2) {
     $countQuery = "SELECT COUNT(*) AS total FROM notification WHERE adminHasRead = 0";

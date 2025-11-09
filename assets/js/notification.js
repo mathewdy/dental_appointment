@@ -33,11 +33,9 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
                 $notifContainer.empty();
-
-                // Sort notifications: unread first
                 data.notifications.sort((a, b) => a.read - b.read);
-
                 const totalUnread = data.notifications.filter(n => n.read == 0).length;
+
                 if (totalUnread > 0) {
                     $notifBadge.text(totalUnread).show();
                 } else {
@@ -58,7 +56,7 @@ $(document).ready(function() {
                     const unreadClass = notif.read == 0 ? 'notif-unread' : '';
 
                     const $notifItem = $(`
-                        <a href="${notif.url}" class="notif-item ${unreadClass}" data-id="${notif.id}">
+                        <a href="${notif.url}" class="notif-item ${unreadClass}" data-id="${notif.trans}">
                             <div class="notif-icon ${bgColor}">
                                 <i class="${notif.icon}"></i>
                             </div>

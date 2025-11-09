@@ -110,7 +110,7 @@ function displayTodayReportById($conn, $id) {
         LEFT JOIN users p ON a.user_id_patient = p.user_id
         WHERE a.user_id = ? 
           AND DATE(a.appointment_date) = ?
-          AND a.confirmed = 1
+          AND a.confirmed = 0
         ORDER BY a.appointment_time ASC
     ";
 
@@ -163,7 +163,7 @@ function displayUpcomingAppointmentsById($conn, $id) {
         LEFT JOIN users p ON a.user_id_patient = p.user_id
         WHERE a.user_id = ? 
           AND DATE(a.appointment_date) >= ?
-          AND a.confirmed = 1
+          AND a.confirmed = 0
         ORDER BY a.appointment_date ASC, a.appointment_time ASC
     ";
 
