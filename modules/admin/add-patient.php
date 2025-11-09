@@ -85,7 +85,7 @@ $first_name = $_SESSION['first_name'];
 																							<label for="">Mobile Number </label>
 																					</div>
 																					<div class="col-lg-10">
-																							<input type="text" class="form-control" name="mobile_number">
+																							<input type="text" class="form-control" name="mobile_number" placeholder="09XXXXXXXXX" pattern="[0-9]{9}" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
 																					</div>
 																			</div>
 																	</div>
