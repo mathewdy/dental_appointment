@@ -39,7 +39,12 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
                                     </div>
                                     <div class="col-lg-12 mb-4">
                                         <label for="">Mobile Number </label>
-                                        <input type="tel" class="form-control" name="mobile_number" placeholder="09XXXXXXXXX" pattern="[0-9]{9}" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                                        <input type="tel" class="form-control" name="mobile_number" 
+                                        placeholder="09XXXXXXXXX"
+                                        pattern="^09[0-9]{9}$"
+                                        maxlength="11"
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                        required>
                                     </div>
                                     <div class="col-lg-12 mb-4">
                                         <label for="">Date of Birth</label>
