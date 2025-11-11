@@ -83,8 +83,7 @@ $first_name = $_SESSION['first_name']
 														<div class="col-lg-2">
 															<label for="">Mobile Number </label>
 														</div>
-														<div class="col-lg-12 mb-4">
-															<label for="">Mobile Number </label>
+														<div class="col-lg-10">
 															<input type="tel" class="form-control" name="mobile_number" 
 															placeholder="09XXXXXXXXX"
 															pattern="^09[0-9]{9}$"
