@@ -99,7 +99,7 @@ if(isset($_POST['save'])){
   try {
     $sendMail = sendEmail($mail, $subject, $email);
     if(!$sendMail) {
-      echo "<script>error('You already have an appointment at this time.', () => window.location.href='select-dentist.php?user_id_dentist=$user_id_dentist&user_id_patient=$user_id_patient');</script>";
+      echo "<script>error('Failed to send email.', () => window.location.href='set-schedule.php?user_id_dentist=$user_id_dentist&user_id_patient=$user_id_patient');</script>";
     } else {
       $create = createAppointment($conn, $user_id_dentist, $user_id_patient, $appointment_id, $concern, $appointment_start, $appointment_date);
       if(!$create) throw new Exception("Failed to create appointment");
