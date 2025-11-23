@@ -14,20 +14,11 @@ $first_name = $_SESSION['first_name'];
 		<?php include '../../includes/topbar.php'; ?>
 		<div class="container">
 			<div class="page-inner">
-				<div class="page-header">
-                    
-					<span class="d-flex justify-content-between align-items-center w-100">
-						<span class="d-flex">
-							<h4 class="page-title">Home</h4>
-							<ul class="breadcrumbs d-flex justify-items-center align-items-center">
-								<li class="nav-home">
-									<a href="dashboard.php"><i class="icon-home"></i></a>
-								</li>
-								<li class="separator"><i class="icon-arrow-right"></i></li>
-							</ul>
-						</span>    
-					</span>
-				</div>
+        <div class="page-header">
+          <div class="d-flex align-items-center gap-4">
+            <h4 class="page-title text-truncate">Appointments</h4>
+          </div>
+        </div>
 				<div class="page-category">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
               <li class="nav-item" role="presentation">
@@ -53,19 +44,29 @@ $first_name = $_SESSION['first_name'];
                   <div class="tab-pane fade show active" id="today" role="tabpanel" aria-labelledby="today-tab">
                     <div class="card">
                       <div class="card-header">
-                        <div class="datatable-toolbar d-flex justify-content-between">
-                          <div class="d-flex align-items-center gap-2">
-                            <input type="text" id="customSearch1" class="form-control" placeholder="Search appointments...">
-                            <input type="date" id="filterDate" class="form-control">
-                          </div>
-                          <div class="d-flex align-items-center">
-                            <label class="me-2 mb-0">Show</label>
-                            <select id="customLength1" class="form-select form-select-sm w-auto">
-                              <option value="10">10</option>
-                              <option value="25" selected>25</option>
-                              <option value="50">50</option>
-                            </select>
-                            <label class="ms-2 mb-0">entries</label>
+                        <div class="datatable-toolbar">
+                          <div class="row align-items-center w-100 p-0 m-0 gap-2">
+                            <div class="col-lg-6 col-md-12 p-0 m-0">
+                              <div class="row gap-2">
+                                <div class="col-lg-5 col-md-12">
+                                  <input type="text" id="customSearch1" class="form-control" placeholder="Search appointments...">
+                                </div>
+                                <div class="col-lg-5 col-md-12">
+                                  <input type="date" id="filterDate" class="form-control">
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12 d-flex justify-content-end align-items-end p-0 m-0">
+                              <div class="d-flex align-items-end justify-content-end">
+                                <label class="me-2 mb-0">Show</label>
+                                <select id="customLength1" class="form-select form-select-sm">
+                                  <option value="10">10</option>
+                                  <option value="25" selected>25</option>
+                                  <option value="50">50</option>
+                                </select>
+                                <label class="ms-2 mb-0">entries</label>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
