@@ -18,30 +18,28 @@ $user_id_patient = $_SESSION['user_id'];
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-                <span class="d-flex justify-content-between align-items-center w-100">
-                    <span class="d-flex">
-                        <h4 class="page-title">Appointment Requests</h4>
-                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
-                            <li class="nav-home">
-                            <a href="dashboard.php">
-                                <i class="icon-home"></i>
-                            </a>
-                            </li>
-                            <li class="separator">
-                                <i class="icon-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="appointments.php">Appointments</a>
-                            </li>
-                            <li class="separator">
-                                <i class="icon-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#">Requests</a>
-                            </li>
-                        </ul>
-                    </span>    
-                </span>
+              <div class="d-flex align-items-center gap-4 w-100">
+                <h4 class="page-title text-truncate">Appointments Requests</h4>
+                <div class="d-flex align-items-center gap-2 me-auto">
+                  <div class="nav-home">
+                    <a href="dashboard.php" class="text-decoration-none text-muted">
+                      <i class="icon-home"></i>
+                    </a>
+                  </div>
+                  <div class="separator">
+                    <i class="icon-arrow-right fs-bold"></i>
+                  </div>
+                  <div class="nav-item">
+                    <a href="appointments.php" class="text-decoration-none text-truncate text-muted">Appointments</a>
+                  </div>
+                  <div class="separator">
+                    <i class="icon-arrow-right fs-bold"></i>
+                  </div>
+                  <div class="nav-item">
+                    <a href="#" class="text-decoration-none text-truncate text-muted">Requests</a>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="page-category">
               <div class="card p-5">
@@ -64,11 +62,11 @@ $user_id_patient = $_SESSION['user_id'];
                           foreach($run_appointments as $row_appointment){
                           ?>
                           <tr>
-                            <td><?php echo $row_appointment['patient_first_name'] . " " . $row_appointment['patient_last_name']?></td>
-                            <td><?php echo $row_appointment['appointment_date']. " ". $row_appointment['appointment_time']?></td>
-                            <td>Dr. <?php echo $row_appointment['doctor_first_name'] . " " . $row_appointment['doctor_last_name']?></td>
-                            <td><?php echo $row_appointment['concern']?></td>
-                            <td>
+                            <td class="text-truncate"><?php echo $row_appointment['patient_first_name'] . " " . $row_appointment['patient_last_name']?></td>
+                            <td class="text-truncate"><?php echo $row_appointment['appointment_date']. " ". $row_appointment['appointment_time']?></td>
+                            <td class="text-truncate">Dr. <?php echo $row_appointment['doctor_first_name'] . " " . $row_appointment['doctor_last_name']?></td>
+                            <td class="text-truncate"><?php echo $row_appointment['concern']?></td>
+                            <td class="text-truncate">
                               <?php
                                 $handler = match($row_appointment['confirmed']){
                                     1 => '<span class="badge text-dark text-body-secondary fw-bold" style="background: #94f7c9; border: #94f7c9;"><i class="fas fa-check-circle"></i> Confirmed</span>',
@@ -192,7 +190,7 @@ $(document).ready(function() {
 $(document).ready(function () {
   var table = $('#dataTable').DataTable();
   var customFilter = `
-    <div class="col-sm-12 col-md-4 customFilterCol">
+    <div class="customFilterCol">
       <select id="statusFilter" class="form-control form-control-sm d-inline-block w-auto">
         <option value="">All</option>
         <option value="Confirmed">Confirmed</option>
@@ -202,13 +200,11 @@ $(document).ready(function () {
       </select>
     </div>
   `;
+  var topRow = $('.dataTables_wrapper .row .col-sm-12.col-md-6').last();
+  topRow.addClass('d-flex flex-column flex-lg-row justify-content-end align-items-center gap-2');
 
-  var topRow = $('.dataTables_wrapper .row:first');
-  topRow.find('.col-sm-12.col-md-6')
-    .removeClass('col-md-6')
-    .addClass('col-md-4');
-
-  topRow.find('.col-md-4').first().after(customFilter);
+  var wrapper = $('.dataTables_filter'); 
+  wrapper.last().after(customFilter);
 
   $('#statusFilter').on('change', function () {
     var val = $(this).val();

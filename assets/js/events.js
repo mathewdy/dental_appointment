@@ -1,6 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
     var calendarEl = document.getElementById("calendar");
     var calendar = new FullCalendar.Calendar(calendarEl, {
+    headerToolbar: {
+        left: '',
+        center: 'title',
+        right: ''
+    },
+    footerToolbar: {
+        left: '',
+        center: 'prev,next today',
+        right: ''
+    },
     initialView: "dayGridMonth",
     themeSystem: "standard",
     events: "../../includes/events/events.php",

@@ -18,24 +18,22 @@ $user_id_patients = $_SESSION['user_id'];
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-              <span class="d-flex justify-content-between align-items-center w-100">
-                    <span class="d-flex">
-                        <h4 class="page-title">History</h4>
-                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
-                            <li class="nav-home">
-                              <a href="dashboard.php">
-                                <i class="icon-home"></i>
-                              </a>
-                            </li>
-                            <li class="separator">
-                            <i class="icon-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                              <a href="#">History</a>
-                            </li>
-                        </ul>
-                    </span>    
-                </span>
+              <div class="d-flex align-items-center gap-4">
+                <h4 class="page-title text-truncate">History</h4>
+                <div class="d-flex align-items-center gap-2">
+                  <div class="nav-home">
+                    <a href="dashboard.php" class="text-decoration-none text-muted">
+                      <i class="icon-home"></i>
+                    </a>
+                  </div>
+                  <div class="separator">
+                    <i class="icon-arrow-right fs-bold"></i>
+                  </div>
+                  <div class="nav-item">
+                    <a href="#" class="text-decoration-none text-truncate text-muted">History</a>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="page-category">
                 <div class="card p-5">

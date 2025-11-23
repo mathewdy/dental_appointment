@@ -20,37 +20,35 @@ $id = $_SESSION['user_id'];
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-              <span class="d-flex justify-content-between align-items-center w-100">
-                <span class="d-flex">
-                  <h4 class="page-title">Set Schedule</h4>
-                  <ul class="breadcrumbs d-flex justify-items-center align-items-center">
-                    <li class="nav-home">
-                    <a href="dashboard.php">
+              <div class="d-flex align-items-center gap-4 w-100">
+                <h4 class="page-title text-truncate">Set Doctor</h4>
+                <div class="d-flex align-items-center gap-2 me-auto">
+                  <div class="nav-home">
+                    <a href="dashboard.php" class="text-decoration-none text-muted">
                       <i class="icon-home"></i>
                     </a>
-                    </li>
-                    <li class="separator">
-                      <i class="icon-arrow-right"></i>
-                    </li>
-                    <li class="nav-item">
-                      <a href="appointments.php">Patient</a>
-                    </li>
-                    <li class="separator">
-                      <i class="icon-arrow-right"></i>
-                    </li>
-                    <li class="nav-item">
-                      <a href="set-doctor.php?user_id_patient=<?= $_GET['user_id_patient'] ?>">Set Doctor</a>
-                    </li>
-                    <li class="separator">
-                      <i class="icon-arrow-right"></i>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#">Set Schedule</a>
-                    </li>
-                  </ul>
-              </span>    
-            </span>
-          </div>
+                  </div>
+                  <div class="separator">
+                    <i class="icon-arrow-right fs-bold"></i>
+                  </div>
+                  <div class="nav-item">
+                    <a href="patients.php" class="text-decoration-none text-truncate text-muted">Patient</a>
+                  </div>
+                  <div class="separator">
+                    <i class="icon-arrow-right fs-bold"></i>
+                  </div>
+                  <div class="nav-item">
+                    <a href="set-doctor.php?user_id_patient=<?= $_GET['user_id_patient'] ?>" class="text-decoration-none text-truncate text-muted">Set Doctor</a>
+                  </div>
+                  <div class="separator">
+                    <i class="icon-arrow-right fs-bold"></i>
+                  </div>
+                  <div class="nav-item">
+                    <a href="#" class="text-decoration-none text-truncate text-muted">Set Schedule</a>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="page-category">
               <?php
               if(isset($_GET['user_id_patient']) && isset($_GET['user_id_dentist'])){

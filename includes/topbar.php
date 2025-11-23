@@ -87,7 +87,7 @@ echo '
                   <i class="fas fa-user-circle me-2"></i>
                   My Profile
                 </a>
-                <a class="dropdown-item py-2 fs-6" href="' . BASE_PATH . ($roleHandler == 1 ? '/auth/logout.php' : '/auth_main/logout.php') . '">
+                <a class="dropdown-item py-2 fs-6" href="' . BASE_PATH . ($roleHandler == 'patients' ? '/auth/logout.php' : '/auth_main/logout.php') . '">
                   <i class="fas fa-sign-out-alt me-2"></i>
                   Logout
                 </a>

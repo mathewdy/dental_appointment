@@ -27,33 +27,35 @@ $user_id_patient = $_SESSION['user_id'];
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-              <span class="d-flex justify-content-between align-items-center w-100">
-                <span class="d-flex">
-                  <h4 class="page-title">Appointments</h4>
-                  <ul class="breadcrumbs d-flex justify-items-center align-items-center">
-                    <li class="nav-home">
-                      <a href="dashboard.php">
-                          <i class="icon-home"></i>
-                      </a>
-                    </li>
-                    <li class="separator">
-                      <i class="icon-arrow-right"></i>
-                    </li>
-                    <li class="nav-item">
-                      <a href="#">Appointments</a>
-                    </li>
-                  </ul>
-                </span>    
-                <span>
-                  <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#doctorModal">Add Appointment</a>
-                  <a href="requests.php" class="btn btn-sm btn-dark op-7">View All Requests</a>
-                </span>
-              </span>
+              <div class="d-flex align-items-center gap-4 w-100">
+                <h4 class="page-title text-truncate">Appointments</h4>
+                <div class="d-flex align-items-center gap-2 me-auto">
+                  <div class="nav-home">
+                    <a href="dashboard.php" class="text-decoration-none text-muted">
+                      <i class="icon-home"></i>
+                    </a>
+                  </div>
+                  <div class="separator">
+                    <i class="icon-arrow-right fs-bold"></i>
+                  </div>
+                  <div class="nav-item">
+                    <a href="#" class="text-decoration-none text-truncate text-muted">Appointments</a>
+                  </div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <a href="#" class="btn btn-sm btn-primary text-truncate m-2 d-none d-md-block" data-bs-toggle="modal" data-bs-target="#doctorModal">Add Appointment</a>
+                  <a href="requests.php" class="btn btn-sm btn-dark op-7 d-none d-md-block">View All Requests</a>
+                </div>
+              </div>
             </div>
             <div class="page-category">
               <div class="row">
-                <div class="col-lg-12">
-                  <div class="card p-5">
+                <div class="col-lg-12 p-0 p-lg-3">
+                  <div class="text-end mx-3 mb-2 gap-2 d-flex flex-column gap-2">
+                    <a href="#" class="btn btn-sm btn-primary text-truncate d-block d-md-none" data-bs-toggle="modal" data-bs-target="#doctorModal">Add Appointment</a>
+                    <a href="requests.php" class="btn btn-sm btn-dark op-7 d-block d-md-none">View All Requests</a>
+                  </div>
+                  <div class="card p-3">
                     <div id="calendar"></div>
                   </div>
                 </div>
@@ -64,7 +66,7 @@ $user_id_patient = $_SESSION['user_id'];
       </div>
     </div>
     <div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-md">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Dentists</h5>
@@ -72,40 +74,43 @@ $user_id_patient = $_SESSION['user_id'];
           </div>
           <div class="modal-body">
             <form action="" method="POST">
-              <table class="table" id="dataTable">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Schedule</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php
-                    $run_dentist = getAllDentist($conn, '3');
-                    while($row_dentist = mysqli_fetch_assoc($run_dentist)){
+              <div class="table-responsive">
+                <table class="table overflow-auto" id="dataTable">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Schedule</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                      $run_dentist = getAllDentist($conn, '3');
+                      while($row_dentist = mysqli_fetch_assoc($run_dentist)){
+                        ?>
+                          <tr>
+                            <td class="text-truncate">
+                              <?php echo $row_dentist['first_name']. " " . $row_dentist['last_name']?>
+                            </td>
+                            <td class="text-truncate">
+                              <?php 
+                                $start = date("g:i A", strtotime($row_dentist['start_time']));
+                                $end = date("g:i A", strtotime($row_dentist['end_time']));
+                                echo $row_dentist['day'] . " " . $start . " - " . $end;
+                              ?>
+                            </td>
+                            <td>
+                              <input type="hidden" id="date">
+                              <a href="select-dentist.php?user_id_dentist=<?= $row_dentist['user_id']; ?>&user_id_patient=<?= $user_id_patient; ?>" >Select</a>
+                            </td>
+                          </tr>
+                        <?php
+                      }
                       ?>
-                        <tr>
-                          <td>
-                            <?php echo $row_dentist['first_name']. " " . $row_dentist['last_name']?>
-                          </td>
-                          <td>
-                            <?php 
-                              $start = date("g:i A", strtotime($row_dentist['start_time']));
-                              $end = date("g:i A", strtotime($row_dentist['end_time']));
-                              echo $row_dentist['day'] . " " . $start . " - " . $end;
-                            ?>
-                          </td>
-                          <td>
-                            <input type="hidden" id="date">
-                            <a href="select-dentist.php?user_id_dentist=<?= $row_dentist['user_id']; ?>&user_id_patient=<?= $user_id_patient; ?>" >Select</a>
-                          </td>
-                        </tr>
-                      <?php
-                    }
-                    ?>
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              </div>
+              
             </form>
           </div>
         </div>
@@ -128,3 +133,10 @@ $user_id_patient = $_SESSION['user_id'];
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 ?>
+<script>
+  $('#dataTable').DataTable({
+      scrollY: '300px',
+      scrollX: true,
+      scrollCollapse: true
+  });
+</script>

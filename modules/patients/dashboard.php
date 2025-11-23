@@ -44,28 +44,29 @@ mysqli_close($conn);
       <div class="main-panel">
         <?php include '../../includes/topbar.php'; ?>
         <div class="container">
-         <div class="page-inner">
-                <div class="page-header">
-                    <span class="d-flex justify-content-between align-items-center w-100">
-                        <span class="d-flex">
-                            <h4 class="page-title">Home</h4>
-                            <ul class="breadcrumbs d-flex justify-items-center align-items-center">
-                                <li class="nav-home">
-                                <a href="dashboard.php">
-                                    <i class="icon-home"></i>
-                                </a>
-                                </li>
-                                <li class="separator">
-                                    <i class="icon-arrow-right"></i>
-                                </li>
-                            </ul>
-                        </span>    
-                    </span>
-                </div>
-                <div class="page-category">
-                    <a href="appointments.php" class="btn btn-md btn-primary me-2"><i class="fas fa-plus me-3"></i> Book an appointment</a>
-                    <a href="history.php" class="btn btn-md btn-outline-dark"><i class="fas fa-clipboard me-3"></i> View Records</a>
-                </div>
+          <div class="page-inner">
+            <div class="page-header">
+              <h4 class="page-title m-0 me-2">Home</h4>
+            </div>
+
+          <div class="page-category px-3">
+            <div class="row gap-2">
+              <div class="col-lg-2 col-md-12 m-0 p-0">
+                <a href="appointments.php" class="btn btn-md btn-primary w-100 text-truncate d-flex align-items-center justify-content-center">
+                  <i class="fas fa-plus me-2"></i>
+                  <span class="text-truncate d-inline-block">Book an appointment</span>
+                </a>
+              </div>
+
+              <div class="col-lg-2 col-md-12 m-0 p-0">
+                <a href="history.php" class="btn btn-md btn-outline-dark w-100 text-truncate d-flex align-items-center justify-content-center">
+                  <i class="fas fa-clipboard me-2"></i>
+                  <span class="text-truncate d-inline-block">View Records</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
                 <div class="row justify-content-center">
                   <div class="col-lg-5">
                     <div class="card card-stats card-round" style="border-left: 3px solid blue;">

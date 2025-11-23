@@ -43,6 +43,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
     .owl-nav button:hover {
       background: none !important;
     }
+
   </style>
   <nav class="navbar navbar-expand-lg navbar-light bg-dark shadow-sm py-3">
     <div class="container">
@@ -74,7 +75,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
     </div>
   </nav>
 
-  <section id="home" class="py-5 bg-dark text-white text-center h-50">
+  <section id="home" class="py-5 bg-dark text-white text-center h-75 px-5">
     <div class="container d-flex justify-content-center align-items-center" style="height: 100%;">
       <span>
         <h1 class="display-4 fw-bold">We take care of your teeth</h1>
@@ -120,7 +121,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
             <div class="card-body">
               <i class="fas fa-teeth fa-3x text-primary mb-3"></i>
               <h5 class="card-title">
-                Cosmetic Dentistry (Direct Composite Veneers)
+                Cosmetic Dentistry
               </h5>
               <p class="card-text">
                 A cosmetic procedure that enhances the shape, color, and overall appearance of your teeth
@@ -148,7 +149,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
             <div class="card-body">
               <i class="fas fa-tooth fa-3x text-primary mb-3"></i>
               <h5 class="card-title">
-                Wisdom Tooth Removal (₱4,000–₱15,000 | 1–3 hrs)
+                Wisdom Tooth Removal
               </h5>
               <p class="card-text">
                 A surgical procedure to remove impacted or painful wisdom teeth. It relieves discomfort and
@@ -190,7 +191,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
     </div>
   </section>
 
-  <section id="about" class="py-5 my-5">
+  <section id="about" class="py-5 my-5 px-5">
     <div class="container d-flex justify-content-center">
       <div class="row justify-content-center gap-5">
         <div class="col-lg-4">
@@ -200,7 +201,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
         </div>
         <div class="col-lg-4">
           <h2 class="fw-bold mb-3 fs-1">About Us</h2>
-          <p class="fs-5">
+          <p class="fs-5 text-wrap" style="text-align: justify;">
             At Fojas Dental, we care about your smile. Our friendly team provides quality dental
             services using reliable approaches in a clean and comfortable environment, making sure
             every visit helps you smile with confidence.
@@ -234,7 +235,18 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.p
     margin: 10,
     nav: true,
     dots: false,
-    center: true
+    center: true,
+    responsive: {
+    0: {
+      items: 1
+    },
+    576: {
+      items: 2
+    },
+    992: {
+      items: 3
+    }
+  }
 })
 </script>
 
