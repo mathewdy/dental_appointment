@@ -66,7 +66,8 @@ include('../../includes/security.php');
                                         <td><?php echo $row_patients['first_name'] . " " . $row_patients['last_name']?></td>
                                         <td><?php echo $row_patients['mobile_number']?></td>
                                         <td><?php echo $row_patients['email']?></td>
-                                        <td class="d-flex justify-content-center">
+                                        <td>
+                                          <div class="d-flex justify-content-center">
                                             <div class="dropdown">
                                                 <a class="btn btn-sm btn-outline-primary rounded-circle d-flex justify-content-center align-items-center dropdownToggler" style="width: 12px;" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="fas fa-ellipsis-v"></i>
@@ -86,7 +87,7 @@ include('../../includes/security.php');
                                                   </li>
                                                 </ul>
                                             </div>
-                                            
+                                          </div>
                                         </td>
                                     </tr>
                     

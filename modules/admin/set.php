@@ -114,6 +114,7 @@ if(isset($_POST['save'])){
           error('".$e->getMessage()."', 
           () => window.location.href='set-schedule.php?user_id_dentist=$user_id_dentist&user_id_patient=$user_id_patient');
       </script>";
+      
   }
 }
 ?>

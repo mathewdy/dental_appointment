@@ -100,7 +100,7 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
                                                   <label for="">Remaining Balance</label>
                                                 </div>
                                                 <div class="col-lg-10">
-                                                  <input type="text" class="form-control" name="remaining_balance" value="<?php echo $row_payment['remaining_balance']?>" readonly>
+                                                  <input type="text" class="form-control remainingBalance" name="remaining_balance" value="<?php echo $row_payment['remaining_balance']?>" readonly>
                                                   <input type="hidden" name="email" value="<?= $row_patient_name['email']?>" readonly>
                                                   <input type="hidden" name="user_id" value="<?= $_GET['user_id']?>" readonly>
                                                   <input type="hidden" name="payment_id" value="<?= $_GET['payment_id']?>" readonly>
@@ -114,14 +114,15 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
                                                   <label for="">Add Payment</label>
                                                 </div>
                                                 <div class="col-lg-10">
-                                                  <input type="number" class="form-control" name="payment" required>
+                                                  <input type="number" class="form-control payment" name="payment" required>
+                                                  <span class="err_message small"></span>
                                                 </div>
                                               </div>
                                             </div>
                                             <div class="col-lg-12">
                                               <div class="row d-flex align-items-center w-100">
                                                 <div class="col-lg-2">
-                                                  <label for="">Add Payment</label>
+                                                  <label for="">Payment Method</label>
                                                 </div>
                                                 <div class="col-lg-10">
                                                   <select name="payment_method" id="" class="form-control" required>
@@ -137,8 +138,10 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
                                               <?php
                                                 if($row_payment['remaining_balance'] <= 0) {
                                                   ?>
-                                                  <input type="submit" class="btn btn-sm btn-primary disabled" name="add_payment" value="Add Cash Payment">
-                                                  <input type="submit" class="btn btn-sm btn-success disabled" name="add_payment_paymogo" value="Add Paymogo Payment">
+                                                  <input type="submit" class="btn btn-sm btn-primary disabled" name="add_payment" value="Confirm">
+
+                                                  <!-- <input type="submit" class="btn btn-sm btn-primary disabled" name="add_payment" value="Add Cash Payment">
+                                                  <input type="submit" class="btn btn-sm btn-success disabled" name="add_payment_paymogo" value="Add Paymogo Payment"> -->
                                                   <?php
                                                 }
                                                 else{
@@ -174,3 +177,26 @@ if(isset($_GET['payment_id'])&isset($_GET['user_id'])&isset($_GET['service'])){
 <?php 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
 ?>
+<script>
+$(document).ready(function () {
+  $('.payment').on('keyup', function () {
+    const remaining = parseFloat($('.remainingBalance').val()) || 0;
+    const payment = parseFloat($(this).val()) || 0;
+
+    if (payment > remaining || payment < 0) {
+      $(".payment").css('border', '1px solid red');
+      $("input[name='add_payment']").attr('disabled', true);
+      $(".err_message")
+        .html('Invalid value')
+        .css('color', 'red');
+    } else {
+      $(".payment").css('border', '1px solid #ced4da');
+      $("input[name='add_payment']").attr('disabled', false);
+      $(".err_message")
+        .html('')
+        .css('color', '');
+    }
+  });
+});
+
+</script>

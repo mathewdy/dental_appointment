@@ -18,34 +18,34 @@ $first_name = $_SESSION['first_name'];
         <div class="container">
           <div class="page-inner">
             <div class="page-header">
-                <span class="d-flex justify-content-between align-items-center w-100">
-                    <span class="d-flex">
-                        <h4 class="page-title">Appointments</h4>
-                        <ul class="breadcrumbs d-flex justify-items-center align-items-center">
-                            <li class="nav-home">
-                            <a href="dashboard.php">
-                                <i class="icon-home"></i>
-                            </a>
-                            </li>
-                            <li class="separator">
-                            <i class="icon-arrow-right"></i>
-                            </li>
-                            <li class="nav-item">
-                            <a href="#">Appointments</a>
-                            </li>
-                        </ul>
-                    </span>    
-                    <a href="requests.php" class="btn btn-sm btn-dark op-7">View All Requests</a>
-                </span>
+              <span class="d-flex justify-content-between align-items-center border border-black">
+                <span class="d-flex align-items-center">
+                  <h4 class="page-title">Appointments</h4>
+                  <ul class="breadcrumbs d-flex align-items-center border border-black w-100">
+                    <li class="nav-home">
+                    <a href="dashboard.php">
+                        <i class="icon-home"></i>
+                    </a>
+                    </li>
+                    <li class="separator border border-black">
+                      <i class="icon-arrow-right"></i>
+                    </li>
+                    <li class="nav-item">
+                      <a href="#">Appointments</a>
+                    </li>
+                  </ul>
+                </span>    
+                <a href="requests.php" class="btn btn-sm btn-dark op-7">View All Requests</a>
+              </span>
             </div>
             <div class="page-category">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card p-5">
-                            <div id="calendar"></div>
-                        </div>
-                    </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="card p-5">
+                    <div id="calendar"></div>
+                  </div>
                 </div>
+              </div>
             </div>
           </div>
         </div>
