@@ -1,7 +1,7 @@
 <?php
 ob_start();
 session_start();
-include('../../connection/connection.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/connection/connection.php');
 if(isset($_POST['decline'])){
     $decline = "2";
     $user_id_patient = $_SESSION['user_id'];

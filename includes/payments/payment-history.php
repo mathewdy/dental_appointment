@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/connection/connection.php');
 
 
 $id = $_SESSION['user_id'];
@@ -16,41 +16,43 @@ if (isset($_POST['id']) && is_numeric($_POST['id']) || isset($_POST['appointment
     payment_history.payment_id,
     payment_history.payment_received,
     payment_history.payment_method,
+    payment_history.remaining_balance,
     payment_history.date_created,
     payment_history.date_updated, 
     payments.payment_id,
-    payments.appointment_id
+    payments.appointment_id,
+    payments.initial_balance
     FROM payment_history 
     LEFT JOIN payments
     ON payment_history.payment_id = payments.payment_id
-    WHERE " . $checkClause;
-  $run = mysqli_query($conn, $query);
-  if(mysqli_num_rows($run) > 0){
+    WHERE " . $checkClause . " ORDER BY id DESC";
+    $run = mysqli_query($conn, $query);
+
+    if (mysqli_num_rows($run) > 0) {
     echo '
-    <table class="display table">
+    <table class="table table-striped table-bordered w-100">
       <thead>
           <tr>
               <th>Received</th>
+              <th>Remaining Balance</th>
               <th>Method</th>
               <th>Date Created</th>
           </tr>
       </thead>
-      <tbody>                  
+      <tbody>
     ';
-    foreach($run as $row){
-      ?>
-      <tr>
-          <td><?= '₱'.$row['payment_received']?></td>
-          <td><?= $row['payment_method']?></td>
-          <td><?= $row['date_created']?></td>
-      </tr>
 
-      <?php
+    while ($row = mysqli_fetch_assoc($run)) {
+        echo "
+        <tr>
+            <td>₱{$row['payment_received']}</td>
+            <td>₱{$row['remaining_balance']}</td>
+            <td>{$row['payment_method']}</td>
+            <td>{$row['date_created']}</td>
+        </tr>";
     }
-  echo '
-  </tbody>
-  </table>
-  ';
+    echo '</tbody></table>';
+
   }else{
     ?>
     <div class="d-flex justify-content-center align-items-center gap-4 py-5">

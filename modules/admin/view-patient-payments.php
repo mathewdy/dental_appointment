@@ -1,12 +1,9 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Appointments/appointments.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Payments/payments.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/Appointments/appointments.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/Payments/payments.php');
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 $first_name = $_SESSION['first_name'];
 ?>
 
@@ -147,12 +144,13 @@ $first_name = $_SESSION['first_name'];
             // }
             ?>
             <div class="card p-4">
-							<div class="table-responsive">
+							<div class="table-responsive" style="overflow: visible; padding-bottom: 100px;">
 								<table class="display table" id="dataTable">
 									<thead>
 											<tr>
 													<th>Services / Concern:</th>
 													<th>Initial Balance</th>
+													<th>Total Paid</th>
 													<th>Remaining Balance</th>
 													<th style="width:10%;">Actions</th>
 											</tr>
@@ -168,16 +166,31 @@ $first_name = $_SESSION['first_name'];
 															<td>
 																<?= $row_patients_appointments['concern']?>
 															</td>
-															<td><?= $row_patients_appointments['initial_balance'] ? '₱'.$row_patients_appointments['initial_balance'] : '₱ '. 0 ?></td>
+															<td><?= $row_patients_appointments['initial_balance'] ? '₱'.number_format($row_patients_appointments['initial_balance'], 2) : '₱ 0.00' ?></td>
 															<td>
-																<?= $row_patients_appointments['remaining_balance'] ?  '₱'.$row_patients_appointments['remaining_balance'] : '₱ '. 0 ?>
+																<?php 
+																	$initial = $row_patients_appointments['initial_balance'] ?? 0;
+																	$remaining = $row_patients_appointments['remaining_balance'] ?? 0;
+																	$paid = $initial - $remaining;
+																	echo '₱'.number_format($paid, 2);
+																?>
+															</td>
+															<td>
+																<?= $row_patients_appointments['remaining_balance'] ?  '₱'.number_format($row_patients_appointments['remaining_balance'], 2) : '₱ 0.00' ?>
 															</td>
 															<td class="d-flex justify-content-center" >
-																<div class="dropdown">	
+																<div class="dropstart">	
 																		<a class="btn btn-sm btn-outline-primary rounded-circle d-flex justify-content-center align-items-center" style="width: 12px;" data-bs-toggle="dropdown" aria-expanded="false">
 																				<i class="fas fa-ellipsis-v"></i>
 																		</a>
-																		<ul class="dropdown-menu">
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item view-chart-summary" href="#" 
+                                                   data-appointment-id="<?= $row_patients_appointments['id'] ?>"
+                                                   data-user-id="<?= $user_id ?>">
+                                                   <i class="fas fa-list-alt me-2"></i> View Chart Summary
+                                                </a>
+                                            </li>
                                         <?php 
                                         if($row_patients_appointments['payment_id'] == null){
                                         ?>
@@ -186,9 +199,9 @@ $first_name = $_SESSION['first_name'];
                                           href="#"
                                           data-bs-toggle="modal" data-bs-target="#addBalanceDialog"
                                           data-id="<?= $row_patients_appointments['id'] ?>"
-                                          data-concern="<?= $row_patients_appointments['concern']?>"
+                                          data-concern="<?= urlencode($row_patients_appointments['concern'])?>"
                                           >
-                                            Add Balance
+                                            Set Total Cost
                                           </a>
 																				</li>
                                         <?php
@@ -196,25 +209,26 @@ $first_name = $_SESSION['first_name'];
                                         ?>
                                         <li>
 																					<a class="dropdown-item" 
-                                          href="update-payment.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&service=<?= $row_patients_appointments['concern']?>"
+                                          href="update-payment.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&service=<?= urlencode($row_patients_appointments['concern'])?>"
                                           >
                                             Process Payment
+                                          </a>
+																				</li>
+                                        <li>
+																					<a class="dropdown-item edit-balance" 
+                                          data-bs-toggle="modal" data-bs-target="#editBalanceDialog"
+                                          data-payment-id="<?= $row_patients_appointments['payment_id']?>"
+                                          data-concern="<?= htmlspecialchars($row_patients_appointments['concern'])?>"
+                                          data-balance="<?= $row_patients_appointments['initial_balance']?>"
+                                          >
+                                            Edit Total Cost
                                           </a>
 																				</li>
                                         <?php 
                                         if($row_patients_appointments['is_deducted'] != 1){
                                         ?>
                                         <li>
-																					<a class="dropdown-item edit-balance" 
-                                          data-bs-toggle="modal" data-bs-target="#editBalanceDialog"
-                                          data-id="<?= $row_patients_appointments['payment_id']?>"
-                                          >
-                                            Edit Balance
-                                          </a>
-																				</li>
-                                        <li>
-																					<a class="dropdown-item" href="delete-balance.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&concern=<?= $row_patients_appointments['concern']?>" 
-																						onclick="return confirm('Are you sure you want to delete this?')">
+																					<a class="dropdown-item delete" href="delete-balance.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&concern=<?= urlencode($row_patients_appointments['concern'])?>">
 																						Delete Balance
 																					</a>
 																				</li>
@@ -223,9 +237,7 @@ $first_name = $_SESSION['first_name'];
                                         ?>
                                         <li>
                                           <a class="dropdown-item payment-history" 
-                                            href="#"
-                                            data-bs-toggle="modal" data-bs-target="#paymentHistoryDialog"
-                                            data-id="<?= $row_patients_appointments['payment_id']?>"
+                                            href="view-all-patients-payments.php?payment_id=<?= $row_patients_appointments['payment_id']?>&user_id=<?= $user_id?>&service=<?= urlencode($row_patients_appointments['concern'])?>"
                                           >
                                             Payment History
                                           </a>
@@ -244,7 +256,8 @@ $first_name = $_SESSION['first_name'];
 									</tbody>
 								</table>
 							</div>
-						</div>
+							</div>
+					</div>
 			<?php
 			 //next step, create ako ng add balance tapos, add payment.
             // tas more on deduction na to and update na ito ng payment.
@@ -261,12 +274,22 @@ $first_name = $_SESSION['first_name'];
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Balance</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Set Total Cost</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="add-balance.php" method="POST" data-message="edit">
           <div class="modal-body">
-            <div class="row addForm">
+            <div class="row">
+               <div class="col-12 mb-3">
+                    <label>Concern / Service</label>
+                    <input type="text" class="form-control" name="concern" id="add_concern" readonly>
+                </div>
+                <div class="col-12 mb-3">
+                    <label>Total Service Cost</label>
+                    <input type="number" class="form-control" name="balance" required>
+                </div>
+                <input type="hidden" name="appointment_id" id="add_appointment_id">
+                <input type="hidden" name="user_id" value="<?= $user_id ?>">
             </div>
           </div>
           <div class="modal-footer">
@@ -281,12 +304,23 @@ $first_name = $_SESSION['first_name'];
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Edit Balance</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Edit Total Cost</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="edit-balance.php" method="POST" data-message="edit">
           <div class="modal-body">
-            <div class="row editForm">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <label>Concern / Service</label>
+                    <input type="text" class="form-control" name="concern" id="edit_concern" required>
+                </div>
+                <div class="col-12 mb-3">
+                    <label>Total Service Cost</label>
+                    <input type="number" class="form-control" name="edit_balance" id="edit_balance" required>
+                </div>
+                <input type="hidden" name="payment_id" id="edit_payment_id">
+                <input type="hidden" name="user_id" value="<?= $user_id ?>">
+                <input type="hidden" name="services" id="edit_services"> 
             </div>
           </div>
           <div class="modal-footer">
@@ -297,58 +331,129 @@ $first_name = $_SESSION['first_name'];
       </div>
     </div>
   </div>
-
   <div class="modal fade" id="paymentHistoryDialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" >
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Payment History</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div class="payment-list"></div>
+                <div class="payment-list table-responsive">
+                </div>
             </div>
         </div>
     </div>
-  </div>
+    </div>
+</div>
+
+<!-- Chart Summary Modal -->
+<div class="modal fade" id="chartSummaryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-tooth text-info me-2"></i>Dental Chart Summary
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="chartSummaryContent">
+                    <div class="text-center py-3">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/scripts.php');
 ?>
 <script>
   $(document).ready(function() {
-      $('form').on('submit', function(e) {
+        $('form').on('submit', function(e) {
           var message = $(this).data('message')
+          //e.preventDefault(); // This prevented submission? It has confirm logic inside confirmBeforeSubmit? 
+          // confirmBeforeSubmit handles standard confirm. 
+          // If e.preventDefault is here, confirmBeforeSubmit must submit eventually.
+          // Let's assume confirmBeforeSubmit works as existing.
           e.preventDefault();
-          confirmBeforeSubmit($(this), `Do you want to ${message} balance?`)
-      });
+          confirmBeforeSubmit($(this), `Do you want to ${message} balance?`);
+        });
+        $('.delete').on('click', function(e) {
+            e.preventDefault();
+            confirmBeforeRedirect("Do you want to delete this balance?", $(this).attr('href'))
+        });
+
+        // Handler for Edit Balance
+        $('.edit-balance').on('click', function() {
+            var paymentId = $(this).data('payment-id');
+            var concern = $(this).data('concern');
+            var balance = $(this).data('balance');
+            
+            $('#edit_payment_id').val(paymentId);
+            $('#edit_concern').val(concern);
+            $('#edit_balance').val(balance);
+            $('#edit_services').val(concern);
+        });
+
+        // Handler for Add Balance (Basic)
+         $('.add-balance').on('click', function() {
+             var concern = $(this).data('concern'); // Passed encoded
+             var id = $(this).data('id'); // Appointment ID
+             
+             try {
+                concern = decodeURIComponent(concern); 
+             } catch(e){}
+
+             $('#add_concern').val(concern);
+             $('#add_appointment_id').val(id);
+             $('#add_concern').val(concern);
+             $('#add_appointment_id').val(id);
+         });
+
+         // Handler for Chart Summary
+         $('.view-chart-summary').on('click', function(e) {
+             e.preventDefault();
+             var apptId = $(this).data('appointment-id');
+             var userId = $(this).data('user-id');
+             
+             $('#chartSummaryContent').html('<div class="text-center py-3"><div class="spinner-border text-primary"></div></div>');
+             $('#chartSummaryModal').modal('show');
+
+             $.ajax({
+                 url: 'get_chart_summary.php',
+                 method: 'GET',
+                 // Revert: Use Global Chart (appointment_id: 0)
+                 data: { patient_id: userId, appointment_id: 0 },
+                 dataType: 'json',
+                 success: function(res) {
+                     if(res.success && res.data.length > 0) {
+                         let html = '<div class="table-responsive"><table class="table table-sm table-striped table-bordered mb-0">';
+                         html += '<thead class="table-light"><tr><th>Tooth #</th><th>Surface</th><th>Status</th><th>Notes</th></tr></thead><tbody>';
+                         res.data.forEach(item => {
+                             html += `<tr>
+                                 <td class="text-center fw-bold">${item.tooth}</td>
+                                 <td>${item.surface}</td>
+                                 <td><span class="badge bg-secondary">${item.status}</span></td>
+                                 <td class="small text-muted">${item.notes}</td>
+                             </tr>`;
+                         });
+                         html += '</tbody></table></div>';
+                         $('#chartSummaryContent').html(html);
+                     } else {
+                         $('#chartSummaryContent').html('<div class="alert alert-light text-center mb-0">No dental chart records found for this appointment.</div>');
+                     }
+                 },
+                 error: function() {
+                     $('#chartSummaryContent').html('<div class="alert alert-danger">Failed to load chart data.</div>');
+                 }
+             });
+         });
+
   });
 </script>
-<?php
-// if(isset($_POST['add_payment'])) {
-//     $user_id = $_GET['user_id'];
-//     $service = $_POST['service_name'];
-//     $payment = $_POST['payment'];
-//     $remaining_balance = $_POST['remaining_balance'];
-//     $date = date('Y-m-d');
-
-//     $insert_query = "INSERT INTO payments (user_id, services, payment, remaining_balance, date_created, date_updated) VALUES ('$user_id', '$service', '$payment', '$remaining_balance', '$date', '$date')";
-//     mysqli_query($conn, $insert_query);
-// }
-
-// if(isset($_POST['update_payment'])) {
-//     $user_id = $_GET['user_id'];
-//     $service = $_POST['service_name'];
-//     $payment = $_POST['payment'];
-//     $remaining_balance = $_POST['remaining_balance'];
-//     $date = date('Y-m-d');
-
-//     $update_query = "UPDATE payments SET payment = '$payment', remaining_balance = '$remaining_balance', date_updated = '$date' WHERE user_id = '$user_id' AND services = '$service'";
-//     mysqli_query($conn, $update_query);
-
-//     //kunin ko info ng patient
-//     //kunin ko yung concern ng patient
-//     //add ako ng payments
-// }
-
-
-?>

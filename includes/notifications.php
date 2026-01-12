@@ -1,36 +1,12 @@
 <?php
 session_start();
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/connection/connection.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/config.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/connection/connection.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 header('Content-Type: application/json');
 
 $id = $_SESSION['user_id'];
 $role = $_SESSION['role_id'];
 
-function timeAgo($datetime) {
-    $time = strtotime($datetime);
-    $diff = time() - $time;
-
-    $units = [
-        'year' => 31553280,
-        'month' => 2629440,
-        'week' => 604800,
-        'day' => 86400,
-        'hour' => 3600,
-        'minute' => 60,
-        'second' => 1
-    ];
-
-    foreach ($units as $unit => $value) {
-        if ($diff >= $value) {
-            $count = floor($diff / $value);
-            $unitName = ($count > 1) ? $unit . 's' : $unit;
-            return "$count $unitName ago";
-        }
-    }
-
-    return 'Just Now';
-}
 
 if ($role == 2) {
     $readField = 'adminHasRead';
@@ -43,7 +19,7 @@ if ($role == 2) {
 $whereClause = !empty($conditions) ? "WHERE $conditions" : "";
 $groupClause = !empty($conditions) ? "GROUP BY trans_id" : "";
 
-$countQuery = "SELECT COUNT(*) AS total FROM notification $whereClause $groupClause";
+$countQuery = "SELECT COUNT(DISTINCT trans_id) AS total FROM notification $whereClause";
 $countResult = mysqli_query($conn, $countQuery);
 $totalCount = mysqli_fetch_assoc($countResult)['total'] ?? 0;
 
@@ -61,7 +37,7 @@ if(mysqli_num_rows($run) > 0){
         };
         $link = match($row['type']) {
             'Appointment' => 'requests.php',
-            'Payment'     => 'payments.php',
+            'Payment'     => $role != 1 ? 'payments.php' : 'history.php',
             default       => '#'
         };
 

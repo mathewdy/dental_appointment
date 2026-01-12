@@ -1,7 +1,7 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/scripts.php'); 
 
 ob_start();
 use PHPMailer\PHPMailer\PHPMailer;
@@ -25,14 +25,14 @@ function send_password_reset($email,$token){
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';        // e.g., smtp.gmail.com
         $mail->SMTPAuth = true;
-        $mail->Username = 'matthewdalisay2001@gmail.com';
-        $mail->Password = 'mhqsbraxqhjzlelg';
+        $mail->Username = 'i05764152@gmail.com';
+        $mail->Password = 'hemgbpmzfozvjsiz';
         $mail->SMTPSecure = 'tls';               // or 'ssl'
         $mail->Port = 587;                       // use 465 for SSL
 
 
         //Recipients
-        $mail->setFrom('matthewdalisay2001@gmail.com', 'Dental Clinic');
+        $mail->setFrom('i05764152@gmail.com', 'Dental Clinic');
         $mail->addAddress($email);     //Add a recipient
 
         //Content
@@ -42,7 +42,7 @@ function send_password_reset($email,$token){
         
         <h3>We received a request to reset the password for your account. If this was you, please follow the instructions to reset it. If not, feel free to ignore this message! </h3>
         <br></br>
-        <a href='http://" . $_SERVER['SERVER_NAME'] . "/dental_appointment/auth_main/password-reset.php?token=$token&$email"."'>Click me</a>";
+        <a href='http://" . $_SERVER['SERVER_NAME'] . "/auth_main/password-reset.php?token=$token&$email"."'>Click me</a>";
         
 
         $mail->send();

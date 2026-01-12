@@ -28,7 +28,7 @@ $(document).ready(function() {
 
     function loadNotifications() {
         $.ajax({
-            url: 'http://localhost/dental_appointment/includes/notifications.php',
+            url: BASE_URL + 'includes/notifications.php',
             method: 'GET',
             dataType: 'json',
             success: function(data) {
@@ -72,12 +72,12 @@ $(document).ready(function() {
                         const id = $(this).data('id');
 
                         $.ajax({
-                            url: 'http://localhost/dental_appointment/includes/mark-read.php',
+                            url: BASE_URL + 'includes/mark-read.php',
                             method: 'POST',
                             data: { id: id },
                             dataType: 'json',
                             success: function(response) {
-                                $notifBadge.text(response.total > 0 ? response.total : '').toggle(response.total > 0);
+                                // $notifBadge.text(response.total > 0 ? response.total : '').toggle(response.total > 0);
                                 window.location.href = notif.url;
                             },
                             error: function() {

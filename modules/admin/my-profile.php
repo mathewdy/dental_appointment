@@ -1,7 +1,7 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/Users/users.php');
 
 $first_name = $_SESSION['first_name'];
 $user_id = $_SESSION['user_id'];
@@ -46,15 +46,17 @@ include('../../includes/security.php');
                           <div class="d-flex flex-column flex-xl-row gap-2 gap-lg-5">
                             <div class="image w-lg-auto">
                               <img src="../../assets/img/default.jpg" alt="img" class="card-img h-md-auto w-md-auto h-auto w-fit">
-                              <div class="d-flex justify-content-between align-items-center">
-                                <p class="h1 m-0 p-0 text-truncate"><?= $name; ?></p>
-                                <div class="d-flex align-items-center">
-                                  <p class="h5 m-0 p-0 text-truncate"><?= "ID" . $row_profile['user_id'];?></p>
-                                </div>
-                              </div>
                             </div>
                             <div class="info w-100">
                               <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                    <p class="h1 m-0 p-0 text-truncate"><?= $name; ?></p>
+                                    <div class="d-flex align-items-center">
+                                      <p class="h5 m-0 p-0 text-truncate"><?= "ID" . $row_profile['user_id'];?></p>
+                                    </div>
+                                  </div>
+                                </div>
                                 <div class="col-lg-12 my-4">
                                   <h1 style="text-decoration: underline;">About</h1>
                                   <p class="text-muted">CONTACT INFORMATION</p>
@@ -103,5 +105,5 @@ include('../../includes/security.php');
       </div>
     </div>
 <?php 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/scripts.php'); 
 ?>

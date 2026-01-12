@@ -1,14 +1,14 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/patients.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/Users/users.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/Users/patients.php');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 $first_name = $_SESSION['first_name'];
-
+date_default_timezone_set("Asia/Manila");
 ?>
 
 
@@ -71,7 +71,7 @@ include '../../includes/sidebar.php';
                                                         <label for="first_name">First Name</label>
                                                     </div>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control" name="first_name" value="<?php echo $row_patients['first_name']?>">
+                                                        <input type="text" class="form-control text" name="first_name" value="<?php echo $row_patients['first_name']?>" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -81,7 +81,7 @@ include '../../includes/sidebar.php';
                                                         <label for="">Middle Name</label>
                                                     </div>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control" name="middle_name" value="<?php echo $row_patients['middle_name']?>">
+                                                        <input type="text" class="form-control text" name="middle_name" value="<?php echo $row_patients['middle_name']?>" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -91,7 +91,7 @@ include '../../includes/sidebar.php';
                                                         <label for="">Last Name</label>
                                                     </div>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control" name="last_name" value="<?php echo $row_patients['last_name']?>">
+                                                        <input type="text" class="form-control text" name="last_name" value="<?php echo $row_patients['last_name']?>" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -101,7 +101,11 @@ include '../../includes/sidebar.php';
                                                         <label for="">Mobile Number </label>
                                                     </div>
                                                     <div class="col-lg-10">
-                                                        <input type="text" class="form-control" name="mobile_number" value="<?php echo $row_patients['mobile_number']?>">
+                                                       <input type="tel" class="form-control" name="mobile_number" 
+														placeholder="09XXXXXXXXX"
+														pattern="^09[0-9]{9}$"
+														maxlength="11"
+														oninput="this.value = this.value.replace(/[^0-9]/g, '')" value="<?php echo $row_patients['mobile_number']?>" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -111,7 +115,7 @@ include '../../includes/sidebar.php';
                                                         <label for="">Date of Birth</label>
                                                     </div>
                                                     <div class="col-lg-10">
-                                                        <input type="date" class="form-control" name="date_of_birth" value="<?php echo $row_patients['date_of_birth']?>">
+                                                        <input type="date" class="form-control" name="date_of_birth" value="<?php echo $row_patients['date_of_birth']?>" max="<?php echo date('Y-m-d'); ?>" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,7 +146,7 @@ include '../../includes/sidebar.php';
                                             <label for="">Email</label>
                                           </div>
                                           <div class="col-lg-10">
-                                            <input type="email" class="form-control" name="email" value="<?php echo $row_patients['email']?>">
+                                            <input type="email" class="form-control" name="email" value="<?php echo $row_patients['email']?>" required>
                                           </div>
                                         </div>
                                       </div>
@@ -199,7 +203,7 @@ include '../../includes/sidebar.php';
                                                     <?php 
                                                     echo  $status = match($row_appointment['confirmed']){
                                                         '0' => '<span class="badge bg-warning">Pending</span>',
-                                                        '1' => '<span class="badge bg-success">Completed</span>',
+                                                        '1' => '<span class="badge text-white fw-bold" style="background: #1570e7; border: #1570e7;"><i class="fas fa-check"></i> Completed</span>',
                                                         '2' => '<span class="badge bg-danger">Canceled</span>'
                                                     };
 
@@ -227,7 +231,7 @@ include '../../includes/sidebar.php';
   </div>
 </div>
 <?php 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/scripts.php'); 
 ?>
 <script>
 $(document).ready(function() {
@@ -252,6 +256,7 @@ $(document).ready(function() {
         }
     });
     })
+    nameOnly('.text')
 });
 </script>
 <?php
@@ -267,8 +272,23 @@ if(isset($_POST['update'])){
   $address = $_POST['address'];
   $user_id_patient = $_GET['user_id'];
 
-  $run_update = updatePatient($conn, $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $address, $user_id_patient);
-  if($run_update){
+  $check_email = checkAllUserByEmail($conn, $email);
+  $is_duplicate = false;
+  if(mysqli_num_rows($check_email) > 0){
+      foreach($check_email as $row){
+          if($row['user_id'] != $user_id_patient){
+              $is_duplicate = true;
+              break;
+          }
+      }
+  }
+
+  if($is_duplicate){
+      echo "<script> error('Email already exists.', () => window.location.href = 'patients.php') </script>";
+  } else {
+      $run_update = updatePatient($conn, $first_name, $middle_name, $last_name, $mobile_number, $email, $date_of_birth, $address, $user_id_patient);
+  }
+  if(!$is_duplicate && $run_update){
     echo "<script> success('Patient updated successfully.', () => window.location.href = 'patients.php') </script>";
   }else{
     echo "<script> error('Something went wrong!', () => window.location.href = 'patients.php') </script>";

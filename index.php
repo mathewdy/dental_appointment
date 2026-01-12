@@ -1,6 +1,6 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/config.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/header.php');
 ?>
   <style>
     .owl-carousel {
@@ -61,12 +61,12 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav text-center ms-auto">
           <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
           <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-          <li class="nav-item ms-2">
+          <li class="nav-item ms-2 mt-3 mt-lg-0">
             <a href="auth/login.php" class="btn btn-primary">Log In</a>
             <a href="auth/registration.php" class="btn btn-light op-5">Sign Up</a>
           </li>
@@ -227,7 +227,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.ph
   </footer>
 
 <?php 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/scripts.php');
 ?>
 <script>
   $('.owl-carousel').owlCarousel({

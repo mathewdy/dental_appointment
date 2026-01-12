@@ -1,12 +1,13 @@
 <?php 
+date_default_timezone_set('Asia/Manila');
 
 function createNotification($conn, $user_id, $trans_id, $message, $type, $createdBy) {
-
+  $now = date("Y-m-d H:i:s");
   $sql = "INSERT INTO `notification` (user_id, trans_id, `message`, hasRead, `type`, createdAt, createdBy)
-    VALUES (?, ?, ?, 0, ?, NOW(), ?)";
+    VALUES (?, ?, ?, 0, ?, ?, ?)";
   
   $stmt = mysqli_prepare($conn, $sql);
-  mysqli_stmt_bind_param($stmt, "issss", $user_id, $trans_id, $message, $type, $createdBy); 
+  mysqli_stmt_bind_param($stmt, "isssss", $user_id, $trans_id, $message, $type, $now, $createdBy); 
   
   return mysqli_stmt_execute($stmt);
 }

@@ -1,7 +1,7 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Reports/reports.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/Reports/reports.php');
 
 $first_name = $_SESSION['first_name'];                
 
@@ -148,7 +148,7 @@ $first_name = $_SESSION['first_name'];
 	</div>
 </div>
 <?php 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/scripts.php'); 
 ?>
 <script>
 $(document).ready(function () {
@@ -210,17 +210,17 @@ $(document).ready(function () {
     styleBottom('#table2');
     styleBottom('#table3');
 
-    function addDailyFilter(table, dateSelector) {
-        const dailyFilter = function (settings, data) {
-            if (settings.nTable.id !== table.table().node().id) return true;
-            var selectedDate = $(dateSelector).val();
-            if (!selectedDate) return true;
-            var rowDate = data[0]?.trim();
-            if (!rowDate) return true;
-            var parts = rowDate.split('/');
-            var formattedRowDate = `${parts[2]}-${parts[0].padStart(2,'0')}-${parts[1].padStart(2,'0')}`;
-            return formattedRowDate === selectedDate;
-        };
+   function addDailyFilter(table, dateSelector) {
+    const dailyFilter = function (settings, data) {
+        if (settings.nTable.id !== table.table().node().id) return true;
+        var selectedDate = $(dateSelector).val();
+        if (!selectedDate) return true;
+        var rowDate = data[0]?.trim();
+        if (!rowDate) return true;
+        var parts = rowDate.split('/');
+        var formattedRowDate = `${parts[2]}-${parts[0].padStart(2,'0')}-${parts[1].padStart(2,'0')}`;
+        return formattedRowDate === selectedDate;
+    };
         $.fn.dataTable.ext.search.push(dailyFilter);
         $(dateSelector).on('change keyup', function () { table.draw(); });
         table.draw();

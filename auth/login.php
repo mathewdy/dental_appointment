@@ -1,7 +1,7 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Users/users.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Mailer/mail.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/Users/users.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/Mailer/mail.php');
 ?>
 
     <div class="container">
@@ -53,7 +53,7 @@ include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Ma
         </div>
     </div>
 <?php 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/scripts.php');
 
 ob_end_flush();
 

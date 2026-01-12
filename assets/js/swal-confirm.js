@@ -1,4 +1,4 @@
-function confirmBeforeSubmit($form, message, validateCallback) {
+function confirmBeforeSubmit($form, message, validateCallback, onCancel) {
     Swal.fire({
         title: 'Are you sure?',
         text: message || "Do you want to proceed?",
@@ -15,6 +15,10 @@ function confirmBeforeSubmit($form, message, validateCallback) {
                 }
             } else {
                 $form[0].submit();
+            }
+        } else if(result.isDismissed) { 
+            if (typeof validateCallback === 'function') {
+                onCancel()
             }
         }
     });
@@ -61,7 +65,7 @@ function success(message, callback) {
     confirmButtonColor: '#3085d6'
   }).then((result) => {
     if (result.isConfirmed && typeof callback === 'function') {
-      callback()[0];
+      callback();
     }
   });
 }
@@ -75,7 +79,7 @@ function error(message, callback) {
     confirmButtonColor: '#3085d6'
   }).then((result) => {
     if (result.isConfirmed && typeof callback === 'function') {
-      callback()[0];
+      callback();
     }
   });
 }

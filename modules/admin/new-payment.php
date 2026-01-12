@@ -1,10 +1,10 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Payments/payments.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/notification.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/modules/queries/Mailer/mail.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php'); 
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/Payments/payments.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/notification.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/Mailer/mail.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/scripts.php');
 
 $date = date('Y-m-d');
 $dateTime = date('Y-m-d H:i:s');
@@ -20,9 +20,17 @@ if (isset($_POST['add_payment'])) {
     $user_id = $_POST['user_id'];
     $services = $_POST['service'];
     $email = $_POST['email'];
+    $session_label = isset($_POST['session_label']) && !empty($_POST['session_label']) ? $_POST['session_label'] : null;
     $subject = "Payment";
     $trans_id = uniqid();
 
+
+    // Validate: Don't allow payment more than remaining balance
+    if ($payment > $remaining_balance) {
+        echo "<script> error('Payment exceeds remaining balance.', () => window.history.back()') </script>";
+    }
+
+    $updated_balance = $remaining_balance - $payment;
     $mail = "
       <h3>Dear Customer,</h3>
       <br>
@@ -33,6 +41,8 @@ if (isset($_POST['add_payment'])) {
       <br>
       Amount: $payment
       <br>
+      Remaining Balance: $updated_balance
+      <br>
       Date: $date
       <br>
       Transaction ID: $payment_id
@@ -41,38 +51,31 @@ if (isset($_POST['add_payment'])) {
       <br>
       Thank you for your prompt payment.
     ";
-    // Validate: Don't allow payment more than remaining balance
-    if ($payment > $remaining_balance) {
-				echo "<script> error('Payment exceeds remaining balance.', () => window.history.back()') </script>";
-    }
-
-    $updated_balance = $remaining_balance - $payment;
-
     $run_update_balance = updateRemainingBalance($conn, $updated_balance, $payment_id);
     if ($run_update_balance) {
-			$run_insert_payment = createPaymentHistory($conn, $payment_id, $payment, $method);
-			if ($run_insert_payment) {
-				createNotification($conn, $user_id, $trans_id, "New Payment Transaction", "Payment", $dateTime, $id);
-        $sendMail = sendEmail($mail, $subject, $email);
-        if ($sendMail) {
-          echo "<script>
+        $run_insert_payment = createPaymentHistory($conn, $payment_id, $payment, $updated_balance, $method, $session_label);
+        if ($run_insert_payment) {
+            createNotification($conn, $user_id, $trans_id, "New Payment Transaction", "Payment", $id);
+            $sendMail = sendEmail($mail, $subject, $email);
+            if ($sendMail) {
+                echo "<script>
             success('Payment Successful.', () => {
               setTimeout(() => {
                 window.location.href = 'view-patient-payments.php?user_id=$user_id&concern=$services';
               }, 1500);
             });
           </script>";
-        } else {
-          echo "<script>
+            } else {
+                echo "<script>
             error('Failed to send email. Please try again.');
           </script>";
+            }
+
+        } else {
+            echo "<script> error('Error inserting payment history!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
         }
-				
-			} else {
-				echo "<script> error('Error inserting payment history!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
-			}
     } else {
-			echo "<script> error('Error updating balance!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
+        echo "<script> error('Error updating balance!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
     }
 }
 // add gcash payment
@@ -129,7 +132,7 @@ if (isset($_POST['add_payment'])) {
 //             error('Failed to send email. Please try again.');
 //           </script>";
 //         }
-				
+
 // 			} else {
 // 				echo "<script> error('Error inserting payment history!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
 // 			}
@@ -158,19 +161,19 @@ if (isset($_POST['add_payment_paymogo'])) {
 
     // Validate
     if ($payment > $remaining_balance) {
-				echo "<script> error('Payment exceeds remaining balance.', () => window.history.back()') </script>";
+        echo "<script> error('Payment exceeds remaining balance.', () => window.history.back()') </script>";
     }
 
     $updated_balance = $remaining_balance - $payment;
 
-		$run_update_balance = updateRemainingBalance($conn, $updated_balance, $payment_id);
+    $run_update_balance = updateRemainingBalance($conn, $updated_balance, $payment_id);
     if ($run_update_balance) {
-			$run_insert_payment = createPaymentHistory($conn, $payment_id, $payment, $description);
-			if (!$run_insert_payment) {
-				echo "<script> error('Error inserting payment history!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
-			}
+        $run_insert_payment = createPaymentHistory($conn, $payment_id, $payment, $description);
+        if (!$run_insert_payment) {
+            echo "<script> error('Error inserting payment history!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
+        }
     } else {
-			echo "<script> error('Error updating balance!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
+        echo "<script> error('Error updating balance!', () => window.location.href='view-patient-payments.php?user_id=$user_id&concern=$services') </script>";
     }
 
     // Setup PayMongo Payment Link
@@ -205,7 +208,7 @@ if (isset($_POST['add_payment_paymogo'])) {
         header("Location: " . $response['data']['attributes']['checkout_url']);
         exit();
     } else {
-			echo "<script> error('Error creating PayMongo payment link.') </script>";
+        echo "<script> error('Error creating PayMongo payment link.') </script>";
 
         echo "❌ Error creating PayMongo payment link: " . print_r($response, true);
     }

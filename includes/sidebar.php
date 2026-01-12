@@ -1,5 +1,5 @@
 <?php 
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/config.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 $role = $_SESSION['role_id']; 
 echo '
 <div class="sidebar sidebar-style-2" data-background-color="dark">
@@ -56,13 +56,7 @@ echo '
                     <li class="nav-item">
                         <a href="history.php">
                             <i class="fas fa-book"></i>
-                            <p>History</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="medical-history.php">
-                            <i class="fas fa-book"></i>
-                            <p>Medical History</p>
+                            <p>Treatment History</p>
                         </a>
                     </li>
                     ';
@@ -123,6 +117,12 @@ echo '
                     <a href="view-appointments.php">
                         <i class="fas fa-calendar-alt"></i>
                         <p>Appointments</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="patients.php">
+                        <i class="fas fa-user-alt"></i>
+                        <p>Patients</p>
                     </a>
                 </li>
                 ';

@@ -4,33 +4,61 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 function sendEmail($message, $title, $creds) {
-  include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/PHPMailer/src/PHPMailer.php');
-  include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/PHPMailer/src/SMTP.php');
-  include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/PHPMailer/src/Exception.php');
+  include_once($_SERVER['DOCUMENT_ROOT'] . '/PHPMailer/src/PHPMailer.php');
+  include_once($_SERVER['DOCUMENT_ROOT'] . '/PHPMailer/src/SMTP.php');
+  include_once($_SERVER['DOCUMENT_ROOT'] . '/PHPMailer/src/Exception.php');
 
   $mail = new PHPMailer(true);
 
+//   try {
+//     $mail->isSMTP();
+//     $mail->Host = 'smtp.hostinger.com';       
+//     $mail->SMTPAuth = true;
+//     $mail->Username = 'rome@fojas-dental-clinic.com';
+//     $mail->Password = '|AU&?k:/By5';
+//     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+//     $mail->Port       = 465;                
+
+//     $mail->setFrom('rome@fojas-dental-clinic.com', 'Dental Clinic');
+//     $mail->addAddress($creds);    
+
+//     $mail->isHTML(true);                         
+//     $mail->Subject = $title;
+//     $mail->Body    = $message;
+
+//     $mail->send();
+//     echo ""; 
+
+//     return true;
+//   } catch (Exception $e) {
+//     return false;
+//   }
+  
   try {
-    $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com';       
-    $mail->SMTPAuth = true;
-    $mail->Username = 'i05764152@gmail.com';
-    $mail->Password = 'hemgbpmzfozvjsiz';
-    $mail->SMTPSecure = 'tls';            
-    $mail->Port = 587;                      
+        // SMTP settings
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.hostinger.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'rome@fojas-dental-clinic.com';
+        $mail->Password   = 'mathewPOGI!@#123';
+        $mail->Port       = 587;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->SMTPAutoTLS = true;
 
-    $mail->setFrom('i05764152@gmail.com', 'Dental Clinic');
-    $mail->addAddress($creds);    
+        // Email content
+        $mail->setFrom('rome@fojas-dental-clinic.com', 'Dental Clinic');
+        $mail->addAddress($creds); // FIXED
 
-    $mail->isHTML(true);                               
-    $mail->Subject = $title;
-    $mail->Body    = $message;
+        $mail->isHTML(true);
+        $mail->Subject = $title;
+        $mail->Body    = $message;
 
-    $mail->send();
-    echo ""; 
+        $mail->send();
+        return true;
 
-    return true;
-  } catch (Exception $e) {
-    return false;
-  }
+    } catch (Exception $e) {
+        error_log('Mailer Error: ' . $mail->ErrorInfo);
+        return false;
+    }
+
 }

@@ -1,6 +1,7 @@
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/header.php');
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/security.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/header.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/modules/queries/notification.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/security.php');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -11,12 +12,12 @@ $id = $_SESSION['user_id'];
     <div class="wrapper">
       
         <?php 
-        include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/sidebar.php');
+        include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/sidebar.php');
         ?>
 
         <div class="main-panel">
             <?php
-            include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/topbar.php');
+            include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/topbar.php');
             ?>
           <div class="container">
             <div class="page-inner">
@@ -83,5 +84,5 @@ $id = $_SESSION['user_id'];
     </div>    
 
 <?php
-include_once($_SERVER['DOCUMENT_ROOT'] . '/dental_appointment/includes/scripts.php');
+include_once($_SERVER['DOCUMENT_ROOT'] . '/includes/scripts.php');
 ?>

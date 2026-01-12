@@ -1,23 +1,24 @@
-<?php 
+<?php
 
-function queryEventBuilder($role, $id) {
-  $eventClause = getClause($role, $id);
-  $sql = "SELECT appointments.user_id , appointments.user_id_patient, appointments.concern, appointments.appointment_date, 
-  users.first_name, users.middle_name, users.last_name, schedule.start_time, schedule.end_time, appointments.confirmed
+function queryEventBuilder($role, $id)
+{
+    $eventClause = getClause($role, $id);
+    $sql = "SELECT appointments.user_id, appointments.user_id_patient, appointments.concern, appointments.appointment_date, appointments.appointment_time, appointments.parent_appointment_id,
+  users.first_name, users.middle_name, users.last_name, appointments.confirmed
   FROM appointments
   LEFT JOIN users
-  ON appointments.user_id = users.user_id
-  LEFT JOIN schedule 
-  ON appointments.user_id = schedule.user_id " . $eventClause ;
-  
-  return $sql;
+  ON appointments.user_id = users.user_id " . $eventClause;
+
+    return $sql;
 }
 
-function queryEventInfoBuilder($role, $id, $formattedClickedDate) {
-  $formattedClickedDate = "'" . $formattedClickedDate . "'";
-  $eventInfoClause = getInfoClause($role, $id);
-  $sql = "SELECT appointments.user_id AS dentist_id, 
+function queryEventInfoBuilder($role, $id, $formattedClickedDate)
+{
+    $formattedClickedDate = "'" . $formattedClickedDate . "'";
+    $eventInfoClause = getInfoClause($role, $id);
+    $sql = "SELECT appointments.user_id AS dentist_id, 
     appointments.user_id_patient AS patient_id,
+    appointments.parent_appointment_id,
     appointments.concern, 
     appointments.appointment_date, 
     appointments.appointment_time,
@@ -26,20 +27,16 @@ function queryEventInfoBuilder($role, $id, $formattedClickedDate) {
     patient.first_name AS patient_first_name,
     patient.middle_name AS patient_middle_name,
     patient.last_name AS patient_last_name,
-    schedule.start_time, 
-    schedule.end_time, 
     appointments.confirmed
   FROM appointments
   LEFT JOIN users AS dentist
   ON appointments.user_id = dentist.user_id
   LEFT JOIN users AS patient
   ON appointments.user_id_patient = patient.user_id
-  LEFT JOIN schedule 
-  ON appointments.user_id = schedule.user_id
   WHERE appointments.appointment_date = $formattedClickedDate " . $eventInfoClause
-  
-  ;
 
-  return $sql;
+    ;
+
+    return $sql;
 }
 ?>

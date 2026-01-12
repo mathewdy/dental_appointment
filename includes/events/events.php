@@ -9,34 +9,42 @@ $id = $_SESSION['user_id'];
 $role = $_SESSION['role_id'];
 
 $query_appointments = queryEventBuilder($role, $id);
-$run_appointments = mysqli_query($conn,$query_appointments);
-if(mysqli_num_rows($run_appointments) > 0){
-    foreach($run_appointments as $row_appointment){
-      
-      $status = match($row_appointment['confirmed']){
-        '0' => "Pending",
-        '1' => "Completed",
-        '2' => "Canceled",
-        '3' => "No Show"
-      };
-      $color = match($status){
-        'Completed' => '#28a745',
-        'Pending'   => '#ffc107',
-        'Canceled' => '#dc3545',
-        'No Show' => '#dc9135ff'
-      };
-      $formattedDate = date("Y-m-d", strtotime($row_appointment['appointment_date']));
-      $date = str_replace("/", "-",$formattedDate);
-      $events[]= [
-          'title' => $status,
-          'start' => $date,
-          'color' => $color
-      ];
+$run_appointments = mysqli_query($conn, $query_appointments);
+if (mysqli_num_rows($run_appointments) > 0) {
+    foreach ($run_appointments as $row_appointment) {
+
+        // Status: 0=Confirmed, 1=Completed, 2=Cancelled, 3=No Show
+        $status = match ($row_appointment['confirmed']) {
+            '0' => "Confirmed",
+            '1' => "Completed",
+            '2' => "Cancelled",
+            '3' => "No Show",
+            default => "Pending"
+        };
+        $color = match ($status) {
+            'Confirmed' => '#28a745',      // Green
+            'Completed' => '#1570e7',      // Blue
+            'Cancelled' => '#dc3545',      // Red
+            'No Show' => '#dc9135',        // Orange
+            default => '#ffc107'           // Yellow (Pending)
+        };
+        $formattedDate = date("Y-m-d", strtotime($row_appointment['appointment_date']));
+        $date = str_replace("/", "-", $formattedDate);
+        
+        $displayTitle = $status;
+        if (!empty($row_appointment['parent_appointment_id'])) {
+            $displayTitle .= " (Follow-up)";
+        }
+        
+        $events[] = [
+            'title' => $displayTitle,
+            'start' => $date,
+            'color' => $color
+        ];
     }
-  }
-  else{
+} else {
     $events[] = [];
-  }
+}
 
 
 echo json_encode($events);
